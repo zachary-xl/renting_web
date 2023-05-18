@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ElLoading, ElMessage } from "element-plus";
-import type { AxiosInstance, IAxiosConfig, IAxiosInterceptors, ILoadingInstance, TStatusMap, IRequest } from "./bean";
+import type { AxiosInstance, IAxiosConfig, IAxiosInterceptors, ILoadingInstance, TStatusMap, IRequest } from "./types";
 import {
   DEFAULT_SHOW_LOADING,
   DEFAULT_REDUCE_DATA_FORMAT,
@@ -62,7 +62,7 @@ export default class MyRequest implements IRequest {
         this.showLoading && closeLoading(this.showLoading);
 
         // code不等于0, 页面具体逻辑就不执行了
-        if (this.showCodeMessage && response.data && response.data.code !== 0) {
+        if (this.showCodeMessage && response.data && response.data.code === 0) {
           ElMessage({ type: "error", message: response.data.message });
           return Promise.reject(response.data);
         }
@@ -77,7 +77,6 @@ export default class MyRequest implements IRequest {
       }
     );
     // 自定义实例拦截器
-    // @ts-ignore
     this.instance.interceptors.request.use(this.interceptors?.requestInterceptor, this.interceptors?.requestInterceptorCatch);
     this.instance.interceptors.response.use(this.interceptors?.responseInterceptor, this.interceptors?.responseInterceptorCatch);
   }
@@ -85,16 +84,16 @@ export default class MyRequest implements IRequest {
   request<T>(config: IAxiosConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // api 接口请求拦截器
-      if (config.interceptors?.requestInterceptor) {
-        config = config.interceptors.requestInterceptor(config);
-      }
+      // if (config.interceptors?.requestInterceptor) {
+      //   config = config.interceptors.requestInterceptor(config);
+      // }
       this.instance
         .request<any, T>(config)
         .then((res) => {
           // api 接口响应拦截器
-          if (config.interceptors?.responseInterceptor) {
-            res = config.interceptors.responseInterceptor(res);
-          }
+          // if (config.interceptors?.responseInterceptor) {
+          //   res = config.interceptors.responseInterceptor(res);
+          // }
           resolve(res);
         })
         .catch((error) => {
@@ -222,4 +221,3 @@ function getStatus(config: IAxiosConfig): string {
   if (typeof data === "string") data = JSON.parse(data); // response里面返回的config.data是个字符串对象
   return encodeURI([url, method, JSON.stringify(params), JSON.stringify(data)].join("&"));
 }
-

@@ -1,5 +1,5 @@
 import request from "@/service";
-import type { IApiResponseBase, IOneWord } from "./bean";
+import type { IApiResponseBase, IOneWord } from "./types";
 
 export function getOneWord() {
   return request.get<IApiResponseBase<IOneWord>>({
