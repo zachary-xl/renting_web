@@ -2,25 +2,25 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import type { RouteRecordRaw, Router } from "vue-router";
 
 const defaultRoutes: RouteRecordRaw[] = [
-  // {
-  //   path: "",
-  //   redirect: "/index",
-  //   component: () => import("@/layout/index.vue"),
-  //   children: [
-  //     {
-  //       name: "Index",
-  //       path: "/index",
-  //       component: () => import("@/views/index.vue"),
-  //       meta: {
-  //         title: "首页"
-  //       }
-  //     }
-  //   ]
-  // },
+  {
+    path: "",
+    redirect: "/index",
+    component: () => import("@/layout/index.vue"),
+    children: [
+      {
+        name: "Index",
+        path: "/index",
+        component: () => import("@/views/index.vue"),
+        meta: {
+          title: "首页"
+        }
+      }
+    ]
+  },
   {
     name: "Login",
     path: "/login",
-    component: () => import("@/views/login"),
+    component: () => import("@/views/login/index.vue"),
     meta: {
       title: "登录"
     }

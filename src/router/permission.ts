@@ -5,16 +5,13 @@ import { hasStorage } from "@/utils";
 
 // 关闭加载微调器
 NProgress.configure({ showSpinner: false });
-const whiteList = ["/login","/401","/404"];
+const whiteList = ["/login", "/401", "/404"];
 
 router.beforeEach((to, from) => {
   NProgress.start();
   if (hasStorage("token")) {
-    if (to.path === "/login") {
-      NProgress.done();
-      return { path: "/" };
-    } else {
-    }
+    NProgress.done();
+    return true;
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
       // 在免登录白名单，直接进入
@@ -27,9 +24,5 @@ router.beforeEach((to, from) => {
 });
 
 router.afterEach((guard) => {
-  let meta = guard.meta;
-  if (meta?.title) {
-    document.title = meta.title;
-  }
   NProgress.done();
 });
