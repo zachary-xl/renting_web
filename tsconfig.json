@@ -30,7 +30,7 @@
     },
     "noImplicitAny": false,
     // 不允许隐式 Any 类型
-    "suppressImplicitAnyIndexErrors": true
+    "noUncheckedIndexedAccess": true
   },
   // 那些文件需要ts
   "include": ["src/*", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "auto-imports.d.ts", "components.d.ts"],

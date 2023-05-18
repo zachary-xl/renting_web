@@ -5,7 +5,7 @@ export default function createComponents() {
   return Components({
     resolvers: [
       // 自动注册element组件
-      ElementPlusResolver(),
+      ElementPlusResolver()
       // 自动注册图标组件
       // IconsResolver({
       //   enabledCollections: ["ep"]

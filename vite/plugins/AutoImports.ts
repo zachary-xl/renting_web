@@ -7,7 +7,7 @@ export default function createAutoImport() {
     imports: ["vue", "vue-router", "pinia"],
     resolvers: [
       // 自动导入element组件
-      ElementPlusResolver(),
+      ElementPlusResolver()
       // 自动导入图标组件
       // IconsResolver({
       //   prefix: "Icon"
