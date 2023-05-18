@@ -1,3 +1,4 @@
 export interface IState {
-  isExpand: boolean
+  isExpand: boolean;
+  isFullScreen: boolean;
 }
