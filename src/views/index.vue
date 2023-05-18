@@ -1,11 +1,13 @@
 <template>
-$END$
+<div>
+  123123
+</div>
 </template>
 
-<script>
+<script name="Index">
 export default {
-name: "index"
-}
+  name: "index"
+};
 </script>
 
 <style scoped>

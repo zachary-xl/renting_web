@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full overflow-hidden bg-[#fff]">
     <div class="w-[800px] max-w-full my-28 mx-auto">
-      <el-button style="background-color: #008489;color: #fff" class="border-0 my-5" @click="back"> 返回</el-button>
+      <el-button style="background-color: #008489; color: #fff" class="border-0 my-5" @click="back"> 返回</el-button>
       <el-row>
         <el-col :span="12">
           <h1 class="text-6xl font-bold text-[#484848]">401错误!</h1>
