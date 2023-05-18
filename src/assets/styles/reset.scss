@@ -74,10 +74,12 @@ body,
   width: 100%;
   height: 100%;
 }
+
 ::-webkit-scrollbar {
   display: none;
   width: 0 !important;
 }
+
 body,
 textarea,
 select,
@@ -94,6 +96,7 @@ button {
   text-overflow: ellipsis;
   overflow: hidden;
 }
+
 .center-center {
   display: -webkit-box;
   -webkit-box-align: center;
@@ -102,4 +105,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.transition_3 {
+  transition: all .3s;
 }

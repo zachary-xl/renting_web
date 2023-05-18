@@ -36,7 +36,7 @@
         <div class="form__box flex my-5 relative">
           <span class="form__box__label h-full">账号</span>
           <input v-model="formData.username" autocomplete="off" autofocus class="form__box__input h-full flex-1"
-                 placeholder="请输入账号" type="text">
+                 placeholder="请输入账号" type="text" :style="{'border-color': isUserName ? '#eee' : '#f56c6c'}">
           <span class="verify" v-show="isUserName">请输入用户名/手机号</span>
         </div>
         <div class="form__box flex my-5 relative">
@@ -61,9 +61,8 @@
   </div>
 </template>
 
-<script lang="ts" name="login" setup>
+<script lang="ts" name="Login" setup>
 import { ref, reactive, computed, onMounted } from "vue";
-import type { FormInstance, FormRules, IFormData } from "./bean";
 import { hasStorage, setStorage, getStorage } from "@/utils";
 import { View, Hide } from "@element-plus/icons-vue";
 
@@ -74,34 +73,14 @@ onMounted(() => {
 });
 const isUserName = ref(false)
 const isPassword = ref(false)
-const formRef = ref<FormInstance>();
-const formData: IFormData = reactive({
+const formData = reactive({
   username: "",
   password: "",
   remember: false
 });
-const rules = reactive<FormRules>({
-  username: [
-    { required: true, message: "请输入用户名/手机号", trigger: "blur", transform: (value) => value.trim() }
-    // { pattern: /^[a-zA-Z0-9]${5,10}/, message: "用户名必须是5-10个字母数字", trigger: "blur" }
-  ],
-  password: [
-    { required: true, trigger: "blur", message: "请输入密码" }
-    // { pattern: /^[a-zA-Z0-9]${3,}/, message: "密码必须最少3个字母数字", trigger: "blur" }
-  ]
-});
+
 // const image = computed(() => new URL("@/assets/images/background/login.png", import.meta.url).href);
 const submitForm = async () => {
-  // if (!formEl) return;
-  // await formEl.validate((valid, fields) => {
-  //   if (valid) {
-  //     if (formData.remember) {
-  //       setStorage("username", formData.username);
-  //       setStorage("password", formData.password);
-  //     }
-  //     console.log(formData);
-  //   }
-  // });
   console.log(formData);
   if (formData.remember) {
     setStorage("username", formData.username);
@@ -124,7 +103,8 @@ const submitForm = async () => {
   &__input {
     background-color: transparent;
     padding: 0 5px;
-    border-bottom: 2px solid #eee;
+    border-width: 2px;
+    border-style: solid;
     border-radius: 2px;
   }
   .verify{

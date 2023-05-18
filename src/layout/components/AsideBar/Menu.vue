@@ -6,10 +6,10 @@
 
 <script name="MenuList" lang="ts" setup>
 import SubMenu from "./SubMenu.vue";
-import variables from "@/assets/css/export.module.scss";
-import menuList from "@/model/menu.json";
+import variables from "@/assets/styles/export.module.scss";
 const isCollapse = ref(false);
-console.log(menuList);
+const menuList = []
+
 </script>
 
 <style scoped></style>

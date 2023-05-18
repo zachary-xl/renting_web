@@ -11,7 +11,13 @@ export default defineStore("app", {
       return state.isExpand ? 200 : 60;
     },
     [GET_IS_FULLSCREEN](state) {
-      return state.isFullScreen;
+      if (state.isFullScreen) {
+        document.documentElement.requestFullscreen();
+        return "icon-fullscreen-exit";
+      } else {
+        !!document.fullscreenElement && document.exitFullscreen();
+        return "icon-fullscreen-open";
+      }
     }
   },
   actions: {

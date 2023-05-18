@@ -4,7 +4,8 @@ import App from "./App.vue";
 import store from "./store";
 import router from "./router";
 
-import "./assets/styles/index.css";
+import "./assets/styles/index.scss";
+import "./assets/fonts/index.scss";
 import "element-plus/dist/index.css";
 // import { registerIconComponent } from "@/utils";
 

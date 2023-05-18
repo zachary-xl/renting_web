@@ -1,15 +1,21 @@
 <template>
-  <el-main class="page">Main</el-main>
+  <el-main :style="{'padding-left':appStore[GET_IS_EXPAND_WIDTH] + 20 + 'px'}" class="page fixed w-full h-full">
+    <router-view v-slot="{ Component }">
+      <component :is="Component"></component>
+    </router-view>
+  </el-main>
 </template>
 
-<script>
-export default {
-  name: "Main-Page"
-};
+<script lang="ts" name="MainPage" setup>
+import { useAppStoreToRefs } from "@/hooks";
+import { GET_IS_EXPAND_WIDTH } from "@/model";
+
+const { appStore } = useAppStoreToRefs();
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .page {
-  background-color: #00ffff;
+  padding-top: 80px;
+  transition: all .3s;
 }
 </style>

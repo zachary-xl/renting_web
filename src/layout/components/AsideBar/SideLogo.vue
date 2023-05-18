@@ -8,8 +8,9 @@
 </template>
 
 <script name="SideLogo" lang="ts" setup>
-const logo = computed(() => new URL("@/assets/icons/logo.svg", import.meta.url).href);
-const title = "Vue+Ts+Vite";
+import {computed} from "vue"
+const logo = computed(() => new URL("@/assets/images/icons/logo.png", import.meta.url).href);
+const title = "";
 </script>
 
 <style scoped lang="scss">
