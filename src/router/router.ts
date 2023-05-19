@@ -4,13 +4,13 @@ import type { RouteRecordRaw, Router } from "vue-router";
 const defaultRoutes: RouteRecordRaw[] = [
   {
     path: "",
-    redirect: "/index",
+    redirect: "/main",
     component: () => import("@/layout/index.vue"),
     children: [
       {
-        name: "Index",
-        path: "/index",
-        component: () => import("@/views/index.vue"),
+        name: "Main",
+        path: "/main",
+        component: () => import("@/views/main.vue"),
         meta: {
           title: "首页"
         }

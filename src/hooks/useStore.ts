@@ -1,10 +1,10 @@
 import { storeToRefs } from "pinia";
-import { useAppStore } from "@/store";
+import { useSettingStore } from "@/store";
 
-export function useAppStoreToRefs() {
-  const appStore = useAppStore();
+export function useSettingStoreToRefs() {
+  const settingStore = useSettingStore();
   return {
-    appStore,
-    ...storeToRefs(appStore)
+    settingStore,
+    ...storeToRefs(settingStore)
   };
 }

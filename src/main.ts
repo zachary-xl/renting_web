@@ -12,5 +12,5 @@ import "element-plus/dist/index.css";
 const app = createApp(App);
 app.use(store);
 app.use(router);
-// registerIconComponent(app);
+// registerIconComponent(settings);
 app.mount("#app");

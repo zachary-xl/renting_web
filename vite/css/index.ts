@@ -1,5 +1,3 @@
-import Tailwindcss from "tailwindcss";
-import PostcssPresetEnv from "postcss-preset-env";
 import type { CSSOptions } from "vite";
 
 export default function createViteCss(): CSSOptions {
@@ -10,22 +8,6 @@ export default function createViteCss(): CSSOptions {
         additionalData: `@import "./src/assets/styles/variables.module.scss";`,
         javascriptEnabled: true
       }
-    },
-    postcss: {
-      plugins: [
-        Tailwindcss,
-        PostcssPresetEnv,
-        {
-          postcssPlugin: "internal:charset-removal",
-          AtRule: {
-            charset: (atRule) => {
-              if (atRule.name === "charset") {
-                atRule.remove();
-              }
-            }
-          }
-        }
-      ]
     }
   };
 }

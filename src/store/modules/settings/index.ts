@@ -1,14 +1,21 @@
 import { defineStore } from "pinia";
-import { GET_IS_EXPAND_WIDTH, GET_IS_FULLSCREEN, TOGGlE_EXPAND_ACTION, TOGGlE_FULLSCREEN_ACTION } from "@/model";
+import {
+  GET_IS_EXPAND_WIDTH,
+  GET_IS_FULLSCREEN,
+  TOGGlE_EXPAND_ACTION,
+  TOGGlE_FULLSCREEN_ACTION
+} from "@/model";
+import type { IState } from "./types";
 
-export default defineStore("app", {
-  state: () => ({
-    isExpand: true,
-    isFullScreen: false
+export default defineStore("settings", {
+  state: (): IState => ({
+    isExpand: true, // 是否展开
+    isFullScreen: false, // 是否全屏
+    isFixedHeader: true // 是否固定头部
   }),
   getters: {
     [GET_IS_EXPAND_WIDTH](state) {
-      return state.isExpand ? 200 : 60;
+      return state.isExpand ? 200 : 64;
     },
     [GET_IS_FULLSCREEN](state) {
       if (state.isFullScreen) {

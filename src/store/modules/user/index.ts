@@ -3,13 +3,11 @@ import type { IState, IRegister } from "./types";
 import { STORAGE_TYPE } from "@/model";
 
 export default defineStore("user", {
-  state: (): IState => ({
-    userInfo: {
-      username: "lxl"
-    }
+  state: () => ({
+
   }),
   getters: {
-    userInfoGetter: (state) => state.userInfo
+
   },
   actions: {
     registerUserAction(data: IRegister) {
@@ -21,13 +19,13 @@ export default defineStore("user", {
     }
   },
   persist: {
-    enabled: true,
-    strategies: [
-      {
-        key: "user",
-        storage: STORAGE_TYPE,
-        paths: ["userInfo"]
-      }
-    ]
+    enabled: true
+    // strategies: [
+    //   {
+    //     key: "user",
+    //     storage: STORAGE_TYPE,
+    //     paths: ["userInfo"]
+    //   }
+    // ]
   }
 });

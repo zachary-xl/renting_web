@@ -1,21 +1,23 @@
 <template>
-  <el-main :style="{'padding-left':appStore[GET_IS_EXPAND_WIDTH] + 20 + 'px'}" class="page fixed w-full h-full">
-    <router-view v-slot="{ Component }">
-      <component :is="Component"></component>
-    </router-view>
-  </el-main>
+  <div :style="{'padding-left':settingStore[GET_IS_EXPAND_WIDTH] + 'px', 'padding-top':settingStore[GET_IS_FIXED_HEADER_TOP]}"
+       class="page">
+    <el-main class=" w-full h-full">
+      <router-view v-slot="{ Component }">
+        <component :is="Component"></component>
+      </router-view>
+    </el-main>
+  </div>
 </template>
 
 <script lang="ts" name="MainPage" setup>
-import { useAppStoreToRefs } from "@/hooks";
-import { GET_IS_EXPAND_WIDTH } from "@/model";
+import { useSettingStoreToRefs } from "@/hooks";
+import { GET_IS_EXPAND_WIDTH, GET_IS_FIXED_HEADER_TOP } from "@/model";
 
-const { appStore } = useAppStoreToRefs();
+const { settingStore } = useSettingStoreToRefs();
 </script>
 
 <style lang="scss" scoped>
 .page {
-  padding-top: 80px;
-  transition: all .3s;
+  transition: padding .28s;
 }
 </style>

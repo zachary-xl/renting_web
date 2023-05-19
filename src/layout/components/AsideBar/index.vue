@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="aside">
     <SideLogo />
     <el-aside>
       <el-scrollbar>
@@ -9,9 +9,14 @@
   </div>
 </template>
 
-<script name="AsideBar" lang="ts" setup>
+<script lang="ts" name="AsideBar" setup>
 import SideLogo from "./SideLogo.vue";
 import MenuList from "./Menu.vue";
+
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped>
+.el-aside {
+  width: 100%;
+}
+</style>
