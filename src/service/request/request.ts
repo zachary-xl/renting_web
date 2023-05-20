@@ -60,7 +60,7 @@ export default class MyRequest implements IRequest {
       (response) => {
         delStatus(response.config);
         this.showLoading && closeLoading(this.showLoading);
-
+        console.log(response);
         // code不等于0, 页面具体逻辑就不执行了
         if (this.showCodeMessage && response.data && response.data.code === 0) {
           ElMessage({ type: "error", message: response.data.message });

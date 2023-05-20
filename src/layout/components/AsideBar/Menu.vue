@@ -13,24 +13,6 @@
       </el-icon>
       <span>Navigator Two</span>
     </el-menu-item>
-    <el-menu-item index="2">
-      <el-icon>
-        <Search />
-      </el-icon>
-      <span>Navigator Two</span>
-    </el-menu-item>
-    <el-menu-item disabled index="3">
-      <el-icon>
-        <Female />
-      </el-icon>
-      <span>Navigator Three</span>
-    </el-menu-item>
-    <el-menu-item index="4">
-      <el-icon>
-        <Male />
-      </el-icon>
-      <span>Navigator Four</span>
-    </el-menu-item>
   </el-menu>
 </template>
 

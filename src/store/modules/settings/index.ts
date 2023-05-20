@@ -3,7 +3,9 @@ import {
   GET_IS_EXPAND_WIDTH,
   GET_IS_FULLSCREEN,
   TOGGlE_EXPAND_ACTION,
-  TOGGlE_FULLSCREEN_ACTION
+  TOGGlE_FULLSCREEN_ACTION,
+  GET_IS_FIXED_HEADER_POSITION,
+  GET_IS_FIXED_HEADER_TOP
 } from "@/model";
 import type { IState } from "./types";
 
@@ -25,6 +27,12 @@ export default defineStore("settings", {
         !!document.fullscreenElement && document.exitFullscreen();
         return "icon-fullscreen-open";
       }
+    },
+    [GET_IS_FIXED_HEADER_POSITION](state) {
+      return state.isFixedHeader ? "fixed" : "relative";
+    },
+    [GET_IS_FIXED_HEADER_TOP](state) {
+      return state.isFixedHeader ? "60px" : "0";
     }
   },
   actions: {

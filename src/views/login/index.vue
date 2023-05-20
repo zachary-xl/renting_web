@@ -41,22 +41,24 @@ import { ref, reactive, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { View, Hide } from "@element-plus/icons-vue";
 import { hasStorage, setStorage, getStorage, removeStorage } from "@/utils";
-import { postLoginAPI } from "@/service/login";
+import { useUserStoreToRefs } from "@/hooks";
+import { LOGIN_ACTION } from "@/model";
 import type { IFormData } from "./types";
 
 onMounted(() => {
   hasStorage("remember") && (formData.remember = getStorage("remember")) && (formData.username = getStorage("username"));
 });
 const router = useRouter();
+const { userStore } = useUserStoreToRefs();
 const isEye = ref(false);
 const isUserName = ref(false);
 const isPassword = ref(false);
 const formData: IFormData = reactive({
-  username: "",
-  password: "",
+  username: "system",
+  password: "123456",
   remember: false
 });
-const image = computed(() => new URL("@/assets/images/background/login.png", import.meta.url).href);
+// const image = computed(() => new URL("@/assets/images/background/login.png", import.meta.url).href);
 const submitForm = async () => {
   if (verifyForm()) {
     if (formData.remember) {
@@ -68,11 +70,9 @@ const submitForm = async () => {
       removeStorage("password");
       removeStorage("remember");
     }
-    const form = new FormData();
-    form.append("username",formData.username);
-    form.append("password",formData.password);
-    postLoginAPI(form).then(res => {
-      router.push("/");
+
+    userStore[LOGIN_ACTION](toRaw(formData)).then(res => {
+      // router.push("/");
     });
   }
 };

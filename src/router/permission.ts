@@ -2,14 +2,19 @@ import router from "./router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { hasStorage } from "@/utils";
-
+import { useUserStoreToRefs } from "@/hooks";
+import { GET_USER_INFO_ACTION } from "@/model";
 // 关闭加载微调器
 NProgress.configure({ showSpinner: false });
-const whiteList = ["/login", "/401", "/404"];
+const whiteList = ["/main", "/401", "/404"];
 
 router.beforeEach((to, from) => {
   NProgress.start();
-  return true;
+
+  const { userStore } = useUserStoreToRefs();
+  // userStore[GET_USER_INFO_ACTION]().then(res => {
+  //   console.log(res);
+  // });
   // if (hasStorage("token")) {
   //   NProgress.done();
   //   return true;
@@ -19,9 +24,10 @@ router.beforeEach((to, from) => {
   //     return true;
   //   } else {
   //     NProgress.done();
-  //     return `/login?redirect=${to.fullPath}`; // 否则全部重定向到登录页
+  //     return `/main?redirect=${to.fullPath}`; // 否则全部重定向到登录页
   //   }
   // }
+  return true;
 });
 
 router.afterEach((guard) => {

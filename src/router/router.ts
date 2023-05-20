@@ -3,6 +3,10 @@ import type { RouteRecordRaw, Router } from "vue-router";
 
 const defaultRoutes: RouteRecordRaw[] = [
   {
+    redirect: "/main",
+    path: "/"
+  },
+  {
     path: "",
     redirect: "/main",
     component: () => import("@/layout/index.vue"),
@@ -13,6 +17,28 @@ const defaultRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/main.vue"),
         meta: {
           title: "首页"
+        }
+      }
+    ]
+  },
+  {
+    path: "",
+    component: () => import("@/layout/index.vue"),
+    children: [
+      {
+        name: "User",
+        path: "/system/user",
+        component: () => import("@/views/system/user"),
+        meta: {
+          title: "用户"
+        }
+      },
+      {
+        name: "Role",
+        path: "/system/role",
+        component: () => import("@/views/system/role"),
+        meta: {
+          title: "用户"
         }
       }
     ]

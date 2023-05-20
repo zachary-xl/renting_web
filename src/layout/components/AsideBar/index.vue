@@ -2,7 +2,7 @@
   <div class="aside">
     <SideLogo />
     <el-aside>
-      <el-scrollbar>
+      <el-scrollbar wrap-class="scrollbar-wrapper">
         <MenuList></MenuList>
       </el-scrollbar>
     </el-aside>
