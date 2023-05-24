@@ -3,6 +3,7 @@ import type { BuildOptions } from "vite";
 
 export default function createViteBuild(): BuildOptions {
   return {
+    target: "es2015",
     outDir: "./build", // 设置打包文件夹名称
     minify: "terser", // 指定混淆器  terser需要安装包
     terserOptions: {

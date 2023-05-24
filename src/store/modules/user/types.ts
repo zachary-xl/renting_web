@@ -1,7 +1,3 @@
-export interface IRegister {
-  username: string;
-  password: string;
-}
 export interface IState {
   user: IUser,
   roles: string[];

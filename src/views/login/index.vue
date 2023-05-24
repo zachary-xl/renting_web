@@ -6,16 +6,16 @@
         <h1 class="text-2xl font-bold text-center text-slate-900 py-4 text-[#00a8ff]">登录</h1>
         <div class="form__box flex my-5 relative">
           <span class="form__box__label h-full">账号</span>
-          <input v-model="formData.username" :style="{'border-color': isUserName ? '#f56c6c' : '#eee'}"
-                 autocomplete="off" autofocus
-                 class="form__box__input h-full flex-1" placeholder="请输入账号" type="text">
-          <span v-show="isUserName" :style="{width:isUserName ? 'auto' : '0'}" class="verify">请输入用户名/手机号</span>
+          <input v-model="formData.username" :style="{ 'border-color': isUserName ? '#f56c6c' : '#eee' }"
+                 autocomplete="off" autofocus class="form__box__input h-full flex-1" placeholder="请输入账号"
+                 type="text">
+          <span v-show="isUserName" :style="{ width: isUserName ? 'auto' : '0' }"
+                class="verify">请输入用户名/手机号</span>
         </div>
         <div class="form__box flex my-5 relative">
           <span class="form__box__label h-full">密码</span>
-          <input v-model="formData.password" :style="{'border-color': isPassword ? '#f56c6c' : '#eee'}"
-                 :type="isEye ? 'text' : 'password'"
-                 autocomplete="off" class="form__box__input h-full flex-1"
+          <input v-model="formData.password" :style="{ 'border-color': isPassword ? '#f56c6c' : '#eee' }"
+                 :type="isEye ? 'text' : 'password'" autocomplete="off" class="form__box__input h-full flex-1"
                  placeholder="请输入密码">
           <span v-show="isPassword" class="verify">请输入密码</span>
           <el-icon class="icon h-full" @click="isEye = !isEye">
@@ -44,6 +44,7 @@ import { hasStorage, setStorage, getStorage, removeStorage } from "@/utils";
 import { useUserStoreToRefs } from "@/hooks";
 import { LOGIN_ACTION } from "@/model";
 import type { IFormData } from "./types";
+import { getAssets } from "@/utils";
 
 onMounted(() => {
   hasStorage("remember") && (formData.remember = getStorage("remember")) && (formData.username = getStorage("username"));
@@ -58,7 +59,8 @@ const formData: IFormData = reactive({
   password: "123456",
   remember: false
 });
-// const image = computed(() => new URL("@/assets/images/background/login.png", import.meta.url).href);
+
+// const image = computed(() => getAssets("images", "background/login.png"));
 const submitForm = async () => {
   if (verifyForm()) {
     if (formData.remember) {
@@ -72,7 +74,7 @@ const submitForm = async () => {
     }
 
     userStore[LOGIN_ACTION](toRaw(formData)).then(res => {
-      // router.push("/");
+      router.push("/");
     });
   }
 };

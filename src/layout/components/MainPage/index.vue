@@ -1,6 +1,12 @@
 <template>
   <div :style="{'padding-left':settingStore[GET_IS_EXPAND_WIDTH] + 'px', 'padding-top':settingStore[GET_IS_FIXED_HEADER_TOP]}"
        class="page">
+    <router-link :to="{
+          name:'Login',
+          params:{
+            text:'name'
+          }
+        }">login</router-link>
     <el-main class=" w-full h-full">
       <router-view v-slot="{ Component }">
         <component :is="Component"></component>

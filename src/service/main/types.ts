@@ -9,11 +9,7 @@ export interface IResponseData<T> {
   readonly data: T;
 }
 
-export interface IUserGetInfoResponse {
-  user: IUser;
-}
-
-export interface IUser {
+export interface IUserInfo {
   username: string;
   email: string;
   avatar?: any;

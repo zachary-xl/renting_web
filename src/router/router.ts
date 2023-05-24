@@ -16,13 +16,15 @@ const defaultRoutes: RouteRecordRaw[] = [
         path: "/main",
         component: () => import("@/views/main.vue"),
         meta: {
-          title: "首页"
+          title: "首页",
+          icon: ""
         }
       }
     ]
   },
   {
     path: "",
+    redirect:"/system/user",
     component: () => import("@/layout/index.vue"),
     children: [
       {

@@ -9,3 +9,4 @@ export const GET_IS_FIXED_HEADER_TOP = "getIsFixedHeaderTop";
 export const GET_USER_INFO_ACTION = "getUserInfoAction";
 export const GET_MENUS_ACTION = "getMenusAction";
 export const LOGIN_ACTION = "loginAction";
+export const LOGOUT_ACTION = "logoutAction";

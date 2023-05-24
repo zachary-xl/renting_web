@@ -1,42 +1,50 @@
 <template>
   <el-menu
+    :collapse="!isExpand"
     active-text-color="#409eff"
     background-color="#304156"
-    :collapse="!isExpand"
     class="menu-container"
     text-color="#bfcbd9"
     unique-opened
+    router
+    :collapse-transition="false"
   >
-    <el-menu-item index="1">
-      <el-icon>
-        <CirclePlus />
+    <el-menu-item index="/">
+      <el-icon size="14">
+        <HomeFilled />
       </el-icon>
-      <span>Navigator Two</span>
+      <strong>首页</strong>
     </el-menu-item>
+    <el-sub-menu index="/system">
+      <template #title>
+      <el-icon><Setting /></el-icon>
+        <span>系统管理</span>
+      </template>
+      <el-menu-item index="/system/user">
+        <el-icon><User /></el-icon>
+        <strong>用户管理</strong>
+      </el-menu-item>
+      <el-menu-item index="/system/role">
+        <el-icon><UserFilled /></el-icon>
+        <strong>角色管理</strong>
+      </el-menu-item>
+    </el-sub-menu>
   </el-menu>
 </template>
 
 <script lang="ts" name="MenuList" setup>
-import { CirclePlus, Search, Female, Male } from "@element-plus/icons-vue";
-import SubMenu from "./SubMenu.vue";
-import variables from "@/assets/styles/export.module.scss";
-
 import { ref } from "vue";
-
+import { HomeFilled, Setting,User,UserFilled } from "@element-plus/icons-vue";
+import SubMenu from "./SubMenu.vue";
 import { useSettingStoreToRefs } from "@/hooks";
-import { GET_IS_EXPAND_WIDTH, GET_IS_FULLSCREEN, TOGGlE_EXPAND_ACTION, TOGGlE_FULLSCREEN_ACTION } from "@/model";
 
 const { settingStore, isExpand } = useSettingStoreToRefs();
-
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+:root{
+  --bg:#fff;
+}
 .menu-container {
   border: none;
 }

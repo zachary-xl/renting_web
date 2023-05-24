@@ -1,4 +1,4 @@
-import Icons from "unplugin-icons/dist/vite";
+import Icons from "unplugin-icons/vite";
 
 export default function createViteIcons() {
   return Icons({

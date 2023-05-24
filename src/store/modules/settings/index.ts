@@ -42,5 +42,8 @@ export default defineStore("settings", {
     [TOGGlE_FULLSCREEN_ACTION]() {
       this.isFullScreen = !this.isFullScreen;
     }
+  },
+  persist: {
+    enabled: true
   }
 });

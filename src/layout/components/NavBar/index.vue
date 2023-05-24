@@ -10,15 +10,16 @@
     <div class="flex items-center">
       <i :class="['iconfont', 'text-2xl', 'cursor-pointer', 'pr-3', settingStore[GET_IS_FULLSCREEN]]"
          @click="settingStore[TOGGlE_FULLSCREEN_ACTION]" />
-      <strong class="pr-5">超级管理员</strong>
-      <el-avatar :icon="UserFilled" :size="36" shape="square" />
+      <strong class="pr-5">{{ user.username }}</strong>
+      <el-avatar :size="36" :src="getAvatar(user.avatar)" shape="square" />
     </div>
   </el-header>
 </template>
 
 <script lang="ts" name="NavBar" setup>
-import { Fold, Expand, UserFilled } from "@element-plus/icons-vue";
-import { useSettingStoreToRefs } from "@/hooks";
+import { computed } from "vue";
+import { Fold, Expand } from "@element-plus/icons-vue";
+import { useSettingStoreToRefs, useUserStoreToRefs } from "@/hooks";
 import {
   GET_IS_EXPAND_WIDTH,
   GET_IS_FULLSCREEN,
@@ -27,8 +28,12 @@ import {
   TOGGlE_FULLSCREEN_ACTION
 } from "@/model";
 
+const { user } = useUserStoreToRefs();
 const { settingStore, isExpand } = useSettingStoreToRefs();
-
+const avatar = computed(() => new URL("@/assets/images/icons/avatar.gif", import.meta.url).href);
+const getAvatar = (source: string) => {
+  return source || avatar.value;
+};
 </script>
 
 <style lang="scss" scoped>

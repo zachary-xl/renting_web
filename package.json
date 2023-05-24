@@ -19,6 +19,7 @@
     "@vueuse/core": "^10.1.2",
     "axios": "^1.4.0",
     "element-plus": "^2.3.4",
+    "localforage": "^1.10.0",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.36",
@@ -30,9 +31,11 @@
     "@babel/preset-env": "^7.21.5",
     "@types/node": "^20.1.4",
     "@types/nprogress": "^0.2.0",
+    "@vitejs/plugin-legacy": "^4.0.3",
     "@vitejs/plugin-vue": "^4.1.0",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "autoprefixer": "^10.4.14",
+    "consola": "^3.1.0",
     "postcss": "^8.4.23",
     "postcss-import": "^15.1.0",
     "postcss-nesting": "^11.2.2",
@@ -47,7 +50,9 @@
     "unplugin-vue-components": "^0.24.1",
     "vite": "^4.3.2",
     "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-vue-setup-extend": "^0.4.0",
+    "vite-plugin-style-import": "^2.0.0",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vite-plugin-vue-setup-extend-plus": "^0.1.0",
     "vue-tsc": "^1.4.2"
   }
 }

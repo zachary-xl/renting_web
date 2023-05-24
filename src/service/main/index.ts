@@ -1,6 +1,5 @@
 import request from "../request";
-import type { IUserGetInfoResponse, IResponse, IResponseData } from "./types";
-import { IMenu } from "./types";
+import type { IUserInfo, IMenu, IResponse, IResponseData } from "./types";
 
 export const postLoginAPI = (data: FormData) => {
   return request.post<IResponse>({
@@ -9,7 +8,7 @@ export const postLoginAPI = (data: FormData) => {
   });
 };
 export const getUserGetInfoAPI = () => {
-  return request.get<IResponseData<IUserGetInfoResponse>>({
+  return request.get<IResponseData<IUserInfo>>({
     url: "/admin/user/getInfo"
   });
 };
