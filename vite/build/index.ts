@@ -26,7 +26,6 @@ export default function createViteBuild(): BuildOptions {
         chunkFileNames: "js/[name]-[hash]-[format].js",
         assetFileNames(chunkInfo): string {
           const suffix = chunkInfo.name.split(".").pop().toLowerCase();
-
           if (["jpg", "png", "gif", "jpeg", "webp", "svg"].indexOf(suffix) > -1) {
             return "img/[name]-[hash].[ext]";
           }

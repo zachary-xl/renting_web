@@ -3,7 +3,7 @@ import { GET_USER_INFO_ACTION, GET_MENUS_ACTION, LOGIN_ACTION, LOGOUT_ACTION, ST
 import { getMenusAPI, getUserGetInfoAPI, postLoginAPI } from "@/service/main";
 import localforage from "localforage";
 import type { IState } from "./types";
-import { clearStorage } from "@/utils";
+import { clearStorage, formatTree } from "@/utils";
 
 export default defineStore("user", {
   state: (): IState => ({
@@ -24,7 +24,7 @@ export default defineStore("user", {
       formData.append("password", password);
       return new Promise((resolve, reject) => {
         postLoginAPI(formData).then(res => {
-          resolve();
+          resolve(res);
         }).catch(reject);
       });
     },
@@ -58,7 +58,7 @@ export default defineStore("user", {
       return new Promise(async (resolve, reject) => {
         try {
           // const menu = await getMenusAPI();
-          let menu = [
+          let data = [
             {
               id: 1,
               title: "系统管理",
@@ -88,7 +88,8 @@ export default defineStore("user", {
               pid: 0
             }
           ];
-
+          let  menuList = formatTree(data);
+          console.log(menuList);
           resolve(true);
         } catch (e) {
           reject(e);

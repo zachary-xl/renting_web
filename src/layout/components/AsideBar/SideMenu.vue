@@ -3,11 +3,10 @@
     :collapse="!isExpand"
     active-text-color="#409eff"
     background-color="#304156"
-    class="menu-container"
     text-color="#bfcbd9"
+    class="menu-container"
     unique-opened
     router
-    :collapse-transition="false"
   >
     <el-menu-item index="/">
       <el-icon size="14">
@@ -20,7 +19,7 @@
       <el-icon><Setting /></el-icon>
         <span>系统管理</span>
       </template>
-      <el-menu-item index="/system/user">
+      <el-menu-item index="/system/index">
         <el-icon><User /></el-icon>
         <strong>用户管理</strong>
       </el-menu-item>

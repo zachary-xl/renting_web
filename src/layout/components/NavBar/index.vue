@@ -27,11 +27,12 @@ import {
   TOGGlE_EXPAND_ACTION,
   TOGGlE_FULLSCREEN_ACTION
 } from "@/model";
+import { getAssets } from "@/utils";
 
 const { user } = useUserStoreToRefs();
 const { settingStore, isExpand } = useSettingStoreToRefs();
-const avatar = computed(() => new URL("@/assets/images/icons/avatar.gif", import.meta.url).href);
-const getAvatar = (source: string) => {
+const avatar = computed(() => getAssets("images", "icons/avatar.gif"));
+const getAvatar = (source: string | undefined) => {
   return source || avatar.value;
 };
 </script>

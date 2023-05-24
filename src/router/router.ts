@@ -24,13 +24,12 @@ const defaultRoutes: RouteRecordRaw[] = [
   },
   {
     path: "",
-    redirect:"/system/user",
     component: () => import("@/layout/index.vue"),
     children: [
       {
         name: "User",
         path: "/system/user",
-        component: () => import("@/views/system/user"),
+        component: () => import("@/views/system/user/index.vue"),
         meta: {
           title: "用户"
         }
@@ -38,7 +37,7 @@ const defaultRoutes: RouteRecordRaw[] = [
       {
         name: "Role",
         path: "/system/role",
-        component: () => import("@/views/system/role"),
+        component: () => import("@/views/system/role/index.vue"),
         meta: {
           title: "用户"
         }

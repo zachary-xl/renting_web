@@ -60,7 +60,7 @@ const formData: IFormData = reactive({
   remember: false
 });
 
-// const image = computed(() => getAssets("images", "background/login.png"));
+const image = computed(() => getAssets("images", "background/login.png"));
 const submitForm = async () => {
   if (verifyForm()) {
     if (formData.remember) {

@@ -11,12 +11,7 @@
 
 <script lang="ts" name="AsideBar" setup>
 import SideLogo from "./SideLogo.vue";
-import MenuList from "./Menu.vue";
+import MenuList from "./SideMenu.vue";
 
 </script>
 
-<style lang="scss" scoped>
-.el-aside {
-  width: 100%;
-}
-</style>

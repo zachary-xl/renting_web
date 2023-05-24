@@ -12,7 +12,6 @@ const whiteList = ["/login", "/401", "/404"];
 router.beforeEach((to, from) => {
   NProgress.start();
   const { userStore, roles } = useUserStoreToRefs();
-  console.log(to,from);
   if (whiteList.includes(to.path)) {
     // 在免登录白名单，直接进入
     NProgress.done();

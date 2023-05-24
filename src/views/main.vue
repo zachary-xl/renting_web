@@ -101,10 +101,8 @@
   <div>100</div>
 </template>
 
-<script name="Index">
-export default {
-  name: "index"
-};
+<script lang="ts" name="Main" setup>
+
 </script>
 
 <style scoped>

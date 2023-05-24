@@ -1,5 +1,5 @@
 <template>
-user
+index
 </template>
 
 <script>
