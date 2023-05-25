@@ -24,6 +24,11 @@ const defaultRoutes: RouteRecordRaw[] = [
   },
   {
     path: "",
+    name:"System",
+    meta:{
+      title: "系统管理",
+      icon: ""
+    },
     component: () => import("@/layout/index.vue"),
     children: [
       {
@@ -31,7 +36,8 @@ const defaultRoutes: RouteRecordRaw[] = [
         path: "/system/user",
         component: () => import("@/views/system/user/index.vue"),
         meta: {
-          title: "用户"
+          title: "用户",
+          icon:""
         }
       },
       {

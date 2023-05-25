@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
-import { GET_USER_INFO_ACTION, GET_MENUS_ACTION, LOGIN_ACTION, LOGOUT_ACTION, STORAGE_TYPE } from "@/model";
-import { getMenusAPI, getUserGetInfoAPI, postLoginAPI } from "@/service/main";
+import { GET_MENUS_ACTION, GET_USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
+import { postLoginAPI } from "@/service/main";
 import localforage from "localforage";
 import type { IState } from "./types";
-import { clearStorage, formatTree } from "@/utils";
+import { clearStorage, mapPathToMenu } from "@/utils";
 
 export default defineStore("user", {
   state: (): IState => ({
@@ -62,6 +62,7 @@ export default defineStore("user", {
             {
               id: 1,
               title: "系统管理",
+              icon: "",
               name: "System",
               path: "/system",
               pid: 0
@@ -69,27 +70,37 @@ export default defineStore("user", {
             {
               id: 2,
               title: "用户管理",
+              icon: "",
               name: "User",
               path: "/system/user",
               pid: 1
             },
             {
               id: 3,
+              title: "角色管理",
+              icon: "",
+              name: "Role",
+              path: "/system/role",
+              pid: 1
+            },
+            {
+              id: 4,
               title: "菜单管理",
+              icon: "",
               name: "Menu",
               path: "/system/menu",
               pid: 1
             },
             {
-              id: 4,
+              id: 5,
               title: "生活",
+              icon: "",
               name: "Life",
               path: "/life",
               pid: 0
             }
           ];
-          let  menuList = formatTree(data);
-          console.log(menuList);
+          this.menuList = mapPathToMenu(data);
           resolve(true);
         } catch (e) {
           reject(e);
