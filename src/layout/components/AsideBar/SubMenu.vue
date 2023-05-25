@@ -20,11 +20,25 @@
   </el-sub-menu>
 </template>
 
-<script name="SubMenu" lang="ts" setup>
-const props = defineProps<{
-  items: object;
-}>();
-console.log(props.items);
+<script lang="ts" name="SubMenu" setup>
+// import type { ISubMenuProps } from "../types";
+import type { RouteRecordRaw } from "vue-router";
+
+interface ISubMenuProps {
+  item: RouteRecordRaw;
+}
+const props = withDefaults(defineProps<ISubMenuProps>(), {
+  item: {
+    path: "",
+    name: "",
+    meta: {
+      title: "",
+      icon: ""
+    },
+    children: []
+  }
+});
+console.log(props.item);
 </script>
 
 <style scoped></style>

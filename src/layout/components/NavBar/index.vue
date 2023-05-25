@@ -13,12 +13,14 @@
       <strong class="pr-5">{{ user.username }}</strong>
       <el-avatar :size="36" :src="getAvatar(user.avatar)" shape="square" />
     </div>
+    <TagsView></TagsView>
   </el-header>
 </template>
 
 <script lang="ts" name="NavBar" setup>
 import { computed } from "vue";
 import { Fold, Expand } from "@element-plus/icons-vue";
+import TagsView from "./TagsView.vue"
 import { useSettingStoreToRefs, useUserStoreToRefs } from "@/hooks";
 import {
   GET_IS_EXPAND_WIDTH,
