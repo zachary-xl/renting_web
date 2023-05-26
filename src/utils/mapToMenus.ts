@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from "vue-router";
+import router from "@/router";
 
 export function loadLocalRoutes() {
   // 加载所有的模板
@@ -12,14 +13,23 @@ export function loadLocalRoutes() {
   return routes;
 }
 
+export function addRoutesWithMenu(menuList) {
+  if (menuList.length) return;
+  for (const item of menuList) {
+    router.addRoute(item);
+  }
+}
+
 export function mapPathToMenu(list) {
-  const menuList = formatTree(list);
+  const treeList = formatTree(list);
   const localRoutes = loadLocalRoutes();
-  return _recurseGetRoute(menuList, localRoutes);
+  const menuList = _recurseGetRoute(treeList, localRoutes);
+  addRoutesWithMenu(menuList);
+  return menuList;
 
   // 映射菜单与树形菜单做对比
   function _recurseGetRoute(menus, localRoutes) {
-    return menus.map(({ children, id, pid, title, icon, ...menu }) => {
+    return menus.map(({ children, id, pid, title, icon, link, ...menu }) => {
       if (children?.length) {
         menu.children = _recurseGetRoute(children, localRoutes);
       }
@@ -28,7 +38,8 @@ export function mapPathToMenu(list) {
         ...menu,
         meta: {
           title: title ?? "",
-          icon: icon ?? ""
+          icon: icon ?? "",
+          link: link ?? ""
         },
         name: findRoute.name,
         path: findRoute.path,

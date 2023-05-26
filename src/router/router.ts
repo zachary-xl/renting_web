@@ -17,35 +17,7 @@ const defaultRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/main.vue"),
         meta: {
           title: "首页",
-          icon: ""
-        }
-      }
-    ]
-  },
-  {
-    path: "",
-    name:"System",
-    meta:{
-      title: "系统管理",
-      icon: ""
-    },
-    component: () => import("@/layout/index.vue"),
-    children: [
-      {
-        name: "User",
-        path: "/system/user",
-        component: () => import("@/views/system/user/index.vue"),
-        meta: {
-          title: "用户",
-          icon:""
-        }
-      },
-      {
-        name: "Role",
-        path: "/system/role",
-        component: () => import("@/views/system/role/index.vue"),
-        meta: {
-          title: "用户"
+          icon: "shouye"
         }
       }
     ]

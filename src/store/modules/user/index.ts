@@ -1,9 +1,9 @@
-import { defineStore } from "pinia";
-import { GET_MENUS_ACTION, GET_USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
-import { postLoginAPI } from "@/service/main";
-import localforage from "localforage";
 import type { IState } from "./types";
+import { defineStore } from "pinia";
+import localforage from "localforage";
+import { postLoginAPI } from "@/service";
 import { clearStorage, mapPathToMenu } from "@/utils";
+import { GET_MENUS_ACTION, GET_USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
 
 export default defineStore("user", {
   state: (): IState => ({
@@ -13,7 +13,7 @@ export default defineStore("user", {
       avatar: "",
       email: ""
     },
-    menuList: []
+    sidebarRouters: []
   }),
   getters: {},
   actions: {
@@ -62,7 +62,7 @@ export default defineStore("user", {
             {
               id: 1,
               title: "系统管理",
-              icon: "",
+              icon: "shezhi02",
               name: "System",
               path: "/system",
               pid: 0
@@ -70,7 +70,7 @@ export default defineStore("user", {
             {
               id: 2,
               title: "用户管理",
-              icon: "",
+              icon: "jiaoseguanli",
               name: "User",
               path: "/system/user",
               pid: 1
@@ -78,7 +78,7 @@ export default defineStore("user", {
             {
               id: 3,
               title: "角色管理",
-              icon: "",
+              icon: "ziliao",
               name: "Role",
               path: "/system/role",
               pid: 1
@@ -86,7 +86,7 @@ export default defineStore("user", {
             {
               id: 4,
               title: "菜单管理",
-              icon: "",
+              icon: "xiugai",
               name: "Menu",
               path: "/system/menu",
               pid: 1
@@ -94,13 +94,14 @@ export default defineStore("user", {
             {
               id: 5,
               title: "生活",
-              icon: "",
+              icon: "yuangong",
               name: "Life",
               path: "/life",
+              link:"https://www.baidu.com",
               pid: 0
             }
           ];
-          this.menuList = mapPathToMenu(data);
+          this.sidebarRouters = mapPathToMenu(data);
           resolve(true);
         } catch (e) {
           reject(e);

@@ -15,3 +15,8 @@ import MenuList from "./SideMenu.vue";
 
 </script>
 
+<style scoped lang="scss">
+.el-aside {
+  width: 100%;
+}
+</style>

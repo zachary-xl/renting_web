@@ -3,3 +3,4 @@ export * from "./storage";
 export * from "./format";
 export * from "./methods";
 export * from "./mapToMenus";
+export * from "./vaildate";

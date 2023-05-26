@@ -8,20 +8,21 @@
     text-color="#bfcbd9"
     unique-opened
   >
-    <template v-for="item of menuList" :key="item.path">
-      <SubMenu :item="item" />
-    </template>
+      <SideBarItem
+        v-for="(route, index) of sidebarRouters"
+        :key="route.path + index"
+        :item="route" />
   </el-menu>
 </template>
 
 <script lang="ts" name="MenuList" setup>
 import { ref } from "vue";
 import { HomeFilled, Setting, User, UserFilled } from "@element-plus/icons-vue";
-import SubMenu from "./SubMenu.vue";
+import SideBarItem from "./SideBarItem.vue";
 import { useSettingStoreToRefs, useUserStoreToRefs } from "@/hooks";
 
 const { settingStore, isExpand } = useSettingStoreToRefs();
-const { menuList } = useUserStoreToRefs();
+const { sidebarRouters } = useUserStoreToRefs();
 </script>
 
 <style lang="scss" scoped>

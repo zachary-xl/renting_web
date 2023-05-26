@@ -1,8 +1,9 @@
+import type {RouteRecordRaw} from "vue-router"
 export interface IState {
   user: IUser,
   roles: string[];
   permissions?: string[];
-  menuList: IMenuList[]
+  sidebarRouters: RouteRecordRaw[]
 }
 
 export interface IUser {
