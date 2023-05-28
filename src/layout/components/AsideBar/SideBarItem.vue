@@ -1,34 +1,42 @@
 <template>
-  <SideLink v-if="item.meta.link" :to="item.meta.link">
-    <el-menu-item :index="item.path">
+  <SideLink v-if="link" :to="link">
+    <el-menu-item>
+      <el-icon>
+        <SvgIcon :icon-class="icon"/>
+      </el-icon>
       <template #title>
-      <svg-icon :icon-class="item.meta.icon" />
-<!--        <el-icon><UserFilled /></el-icon>-->
-          <span :title="item.meta.title" class="menu-title">
-            {{ item.meta.title }}
+        <span class="menu-title">
+            {{ title }}
           </span>
       </template>
     </el-menu-item>
   </SideLink>
-
-  <el-sub-menu v-else ref="subMenu" :index="item.path">
+  <el-sub-menu v-else-if="item.children" ref="subMenu" :index="path">
     <template v-if="item.meta" #title>
-      <svg-icon :icon-class="item.meta && item.meta.icon" />
-      <span :title="item.meta.title" class="menu-title">{{ item.meta.title }}</span>
+      <el-icon>
+        <SvgIcon :icon-class="icon"/>
+      </el-icon>
+      <span class="menu-title">{{ title }}</span>
     </template>
-
     <SideBarItem
       v-for="child in item.children"
       :key="child.path"
       :item="child"
     />
   </el-sub-menu>
+  <el-menu-item v-else :index="path">
+    <el-icon>
+      <SvgIcon :icon-class="icon"/>
+    </el-icon>
+    <template #title>
+      <span class="menu-title">{{ title }}</span>
+    </template>
+  </el-menu-item>
 </template>
 
 <script lang="ts" name="SubMenu" setup>
-import {UserFilled} from "@element-plus/icons-vue"
-import type { RouteRecordRaw } from "vue-router";
-import { computed } from "vue";
+import type {RouteRecordRaw} from "vue-router";
+import {computed} from "vue";
 import SideLink from "./SideLink";
 
 interface ISubMenuProps {
@@ -36,10 +44,15 @@ interface ISubMenuProps {
 }
 
 const props = defineProps<ISubMenuProps>();
-console.log(props.item);
-const link = computed(() => {
-  console.log(props.item);
-});
+const title = computed<string>(() => props.item.meta?.title ?? "");
+const icon = computed<string>(() => props.item.meta?.icon ?? "");
+const link = computed<string>(() => props.item.meta?.link ?? "");
+const path = computed<string>(() => props.item.path ?? "");
+console.log(props.item)
 </script>
 
-<style scoped></style>
+<style scoped>
+.menu-title {
+  margin-left: 6px;
+}
+</style>

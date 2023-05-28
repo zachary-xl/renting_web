@@ -2,7 +2,7 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/lxl-laocai/renting_web.git
+git clone https://github.com/zachary-xl/renting_web.git
 
 # 进入项目目录
 cd renting_web

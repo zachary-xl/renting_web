@@ -1,5 +1,5 @@
-import type { Props } from "./types";
-import { defineComponent, h, computed } from "vue";
+import type {Props} from "./types";
+import {defineComponent, h, computed} from "vue";
 
 export default defineComponent({
   props: {
@@ -26,7 +26,7 @@ export default defineComponent({
     });
     return () => (
       <svg class={svgClass.value} aria-hidden="true">
-        <use xlink:href={iconName.value} fill={props.color} />
+        <use xlink:href={iconName.value} fill={props.color}/>
       </svg>
     );
   }

@@ -1,9 +1,11 @@
-import type { IState } from "./types";
-import { defineStore } from "pinia";
+import type {IState} from "./types";
+import type {RouteRecordRaw} from "vue-router"
+import {defineStore} from "pinia";
 import localforage from "localforage";
-import { postLoginAPI } from "@/service";
-import { clearStorage, mapPathToMenu } from "@/utils";
-import { GET_MENUS_ACTION, GET_USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
+import {postLoginAPI} from "@/service";
+import {addRoutesWithMenu, clearStorage, mapPathToMenu} from "@/utils";
+import {GET_MENUS_ACTION, GET_USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION} from "@/model";
+import {defaultRoutes, dynamicRoutes, errorRoutes} from "@/router/router";
 
 export default defineStore("user", {
   state: (): IState => ({
@@ -18,7 +20,7 @@ export default defineStore("user", {
   getters: {},
   actions: {
     [LOGIN_ACTION](userInfo) {
-      const { username, password } = userInfo;
+      const {username, password} = userInfo;
       const formData = new FormData();
       formData.append("username", username);
       formData.append("password", password);
@@ -42,12 +44,14 @@ export default defineStore("user", {
           let info = {
             data: {
               username: "username",
-              avatar: "avatar",
-              email: "email"
+              avatar: "",
+              email: ""
             }
           };
           await localforage.setItem("userInfo", info.data);
+          this.roles = ["role"]
           this.user = info.data;
+          console.log("userInfo")
           resolve(true);
         } catch (e) {
           reject(e);
@@ -55,14 +59,14 @@ export default defineStore("user", {
       });
     },
     [GET_MENUS_ACTION]() {
-      return new Promise(async (resolve, reject) => {
+      return new Promise<RouteRecordRaw[]>(async (resolve, reject) => {
         try {
           // const menu = await getMenusAPI();
           let data = [
             {
               id: 1,
               title: "系统管理",
-              icon: "shezhi02",
+              icon: "logo",
               name: "System",
               path: "/system",
               pid: 0
@@ -70,7 +74,7 @@ export default defineStore("user", {
             {
               id: 2,
               title: "用户管理",
-              icon: "jiaoseguanli",
+              icon: "login",
               name: "User",
               path: "/system/user",
               pid: 1
@@ -78,7 +82,7 @@ export default defineStore("user", {
             {
               id: 3,
               title: "角色管理",
-              icon: "ziliao",
+              icon: "jeep-car",
               name: "Role",
               path: "/system/role",
               pid: 1
@@ -86,7 +90,7 @@ export default defineStore("user", {
             {
               id: 4,
               title: "菜单管理",
-              icon: "xiugai",
+              icon: "lovers-aoc",
               name: "Menu",
               path: "/system/menu",
               pid: 1
@@ -94,29 +98,32 @@ export default defineStore("user", {
             {
               id: 5,
               title: "生活",
-              icon: "yuangong",
+              icon: "parachute-man",
               name: "Life",
               path: "/life",
-              link:"https://www.baidu.com",
+              link: "https://www.baidu.com",
               pid: 0
             }
           ];
-          this.sidebarRouters = mapPathToMenu(data);
-          resolve(true);
+          let menu = mapPathToMenu(data);
+          this.sidebarRouters = menu
+          let menus: RouteRecordRaw[] = [...menu, ...dynamicRoutes]
+          addRoutesWithMenu(menus);
+          resolve(menus);
         } catch (e) {
           reject(e);
         }
       });
     }
   },
-  persist: {
-    enabled: true
-    // strategies: [
-    //   {
-    //     key: "userInfo",
-    //     storage: sessionStorage,
-    //     paths: ["user"]
-    //   }
-    // ]
-  }
+  // persist: {
+  // enabled: true
+  // strategies: [
+  //   {
+  //     key: "userInfo",
+  //     storage: sessionStorage,
+  //     paths: ["user"]
+  //   }
+  // ]
+  // }
 });

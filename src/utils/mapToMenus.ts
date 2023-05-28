@@ -1,9 +1,10 @@
-import type { RouteRecordRaw } from "vue-router";
+import type {RouteRecordRaw} from "vue-router";
 import router from "@/router";
+import {defaultRoutes, dynamicRoutes, errorRoutes} from "@/router/router";
 
 export function loadLocalRoutes() {
   // 加载所有的模板
-  const modules = import.meta.glob(`../mapping/**/*.ts`, { eager: true });
+  const modules = import.meta.glob(`../mapping/**/*.ts`, {eager: true});
   // 遍历所有的模板为路由对象
   const routes: RouteRecordRaw[] = [];
   for (const key in modules) {
@@ -14,22 +15,36 @@ export function loadLocalRoutes() {
 }
 
 export function addRoutesWithMenu(menuList) {
-  if (menuList.length) return;
+  if (!menuList.length) return;
   for (const item of menuList) {
-    router.addRoute(item);
+    let {path, name, meta, component} = item;
+    if (item.children && item.children.length) {
+      addRoutesWithMenu(item.children)
+    }
+    if (!router.hasRoute(item.name)) {
+      router.addRoute("Layout", {path, name, meta, component});
+      router.options.routes.concat(item)
+    }
   }
+}
+
+export function removeRoutesWithMenu(menuList) {
+  menuList.map((menu) => {
+    router.removeRoute(menu.name);
+    if (router.options.routes) {
+      router.options.routes.slice(router.options.routes.indexOf(menu), 1)
+    }
+  })
 }
 
 export function mapPathToMenu(list) {
   const treeList = formatTree(list);
   const localRoutes = loadLocalRoutes();
-  const menuList = _recurseGetRoute(treeList, localRoutes);
-  addRoutesWithMenu(menuList);
-  return menuList;
+  return _recurseGetRoute(treeList, localRoutes);
 
   // 映射菜单与树形菜单做对比
   function _recurseGetRoute(menus, localRoutes) {
-    return menus.map(({ children, id, pid, title, icon, link, ...menu }) => {
+    return menus.map(({children, id, pid, title, icon, link, ...menu}) => {
       if (children?.length) {
         menu.children = _recurseGetRoute(children, localRoutes);
       }
@@ -53,7 +68,7 @@ export function formatTree(list) {
   let result: RouteRecordRaw[] = [];
   let dataMap = {};
   for (const item of list) {
-    let { id, pid } = item;
+    let {id, pid} = item;
     dataMap[id] = {
       ...item,
       children: dataMap[id]?.children || []
@@ -75,7 +90,7 @@ export function formatTree(list) {
 
 export function filterAsyncRoutes(routes, roles) {
   routes.map(route => {
-    const tmp = { ...route };
+    const tmp = {...route};
     if (hasPermission(roles, tmp)) {
     }
   });

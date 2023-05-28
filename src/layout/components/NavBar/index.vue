@@ -34,9 +34,11 @@ import { getAssets } from "@/utils";
 const { user } = useUserStoreToRefs();
 const { settingStore, isExpand } = useSettingStoreToRefs();
 const avatar = computed(() => getAssets("images", "icons/avatar.gif"));
+
 const getAvatar = (source: string | undefined) => {
   return source || avatar.value;
 };
+
 </script>
 
 <style lang="scss" scoped>

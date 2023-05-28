@@ -6,7 +6,7 @@
   "author": "lxl",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lxl-laocai/renting_web.git"
+    "url": "https://github.com/zachary-xl/renting_web.git"
   },
   "scripts": {
     "dev": "vite",
