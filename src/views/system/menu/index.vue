@@ -1,5 +1,5 @@
 <template>
-menu
+<h1>menu</h1>
 </template>
 
 <script>

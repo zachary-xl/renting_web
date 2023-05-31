@@ -2,9 +2,11 @@
   <div :style="{'padding-left':settingStore[GET_IS_EXPAND_WIDTH] + 'px', 'padding-top':settingStore[GET_IS_FIXED_HEADER_TOP]}"
        class="page">
     <el-main class="w-full h-full">
-      <router-view v-slot="{ Component }">
-        <component :is="Component"></component>
-      </router-view>
+      <RouterView>
+        <template v-slot="{ Component }">
+          <component :is="Component" />
+        </template>
+      </RouterView>
     </el-main>
   </div>
 </template>

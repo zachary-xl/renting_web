@@ -1,4 +1,4 @@
-export interface Props {
+export interface ISvgIconProps {
   iconClass: string;
   className?: string;
   color?: string;

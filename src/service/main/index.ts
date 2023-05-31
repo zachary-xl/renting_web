@@ -17,4 +17,3 @@ export const getMenusAPI = () => {
     url: "/admin/menu/getMenu"
   });
 };
-

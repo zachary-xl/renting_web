@@ -41,7 +41,7 @@ import { ref, reactive, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { View, Hide } from "@element-plus/icons-vue";
 import { hasStorage, setStorage, getStorage, removeStorage } from "@/utils";
-import { useUserStoreToRefs } from "@/hooks";
+import { useAuthStoreToRefs } from "@/hooks";
 import { LOGIN_ACTION } from "@/model";
 import type { IFormData } from "./types";
 import { getAssets } from "@/utils";
@@ -50,7 +50,7 @@ onMounted(() => {
   hasStorage("remember") && (formData.remember = getStorage("remember")) && (formData.username = getStorage("username"));
 });
 const router = useRouter();
-const { userStore } = useUserStoreToRefs();
+const { authStore } = useAuthStoreToRefs();
 const isEye = ref(false);
 const isUserName = ref(false);
 const isPassword = ref(false);
@@ -73,7 +73,7 @@ const submitForm = async () => {
       removeStorage("remember");
     }
 
-    userStore[LOGIN_ACTION](toRaw(formData)).then(res => {
+    authStore[LOGIN_ACTION](toRaw(formData)).then(res => {
       router.push("/");
     });
   }

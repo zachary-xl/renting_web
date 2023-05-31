@@ -1,5 +1,5 @@
-import type {Props} from "./types";
-import {defineComponent, h, computed} from "vue";
+import type { ISvgIconProps } from "../types";
+import { defineComponent, h, computed } from "vue";
 
 export default defineComponent({
   props: {
@@ -16,7 +16,7 @@ export default defineComponent({
       default: ""
     }
   },
-  setup(props: Props) {
+  setup(props: ISvgIconProps) {
     const iconName = computed(() => `#icon-${props.iconClass}`);
     const svgClass = computed(() => {
       if (props.className) {
@@ -26,7 +26,7 @@ export default defineComponent({
     });
     return () => (
       <svg class={svgClass.value} aria-hidden="true">
-        <use xlink:href={iconName.value} fill={props.color}/>
+        <use xlink:href={iconName.value} fill={props.color} />
       </svg>
     );
   }

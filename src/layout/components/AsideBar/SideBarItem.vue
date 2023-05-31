@@ -2,7 +2,7 @@
   <SideLink v-if="link" :to="link">
     <el-menu-item>
       <el-icon>
-        <SvgIcon :icon-class="icon"/>
+        <SvgIcon :icon-class="icon" />
       </el-icon>
       <template #title>
         <span class="menu-title">
@@ -11,10 +11,10 @@
       </template>
     </el-menu-item>
   </SideLink>
-  <el-sub-menu v-else-if="item.children" ref="subMenu" :index="path">
-    <template v-if="item.meta" #title>
+  <el-sub-menu v-else-if="item.children && item.children.length > 0" ref="subMenu" :index="path">
+    <template #title>
       <el-icon>
-        <SvgIcon :icon-class="icon"/>
+        <SvgIcon :icon-class="icon" />
       </el-icon>
       <span class="menu-title">{{ title }}</span>
     </template>
@@ -26,7 +26,7 @@
   </el-sub-menu>
   <el-menu-item v-else :index="path">
     <el-icon>
-      <SvgIcon :icon-class="icon"/>
+      <SvgIcon :icon-class="icon" />
     </el-icon>
     <template #title>
       <span class="menu-title">{{ title }}</span>
@@ -35,20 +35,20 @@
 </template>
 
 <script lang="ts" name="SubMenu" setup>
-import type {RouteRecordRaw} from "vue-router";
-import {computed} from "vue";
+import type { RouteRecordRaw } from "vue-router";
+import { computed } from "vue";
 import SideLink from "./SideLink";
 
 interface ISubMenuProps {
-  item: RouteRecordRaw;
+  item: any;
 }
 
 const props = defineProps<ISubMenuProps>();
-const title = computed<string>(() => props.item.meta?.title ?? "");
-const icon = computed<string>(() => props.item.meta?.icon ?? "");
-const link = computed<string>(() => props.item.meta?.link ?? "");
+const title = computed<string>(() => props.item.title ?? "");
+const icon = computed<string>(() => props.item.icon ?? "");
+const link = computed<string>(() => props.item.link ?? "");
 const path = computed<string>(() => props.item.path ?? "");
-console.log(props.item)
+console.log(props.item);
 </script>
 
 <style scoped>

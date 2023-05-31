@@ -32,7 +32,7 @@ export default defineStore("settings", {
       return state.isFixedHeader ? "fixed" : "relative";
     },
     [GET_IS_FIXED_HEADER_TOP](state) {
-      return state.isFixedHeader ? "60px" : "0";
+      return state.isFixedHeader ? "84px" : "0";
     }
   },
   actions: {

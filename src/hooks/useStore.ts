@@ -1,5 +1,5 @@
 import { storeToRefs } from "pinia";
-import { useSettingStore, useUserStore } from "@/store";
+import { useSettingStore, useAuthStore } from "@/store";
 
 export function useSettingStoreToRefs() {
   const settingStore = useSettingStore();
@@ -8,10 +8,10 @@ export function useSettingStoreToRefs() {
     ...storeToRefs(settingStore)
   };
 }
-export function useUserStoreToRefs() {
-  const userStore = useUserStore();
+export function useAuthStoreToRefs() {
+  const authStore = useAuthStore();
   return {
-    userStore,
-    ...storeToRefs(userStore)
+    authStore,
+    ...storeToRefs(authStore)
   };
 }

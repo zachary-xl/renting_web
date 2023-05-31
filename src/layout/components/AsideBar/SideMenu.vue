@@ -9,20 +9,18 @@
     unique-opened
   >
       <SideBarItem
-        v-for="(route, index) of sidebarRouters"
+        v-for="(route, index) of menusList"
         :key="route.path + index"
         :item="route" />
   </el-menu>
 </template>
 
 <script lang="ts" name="MenuList" setup>
-import { ref } from "vue";
-import { HomeFilled, Setting, User, UserFilled } from "@element-plus/icons-vue";
 import SideBarItem from "./SideBarItem.vue";
-import { useSettingStoreToRefs, useUserStoreToRefs } from "@/hooks";
+import { useSettingStoreToRefs,useAuthStoreToRefs } from "@/hooks";
 
-const { settingStore, isExpand } = useSettingStoreToRefs();
-const { sidebarRouters } = useUserStoreToRefs();
+const { isExpand } = useSettingStoreToRefs();
+const { menusList } = useAuthStoreToRefs();
 </script>
 
 <style lang="scss" scoped>

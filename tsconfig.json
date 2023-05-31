@@ -16,7 +16,7 @@
     "jsxFragmentFactory": "Fragment",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "types": ["vite-plugin-svg-icons/client"],
+    "types": ["vite-plugin-svg-icons/client","vite/client"],
     // 允许 export = 导出，由 import from 导入
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

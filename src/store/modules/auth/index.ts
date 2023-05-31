@@ -1,12 +1,22 @@
-import type {IState} from "./types";
-import type {RouteRecordRaw} from "vue-router"
-import {defineStore} from "pinia";
+import type { IState } from "./types";
+import type { RouteRecordRaw } from "vue-router";
 import localforage from "localforage";
-import {postLoginAPI} from "@/service";
-import {addRoutesWithMenu, clearStorage, mapPathToMenu} from "@/utils";
-import {GET_MENUS_ACTION, GET_USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION} from "@/model";
-import {defaultRoutes, dynamicRoutes, errorRoutes} from "@/router/router";
-
+import { defineStore } from "pinia";
+import { postLoginAPI, getUserGetInfoAPI, getMenusAPI } from "@/service";
+import {
+  addRoutesWithMenu,
+  clearStorage,
+  formatTree,
+  loadLocalRoutes,
+  mapPathToMenu
+} from "@/utils";
+import { GET_MENUS_ACTION, GET_USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
+let main = {
+  name: "Main",
+  title: "首页",
+  icon: "shouye",
+  path: "/"
+};
 export default defineStore("user", {
   state: (): IState => ({
     roles: [],
@@ -15,12 +25,12 @@ export default defineStore("user", {
       avatar: "",
       email: ""
     },
-    sidebarRouters: []
+    menusList: []
   }),
   getters: {},
   actions: {
     [LOGIN_ACTION](userInfo) {
-      const {username, password} = userInfo;
+      const { username, password } = userInfo;
       const formData = new FormData();
       formData.append("username", username);
       formData.append("password", password);
@@ -40,18 +50,18 @@ export default defineStore("user", {
     [GET_USER_INFO_ACTION]() {
       return new Promise(async (resolve, reject) => {
         try {
-          // const info = await getUserGetInfoAPI();
-          let info = {
-            data: {
-              username: "username",
-              avatar: "",
-              email: ""
-            }
-          };
+          const info = await getUserGetInfoAPI();
+          // let info = {
+          //   data: {
+          //     username: "username",
+          //     avatar: "",
+          //     email: ""
+          //   }
+          // };
           await localforage.setItem("userInfo", info.data);
-          this.roles = ["role"]
+          this.roles = ["role"];
           this.user = info.data;
-          console.log("userInfo")
+          console.log("userInfo");
           resolve(true);
         } catch (e) {
           reject(e);
@@ -59,9 +69,9 @@ export default defineStore("user", {
       });
     },
     [GET_MENUS_ACTION]() {
-      return new Promise<RouteRecordRaw[]>(async (resolve, reject) => {
+      return new Promise<RouteRecordRaw>(async (resolve, reject) => {
         try {
-          // const menu = await getMenusAPI();
+          // const data = await getMenusAPI();
           let data = [
             {
               id: 1,
@@ -69,6 +79,7 @@ export default defineStore("user", {
               icon: "logo",
               name: "System",
               path: "/system",
+              redirect: "/system/user",
               pid: 0
             },
             {
@@ -105,17 +116,20 @@ export default defineStore("user", {
               pid: 0
             }
           ];
-          let menu = mapPathToMenu(data);
-          this.sidebarRouters = menu
-          let menus: RouteRecordRaw[] = [...menu, ...dynamicRoutes]
+          let localRoutes = loadLocalRoutes();
+          let treeMenuData = formatTree(data);
+          let menus = mapPathToMenu(treeMenuData, localRoutes);
           addRoutesWithMenu(menus);
-          resolve(menus);
+
+
+          this.menusList = [main,...treeMenuData];
+          resolve();
         } catch (e) {
           reject(e);
         }
       });
     }
-  },
+  }
   // persist: {
   // enabled: true
   // strategies: [

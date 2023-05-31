@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useDark } from "@vueuse/core";
 import type { Language } from "element-plus/es/locale";
+import { useDark } from "@vueuse/core";
 import zhCn from "element-plus/dist/locale/zh-cn";
 
 const locale = ref(zhCn) as Language;
