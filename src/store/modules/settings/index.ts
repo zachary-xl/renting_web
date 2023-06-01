@@ -21,7 +21,7 @@ export default defineStore("settings", {
     },
     [GET_IS_FULLSCREEN](state) {
       if (state.isFullScreen) {
-        document.documentElement.requestFullscreen();
+        document.documentElement.requestFullscreen().then();
         return "icon-fullscreen-exit";
       } else {
         !!document.fullscreenElement && document.exitFullscreen();

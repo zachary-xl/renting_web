@@ -48,7 +48,6 @@ const title = computed<string>(() => props.item.title ?? "");
 const icon = computed<string>(() => props.item.icon ?? "");
 const link = computed<string>(() => props.item.link ?? "");
 const path = computed<string>(() => props.item.path ?? "");
-console.log(props.item);
 </script>
 
 <style scoped>

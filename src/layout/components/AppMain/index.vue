@@ -1,14 +1,17 @@
 <template>
-  <div :style="{'padding-left':settingStore[GET_IS_EXPAND_WIDTH] + 'px', 'padding-top':settingStore[GET_IS_FIXED_HEADER_TOP]}"
-       class="page">
-    <el-main class="w-full h-full">
+  <el-main
+    :style="{'padding-left':settingStore[GET_IS_EXPAND_WIDTH] + 'px', 'padding-top':settingStore[GET_IS_FIXED_HEADER_TOP]}"
+    class="page">
+    <section class="app-main  w-full h-full">
       <RouterView>
-        <template v-slot="{ Component }">
-          <component :is="Component" />
+        <template v-slot="{ Component, route }">
+          <transition mode="out-in" name="fade-transform">
+            <component :is="Component" :key="route.name" />
+          </transition>
         </template>
       </RouterView>
-    </el-main>
-  </div>
+    </section>
+  </el-main>
 </template>
 
 <script lang="ts" name="MainPage" setup>
@@ -21,5 +24,33 @@ const { settingStore } = useSettingStoreToRefs();
 <style lang="scss" scoped>
 .page {
   transition: padding .28s;
+
+  .app-main {
+    min-height: calc(100vh - 84px);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+  }
+}
+
+.fade-transform-move,
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all .5s;
+}
+
+.fade-transform-leave-active {
+  position: absolute;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }
 </style>

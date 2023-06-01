@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@element-plus/icons-vue':
@@ -143,10 +147,10 @@ packages:
       find-up: registry.npmmirror.com/find-up@5.0.0
     dev: true
 
-  registry.npmmirror.com/@antfu/utils@0.7.3:
-    resolution: {integrity: sha512-sAPXKvlJFVQB4cvmdGoUa9IAavzRrm7N2ctxdD1GuAEIOZu8BRrv2SUzquGXTpRDUa0sY7OkkVHqhi6ySMnMTg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@antfu/utils/-/utils-0.7.3.tgz}
+  registry.npmmirror.com/@antfu/utils@0.7.4:
+    resolution: {integrity: sha512-qe8Nmh9rYI/HIspLSTwtbMFPj6dISG6+dJnOguTlPNXtCvS2uezdxscVBb7/3DrmNbQK49TDqpkSQ1chbRGdpQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@antfu/utils/-/utils-0.7.4.tgz}
     name: '@antfu/utils'
-    version: 0.7.3
+    version: 0.7.4
     dev: true
 
   registry.npmmirror.com/@babel/code-frame@7.21.4:
@@ -2401,7 +2405,7 @@ packages:
     version: 2.1.5
     dependencies:
       '@antfu/install-pkg': registry.npmmirror.com/@antfu/install-pkg@0.1.1
-      '@antfu/utils': registry.npmmirror.com/@antfu/utils@0.7.3
+      '@antfu/utils': registry.npmmirror.com/@antfu/utils@0.7.4
       '@iconify/types': registry.npmmirror.com/@iconify/types@2.0.0
       debug: registry.npmmirror.com/debug@4.3.4
       kolorist: registry.npmmirror.com/kolorist@1.8.0
@@ -3011,7 +3015,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: registry.npmmirror.com/browserslist@4.21.7
-      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001491
+      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001492
       fraction.js: registry.npmmirror.com/fraction.js@4.2.0
       normalize-range: registry.npmmirror.com/normalize-range@0.1.2
       picocolors: registry.npmmirror.com/picocolors@1.0.0
@@ -3175,8 +3179,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001491
-      electron-to-chromium: registry.npmmirror.com/electron-to-chromium@1.4.414
+      caniuse-lite: registry.npmmirror.com/caniuse-lite@1.0.30001492
+      electron-to-chromium: registry.npmmirror.com/electron-to-chromium@1.4.416
       node-releases: registry.npmmirror.com/node-releases@2.0.12
       update-browserslist-db: registry.npmmirror.com/update-browserslist-db@1.0.11(browserslist@4.21.7)
     dev: true
@@ -3227,10 +3231,10 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  registry.npmmirror.com/caniuse-lite@1.0.30001491:
-    resolution: {integrity: sha512-17EYIi4TLnPiTzVKMveIxU5ETlxbSO3B6iPvMbprqnKh4qJsQGk5Nh1Lp4jIMAE0XfrujsJuWZAM3oJdMHaKBA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001491.tgz}
+  registry.npmmirror.com/caniuse-lite@1.0.30001492:
+    resolution: {integrity: sha512-2efF8SAZwgAX1FJr87KWhvuJxnGJKOnctQa8xLOskAXNXq8oiuqgl6u1kk3fFpsp3GgvzlRjiK1sl63hNtFADw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/caniuse-lite/-/caniuse-lite-1.0.30001492.tgz}
     name: caniuse-lite
-    version: 1.0.30001491
+    version: 1.0.30001492
     dev: true
 
   registry.npmmirror.com/capital-case@1.0.4:
@@ -3749,10 +3753,10 @@ packages:
       tslib: registry.npmmirror.com/tslib@2.5.2
     dev: true
 
-  registry.npmmirror.com/electron-to-chromium@1.4.414:
-    resolution: {integrity: sha512-RRuCvP6ekngVh2SAJaOKT/hxqc9JAsK+Pe0hP5tGQIfonU2Zy9gMGdJ+mBdyl/vNucMG6gkXYtuM4H/1giws5w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.414.tgz}
+  registry.npmmirror.com/electron-to-chromium@1.4.416:
+    resolution: {integrity: sha512-AUYh0XDTb2vrj0rj82jb3P9hHSyzQNdTPYWZIhPdCOui7/vpme7+HTE07BE5jwuqg/34TZ8ktlRz6GImJ4IXjA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/electron-to-chromium/-/electron-to-chromium-1.4.416.tgz}
     name: electron-to-chromium
-    version: 1.4.414
+    version: 1.4.416
     dev: true
 
   registry.npmmirror.com/element-plus@2.3.5(vue@3.3.4):
@@ -6585,7 +6589,7 @@ packages:
       '@vueuse/core':
         optional: true
     dependencies:
-      '@antfu/utils': registry.npmmirror.com/@antfu/utils@0.7.3
+      '@antfu/utils': registry.npmmirror.com/@antfu/utils@0.7.4
       '@rollup/pluginutils': registry.npmmirror.com/@rollup/pluginutils@5.0.2
       '@vueuse/core': registry.npmmirror.com/@vueuse/core@10.1.2(vue@3.3.4)
       local-pkg: registry.npmmirror.com/local-pkg@0.4.3
@@ -6617,7 +6621,7 @@ packages:
         optional: true
     dependencies:
       '@antfu/install-pkg': registry.npmmirror.com/@antfu/install-pkg@0.1.1
-      '@antfu/utils': registry.npmmirror.com/@antfu/utils@0.7.3
+      '@antfu/utils': registry.npmmirror.com/@antfu/utils@0.7.4
       '@iconify/utils': registry.npmmirror.com/@iconify/utils@2.1.5
       debug: registry.npmmirror.com/debug@4.3.4
       kolorist: registry.npmmirror.com/kolorist@1.8.0
@@ -6643,7 +6647,7 @@ packages:
       '@nuxt/kit':
         optional: true
     dependencies:
-      '@antfu/utils': registry.npmmirror.com/@antfu/utils@0.7.3
+      '@antfu/utils': registry.npmmirror.com/@antfu/utils@0.7.4
       '@rollup/pluginutils': registry.npmmirror.com/@rollup/pluginutils@5.0.2
       chokidar: registry.npmmirror.com/chokidar@3.5.3
       debug: registry.npmmirror.com/debug@4.3.4

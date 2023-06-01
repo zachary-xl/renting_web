@@ -8,17 +8,18 @@
     <slot />
   </el-scrollbar>
 </template>
-<script name="ScrollPane" lang="ts" setup>
+<script lang="ts" name="ScrollPane" setup>
+import type { WheelEventCustom } from "../types";
 import { ref } from "vue";
+import type { ElScrollbar } from "element-plus/lib";
 
-const scrollBarRef = ref(null)
-const handleScroll = (e) => {
-  console.log(e);
-  // const eventDelta = e.wheelDelta || -e.deltaY * 40
-  // let scrollLeft = scrollBarRef.value?.wrapRef.scrollLeft
-  // scrollLeft += eventDelta / 8
-  // scrollBarRef.value.setScrollLeft(scrollLeft)
-}
+const scrollBarRef = ref<InstanceType<typeof ElScrollbar> | null>(null);
+const handleScroll = (e: WheelEventCustom) => {
+  const eventDelta = e.wheelDelta || -e.deltaY * 40;
+  let scrollLeft = scrollBarRef.value?.wrapRef.scrollLeft;
+  scrollLeft += eventDelta / 8
+  scrollBarRef.value?.setScrollLeft(scrollLeft)
+};
 
 </script>
 
@@ -34,7 +35,7 @@ const handleScroll = (e) => {
   }
 
   :deep(.el-scrollbar__wrap) {
-    height: 49px;
+    height: 100%;
   }
 }
 </style>

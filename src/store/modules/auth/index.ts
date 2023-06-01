@@ -10,7 +10,7 @@ import {
   loadLocalRoutes,
   mapPathToMenu
 } from "@/utils";
-import { GET_MENUS_ACTION, GET_USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
+import { MENUS_ACTION, USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
 let main = {
   name: "Main",
   title: "首页",
@@ -47,7 +47,7 @@ export default defineStore("user", {
         resolve();
       });
     },
-    [GET_USER_INFO_ACTION]() {
+    [USER_INFO_ACTION]() {
       return new Promise(async (resolve, reject) => {
         try {
           const info = await getUserGetInfoAPI();
@@ -68,7 +68,7 @@ export default defineStore("user", {
         }
       });
     },
-    [GET_MENUS_ACTION]() {
+    [MENUS_ACTION]() {
       return new Promise<RouteRecordRaw>(async (resolve, reject) => {
         try {
           // const data = await getMenusAPI();
