@@ -30,7 +30,6 @@ router.beforeEach(async (to, _, next) => {
       try {
         // await authStore[USER_INFO_ACTION]();
         const routes = await authStore[MENUS_ACTION]();
-        // router.addRoute(routes);
         role = true;
         return next({ ...to, replace: true });
       } catch (e) {

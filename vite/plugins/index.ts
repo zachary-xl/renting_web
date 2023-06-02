@@ -26,4 +26,3 @@ export default function createVitePlugins(viteEnv, isBuild = false): PluginOptio
   isBuild && plugins.push(Compression(viteEnv));
   return plugins;
 }
-

@@ -20,4 +20,4 @@ export default [
     path: "/:pathMatch(.*)",
     component: () => import("@/views/error/404.vue")
   }
-] as RouteRecordRaw
+] as RouteRecordRaw;

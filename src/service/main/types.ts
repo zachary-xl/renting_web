@@ -17,7 +17,7 @@ export interface IUserInfo {
   permissions: string[];
 }
 
-export interface IMenu{
+export interface IMenu {
   menuId: string;
   path: string;
   superiorId?: any;

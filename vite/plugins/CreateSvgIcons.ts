@@ -1,5 +1,5 @@
 import path from "path";
-import {createSvgIconsPlugin} from "vite-plugin-svg-icons";
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 
 export default function CreateSvgIcons() {
   return createSvgIconsPlugin({
@@ -12,7 +12,7 @@ export default function CreateSvgIcons() {
       plugins: [
         {
           name: "removeAttrs",
-          params: {attrs: ["class", "data-name", "fill", "stroke"]}
+          params: { attrs: ["class", "data-name", "fill", "stroke"] }
         }
       ]
     }

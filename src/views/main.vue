@@ -1,13 +1,7 @@
 <template>
-  <div>
-    main
-  </div>
+  <div>main</div>
 </template>
 
-<script lang="ts" name="Main" setup>
+<script lang="ts" name="Main" setup></script>
 
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>

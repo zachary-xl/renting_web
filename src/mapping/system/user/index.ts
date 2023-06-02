@@ -4,5 +4,5 @@ export default {
   path: "/system/user",
   name: "User",
   component: user,
-  children:[]
+  children: []
 };

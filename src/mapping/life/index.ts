@@ -4,5 +4,5 @@ export default {
   path: "/life",
   name: "Life",
   component: life,
-  children:[]
-}
+  children: []
+};

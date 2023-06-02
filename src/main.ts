@@ -20,4 +20,3 @@ app.use(store);
 app.use(router);
 // registerIconComponent(settings);
 app.mount("#app");
-

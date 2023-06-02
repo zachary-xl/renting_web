@@ -39,7 +39,7 @@ export function mapPathToMenu(menus, local) {
     if (children?.length) {
       menu.children = mapPathToMenu(children, local);
     }
-    let findRoute: RouteRecordRaw = local.find(route => route.name === menu.name && route.path === menu.path);
+    let findRoute: RouteRecordRaw = local.find((route) => route.name === menu.name && route.path === menu.path);
     return {
       ...menu,
       meta: {
@@ -79,7 +79,7 @@ export function formatTree(list) {
 }
 
 export function filterAsyncRoutes(routes, roles) {
-  routes.map(route => {
+  routes.map((route) => {
     const tmp = { ...route };
     if (hasPermission(roles, tmp)) {
     }

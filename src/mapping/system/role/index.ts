@@ -3,5 +3,5 @@ export default {
   path: "/system/role",
   name: "Role",
   component: role,
-  children:[]
+  children: []
 };

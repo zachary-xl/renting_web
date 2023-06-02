@@ -1,13 +1,13 @@
 <template>
-<h1>menu</h1>
+  <div class="app-container">
+    <QueryForm />
+    <CustomTable />
+  </div>
 </template>
 
-<script>
-export default {
-  name: "index"
-};
+<script lang="ts" name="Menu" setup>
+import QueryForm from "./QueryForm.vue";
+import CustomTable from "./CustomTable.vue";
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,8 +1,8 @@
 export interface IState {
-  user: IUser,
+  user: IUser;
   roles: string[];
   permissions?: string[];
-  menusList:any
+  menusList: any;
 }
 
 export interface IUser {
@@ -17,4 +17,3 @@ export interface IMenuList {
   menuType: string;
   name: string;
 }
-

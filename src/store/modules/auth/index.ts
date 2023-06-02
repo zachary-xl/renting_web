@@ -3,20 +3,9 @@ import type { RouteRecordRaw } from "vue-router";
 import localforage from "localforage";
 import { defineStore } from "pinia";
 import { postLoginAPI, getUserGetInfoAPI, getMenusAPI } from "@/service";
-import {
-  addRoutesWithMenu,
-  clearStorage,
-  formatTree,
-  loadLocalRoutes,
-  mapPathToMenu
-} from "@/utils";
+import { addRoutesWithMenu, clearStorage, formatTree, loadLocalRoutes, mapPathToMenu } from "@/utils";
 import { MENUS_ACTION, USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
-let main = {
-  name: "Main",
-  title: "首页",
-  icon: "shouye",
-  path: "/"
-};
+
 export default defineStore("user", {
   state: (): IState => ({
     roles: [],
@@ -35,9 +24,11 @@ export default defineStore("user", {
       formData.append("username", username);
       formData.append("password", password);
       return new Promise((resolve, reject) => {
-        postLoginAPI(formData).then(res => {
-          resolve(res);
-        }).catch(reject);
+        postLoginAPI(formData)
+          .then((res) => {
+            resolve(res);
+          })
+          .catch(reject);
       });
     },
     [LOGOUT_ACTION]() {
@@ -121,8 +112,7 @@ export default defineStore("user", {
           let menus = mapPathToMenu(treeMenuData, localRoutes);
           addRoutesWithMenu(menus);
 
-
-          this.menusList = [main,...treeMenuData];
+          this.menusList = [{ name: "Main", path: "/main", title: "首页", icon: "shouye" }, ...treeMenuData];
           resolve();
         } catch (e) {
           reject(e);

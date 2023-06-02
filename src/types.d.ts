@@ -7,4 +7,3 @@ declare module "vue-router" {
     link?: string;
   }
 }
-

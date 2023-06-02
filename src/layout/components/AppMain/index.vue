@@ -1,8 +1,9 @@
 <template>
   <el-main
-    :style="{'padding-left':settingStore[GET_IS_EXPAND_WIDTH] + 'px', 'padding-top':settingStore[GET_IS_FIXED_HEADER_TOP]}"
-    class="page">
-    <section class="app-main  w-full h-full">
+    :style="{ 'padding-left': settingStore[GET_IS_EXPAND_WIDTH] + 'px', 'padding-top': settingStore[GET_IS_FIXED_HEADER_TOP] }"
+    class="page"
+  >
+    <section class="app-main w-full h-full">
       <RouterView>
         <template v-slot="{ Component, route }">
           <transition mode="out-in" name="fade-transform">
@@ -23,7 +24,10 @@ const { settingStore } = useSettingStoreToRefs();
 
 <style lang="scss" scoped>
 .page {
-  transition: padding .28s;
+  transition: padding 0.28s;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 
   .app-main {
     min-height: calc(100vh - 84px);
@@ -37,7 +41,7 @@ const { settingStore } = useSettingStoreToRefs();
 .fade-transform-move,
 .fade-transform-leave-active,
 .fade-transform-enter-active {
-  transition: all .5s;
+  transition: all 0.5s;
 }
 
 .fade-transform-leave-active {

@@ -4,7 +4,7 @@ export interface ISubMenuProps {
   item: RouteRecordRaw;
 }
 
-export interface WheelEventCustom extends WheelEvent{
+export interface WheelEventCustom extends WheelEvent {
   wheelDelta: number;
   wheelDeltaY: number;
 }

@@ -1,4 +1,3 @@
-
 import { defineConfig, loadEnv } from "vite";
 import { fileURLToPath } from "url";
 import { ViteServer, ViteBuild, ViteCss, VitePlugin } from "./vite";
@@ -23,7 +22,8 @@ export default defineConfig(({ mode, command }) => {
         {
           find: "~",
           replacement: baseSrc
-        }],
+        }
+      ],
       extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"]
     },
     server: ViteServer(),

@@ -6,8 +6,8 @@
       </el-icon>
       <template #title>
         <span class="menu-title">
-            {{ title }}
-          </span>
+          {{ title }}
+        </span>
       </template>
     </el-menu-item>
   </SideLink>
@@ -18,11 +18,7 @@
       </el-icon>
       <span class="menu-title">{{ title }}</span>
     </template>
-    <SideBarItem
-      v-for="child in item.children"
-      :key="child.path"
-      :item="child"
-    />
+    <SideBarItem v-for="child in item.children" :key="child.path" :item="child" />
   </el-sub-menu>
   <el-menu-item v-else :index="path">
     <el-icon>

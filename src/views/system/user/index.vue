@@ -1,13 +1,7 @@
 <template>
-<h1>user</h1>
+  <div class="app-container"></div>
 </template>
 
-<script>
-export default {
-  name: "index"
-};
-</script>
+<script lang="ts" name="User" setup></script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

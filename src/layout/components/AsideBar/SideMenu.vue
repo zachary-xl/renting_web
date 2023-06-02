@@ -11,10 +11,7 @@
     unique-opened
     router
   >
-    <SideBarItem
-      v-for="(route, index) of menusList"
-      :key="route.path + index"
-      :item="route" />
+    <SideBarItem v-for="(route, index) of menusList" :key="route.path + index" :item="route" />
   </el-menu>
 </template>
 
@@ -25,20 +22,24 @@ import SideBarItem from "./SideBarItem.vue";
 import { useSettingStoreToRefs, useAuthStoreToRefs } from "@/hooks";
 import { useTagsViewStoreToRefs } from "@/hooks";
 import { GET_CURRENT_TAG } from "@/model";
+import consola from "consola";
 
 const route = useRoute();
 const { isExpand } = useSettingStoreToRefs();
 const { menusList } = useAuthStoreToRefs();
 const { tagsViewStore } = useTagsViewStoreToRefs();
 
-const unwatch = watch(() => route, (newVal) => {
-  console.log(newVal, "watch");
-  console.log(tagsViewStore[GET_CURRENT_TAG]);
-}, {
-  deep: true,
-  flush: "pre",
-  immediate: true
-});
+const unwatch = watch(
+  () => route,
+  (newVal) => {
+    consola.info(tagsViewStore[GET_CURRENT_TAG]);
+  },
+  {
+    deep: true,
+    flush: "pre",
+    immediate: true
+  }
+);
 
 onUnmounted(() => {
   unwatch();

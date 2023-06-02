@@ -1,7 +1,6 @@
 <template>
   <el-container class="w-full h-full">
-    <AsideBar :style="{width:settingStore[GET_IS_EXPAND_WIDTH] + 'px'}"
-              class="aside-container overflow-hidden"></AsideBar>
+    <AsideBar :style="{ width: settingStore[GET_IS_EXPAND_WIDTH] + 'px' }" class="aside-container overflow-hidden"></AsideBar>
     <div class="main__container">
       <NavBar></NavBar>
       <MainPage></MainPage>
@@ -15,5 +14,4 @@ import { useSettingStoreToRefs } from "@/hooks";
 import { GET_IS_EXPAND_WIDTH } from "@/model";
 
 const { settingStore } = useSettingStoreToRefs();
-
 </script>

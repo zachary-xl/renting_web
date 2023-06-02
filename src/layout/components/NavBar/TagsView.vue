@@ -1,11 +1,7 @@
 <template>
   <div class="tags-view-container">
     <ScrollPanel ref="scrollPaneRef" class="tags-view-wrapper">
-      <router-link v-for="tag of tagsViewStore[GET_TAGS_LIST]"
-                   :key="tag.path"
-                   :to="tag.path"
-                   active-class="active"
-                   class="tags-view-item">
+      <router-link v-for="tag of tagsViewStore[GET_TAGS_LIST]" :key="tag.path" :to="tag.path" active-class="active" class="tags-view-item">
         {{ tag.meta.title }}
         <span v-if="!tag.isClose" class="close" @click.prevent.stop="closeSelectedTag(tag)"> &times; </span>
       </router-link>
@@ -18,25 +14,24 @@ import ScrollPanel from "./ScrollPane.vue";
 import { onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useTagsViewStoreToRefs } from "@/hooks";
-import {
-  ADD_VISITED_VIEW_ACTION,
-  DEL_VISITED_VIEW_ACTION,
-  GET_TAGS_LIST,
-  SET_CURRENT_TAG_ACTION
-} from "@/model";
+import { ADD_VISITED_VIEW_ACTION, DEL_VISITED_VIEW_ACTION, GET_TAGS_LIST, SET_CURRENT_TAG_ACTION } from "@/model";
 
 const route = useRoute();
 const router = useRouter();
 const { tagsViewStore } = useTagsViewStoreToRefs();
 
-const unwatch = watch(() => route, (newVal) => {
-  tagsViewStore[ADD_VISITED_VIEW_ACTION](newVal);
-  tagsViewStore[SET_CURRENT_TAG_ACTION](newVal);
-}, {
-  deep: true,
-  flush: "pre",
-  immediate: true
-});
+const unwatch = watch(
+  () => route,
+  (newVal) => {
+    tagsViewStore[ADD_VISITED_VIEW_ACTION](newVal);
+    tagsViewStore[SET_CURRENT_TAG_ACTION](newVal);
+  },
+  {
+    deep: true,
+    flush: "pre",
+    immediate: true
+  }
+);
 const closeSelectedTag = (tag) => {
   let lastTag = tagsViewStore[DEL_VISITED_VIEW_ACTION](tag);
   lastTag && router.push(lastTag.path);
@@ -52,11 +47,11 @@ onUnmounted(() => {
   width: 100%;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
 
   .tags-view-wrapper {
     padding: 0 10px;
-    transition: all .3s;
+    transition: all 0.3s;
 
     .tags-view-item {
       display: inline-block;
@@ -77,12 +72,12 @@ onUnmounted(() => {
         border-radius: 50%;
         text-align: center;
         line-height: 16px;
-        transition: all .3s cubic-bezier(.645, .045, .355, 1);
+        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
         transform-origin: 100% 50%;
         display: inline-block;
 
         :deep(.el-icon) {
-          transform: scale(.9);
+          transform: scale(0.9);
           display: inline-block;
         }
 

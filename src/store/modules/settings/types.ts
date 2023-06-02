@@ -3,4 +3,3 @@ export interface IState {
   isFullScreen: boolean;
   isFixedHeader: boolean;
 }
-
