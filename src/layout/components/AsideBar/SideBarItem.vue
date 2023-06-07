@@ -33,7 +33,7 @@
 <script lang="ts" name="SubMenu" setup>
 import type { RouteRecordRaw } from "vue-router";
 import { computed } from "vue";
-import SideLink from "./SideLink";
+import SideLink from "./SideLink.vue";
 
 interface ISubMenuProps {
   item: any;

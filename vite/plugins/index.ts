@@ -13,7 +13,13 @@ import CreateSvgIcons from "./CreateSvgIcons";
 
 export default function createVitePlugins(viteEnv, isBuild = false): PluginOption[] {
   const plugins: PluginOption[] = [
-    vue(), // vue vite 对 vue 支持
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.includes("xl-")
+        }
+      }
+    }), // vue vite 对 vue 支持
     vueJsx(), // vueJsx vite 对 jsx 支持
     VueSetupExtend.default() // 定义组件的 name 值
   ];

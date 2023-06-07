@@ -11,7 +11,7 @@ import type { ElScrollbar } from "element-plus/lib";
 const scrollBarRef = ref<InstanceType<typeof ElScrollbar> | null>(null);
 const handleScroll = (e: WheelEventCustom) => {
   const eventDelta = e.wheelDelta || -e.deltaY * 40;
-  let scrollLeft = scrollBarRef.value?.wrapRef.scrollLeft;
+  let scrollLeft = scrollBarRef.value?.wrapRef?.scrollLeft ?? 0;
   scrollLeft += eventDelta / 8;
   scrollBarRef.value?.setScrollLeft(scrollLeft);
 };

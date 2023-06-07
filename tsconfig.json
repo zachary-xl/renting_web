@@ -16,27 +16,56 @@
     "jsxFragmentFactory": "Fragment",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "types": ["vite-plugin-svg-icons/client", "vite/client"],
+    "types": [
+      "vite/client",
+      "element-plus/global",
+      "vite-plugin-svg-icons/client"
+    ],
     // 允许 export = 导出，由 import from 导入
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     // TS需要引用的库
-    "lib": ["ESNext", "DOM", "WebWorker"],
+    "lib": [
+      "DOM",
+      "ESNext",
+      "WebWorker"
+    ],
     "skipLibCheck": true,
     "noEmit": true,
     "baseUrl": ".",
     // 配置路径 与别名搭配
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "resolve": {
+      "extensions": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".vue"
+      ]
     },
     "noImplicitAny": false,
     // 不允许隐式 Any 类型
     "noUncheckedIndexedAccess": true
   },
   // 那些文件需要ts
-  "include": ["src/*", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "auto-imports.d.ts", "components.d.ts"],
+  "include": [
+    "src/*",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/**/*.d.ts",
+    "components.d.ts",
+    "auto-imports.d.ts"
+  ],
   // 排除node_modules
-  "exclude": ["node_modules"],
+  "exclude": [
+    "node_modules",
+    "algorithm"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

@@ -28,7 +28,7 @@ export default defineStore("tagsView", {
     }
   },
   actions: {
-    [ADD_VISITED_VIEW_ACTION](tag: ITagsItem) {
+    [ADD_VISITED_VIEW_ACTION](tag) {
       const { path, name, meta } = tag;
       if (this.tagsList.some((item) => item.path === tag.path)) return;
 
@@ -42,7 +42,7 @@ export default defineStore("tagsView", {
         )
       );
     },
-    [DEL_VISITED_VIEW_ACTION](tag: ITagsItem) {
+    [DEL_VISITED_VIEW_ACTION](tag) {
       let index = this.tagsList.findIndex((item) => item.path === tag.path);
       this.tagsList.splice(index, 1);
       if (tag.path === this.currentTag) {
@@ -50,7 +50,7 @@ export default defineStore("tagsView", {
       }
       return null;
     },
-    [SET_CURRENT_TAG_ACTION](tag: ITagsItem) {
+    [SET_CURRENT_TAG_ACTION](tag) {
       this.currentTag = tag.path;
     }
   }

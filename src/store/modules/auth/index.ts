@@ -1,5 +1,4 @@
 import type { IState } from "./types";
-import type { RouteRecordRaw } from "vue-router";
 import localforage from "localforage";
 import { defineStore } from "pinia";
 import { postLoginAPI, getUserGetInfoAPI, getMenusAPI } from "@/service";
@@ -35,7 +34,7 @@ export default defineStore("user", {
       return new Promise(async (resolve) => {
         clearStorage();
         await localforage.clear();
-        resolve();
+        resolve(true);
       });
     },
     [USER_INFO_ACTION]() {
@@ -60,7 +59,7 @@ export default defineStore("user", {
       });
     },
     [MENUS_ACTION]() {
-      return new Promise<RouteRecordRaw>(async (resolve, reject) => {
+      return new Promise(async (resolve, reject) => {
         try {
           // const data = await getMenusAPI();
           let data = [
@@ -113,7 +112,7 @@ export default defineStore("user", {
           addRoutesWithMenu(menus);
 
           this.menusList = [{ name: "Main", path: "/main", title: "首页", icon: "shouye" }, ...treeMenuData];
-          resolve();
+          resolve(true);
         } catch (e) {
           reject(e);
         }

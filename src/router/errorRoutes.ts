@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from "vue-router";
+
 export default [
   {
     path: "/401",
@@ -20,4 +21,4 @@ export default [
     path: "/:pathMatch(.*)",
     component: () => import("@/views/error/404.vue")
   }
-] as RouteRecordRaw;
+] as unknown as RouteRecordRaw[];

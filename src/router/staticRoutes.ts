@@ -30,4 +30,4 @@ export default [
       title: "登录"
     }
   }
-] as RouteRecordRaw;
+] as unknown as RouteRecordRaw[];

@@ -22,7 +22,6 @@ import SideBarItem from "./SideBarItem.vue";
 import { useSettingStoreToRefs, useAuthStoreToRefs } from "@/hooks";
 import { useTagsViewStoreToRefs } from "@/hooks";
 import { GET_CURRENT_TAG } from "@/model";
-import consola from "consola";
 
 const route = useRoute();
 const { isExpand } = useSettingStoreToRefs();
@@ -32,7 +31,7 @@ const { tagsViewStore } = useTagsViewStoreToRefs();
 const unwatch = watch(
   () => route,
   (newVal) => {
-    consola.info(tagsViewStore[GET_CURRENT_TAG]);
+    console.info(tagsViewStore[GET_CURRENT_TAG]);
   },
   {
     deep: true,

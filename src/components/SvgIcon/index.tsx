@@ -26,7 +26,7 @@ export default defineComponent({
     });
     return () => (
       <svg class={svgClass.value} aria-hidden="true">
-        <use xlink:href={iconName.value} fill={props.color} />
+        <use xlinkHref={iconName.value} fill={props.color} />
       </svg>
     );
   }

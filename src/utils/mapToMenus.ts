@@ -7,8 +7,11 @@ export function loadLocalRoutes() {
   // 遍历所有的模板为路由对象
   const routes: RouteRecordRaw[] = [];
   for (const key in modules) {
-    const route: RouteRecordRaw = modules[key].default;
-    routes.push(route);
+    let module = modules[key] as any;
+    if (modules.hasOwnProperty(key) && module) {
+      const route = (module!.default) as RouteRecordRaw;
+      routes.push(route);
+    }
   }
   return routes;
 }
@@ -53,6 +56,7 @@ export function mapPathToMenu(menus, local) {
     };
   });
 }
+
 // TOD 展开菜单转树结构
 export function formatTree(list) {
   let result: RouteRecordRaw[] = [];

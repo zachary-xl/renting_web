@@ -20,7 +20,12 @@ import { reactive } from "vue";
 import { Search, Refresh } from "@element-plus/icons-vue";
 
 const showSearch = ref(true);
-const sys_normal_disable = ref([]);
+const sys_normal_disable = ref([
+  {
+    value: "0",
+    label: ""
+  }
+]);
 const queryParams = reactive({
   menuName: "",
   status: ""
