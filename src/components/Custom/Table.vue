@@ -15,38 +15,13 @@
 
 <script lang="ts" name="Table" setup>
 import { reactive } from "vue";
-import Render from "./Render.vue";
+import Render from "./Render";
 
-const tableData: any[] = [
-  {
-    staffName: "123",
-    roleVOList: ["123", "1242"],
-    phone: "123",
-    email: "@qq",
-    createTime: "2021",
-    state: 1,
-    id: 1
-  },
-  {
-    staffName: "123",
-    roleVOList: ["123", "1242"],
-    phone: "123",
-    email: "@qq",
-    createTime: "2021",
-    state: 1,
-    id: 2
-  },
-  {
-    staffName: "123",
-    roleVOList: ["123", "1242"],
-    phone: "123",
-    email: "@qq",
-    createTime: "2021",
-    state: 1,
-    id: 3
-  }
-];
 const props = defineProps({
+  tableData: {
+    type: Array,
+    required: true
+  },
   columnConfig: {
     type: Array,
     default: () => []
@@ -65,11 +40,15 @@ const props = defineProps({
   }
 });
 const emits = defineEmits(["selectionChange"]);
-
+onBeforeMount(()=>{
+  state.loading = true
+})
 const state = reactive({
   loading: false
 });
-
+onMounted(()=>{
+  state.loading = false
+})
 const selectionChange = selections => {
   emits("selectionChange", selections);
 };

@@ -2,7 +2,6 @@ import { defineComponent, h, ref } from "vue";
 import { ElInput } from "element-plus";
 
 export default defineComponent({
-  props: {},
   components: { ElInput },
   setup(props, { emit, expose }) {
     const icons = getSvg();

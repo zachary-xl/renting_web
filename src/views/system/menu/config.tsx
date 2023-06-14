@@ -1,6 +1,22 @@
 import { ICustomDialog } from "@/components/types";
+import { h } from "vue";
+import { ElDivider, ElLink } from "element-plus";
 
-export default [
+export const tableConfig = [
+  {
+    label: "时间",
+    prop: "date"
+  },
+  {
+    label: "名字",
+    prop: "name"
+  },
+  {
+    label: "地址",
+    prop: "address"
+  }
+];
+export const dialogConfig = [
   {
     type: "tree-select",
     prop: "parent",
@@ -79,7 +95,19 @@ export default [
       }
     ],
     value: "",
-    rule: { required: true, message: "上级菜单不能为空", trigger: "blur" }
+    rule: { required: true, message: "上级菜单不能为空", trigger: "blur" },
+    render(props) {
+      const { row } = props;
+      return [
+        <ElLink type="primary" onClick={() => props["handle-edit"](row)}>
+          编辑
+        </ElLink>,
+        <ElDivider direction="vertical" />,
+        <ElLink type="danger" onClick={() => props["handel-delete"](row)}>
+          删除
+        </ElLink>
+      ];
+    }
   },
   {
     type: "input",
@@ -171,3 +199,4 @@ export default [
     value: ""
   }
 ] as ICustomDialog.IConfig[];
+

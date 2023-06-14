@@ -29,7 +29,7 @@ const props = defineProps({
   },
   limit: {
     type: Number,
-    default: 20
+    default: 10
   },
   pageSizes: {
     type: Array,
@@ -40,10 +40,6 @@ const props = defineProps({
     default: "total, sizes, prev, pager, next, jumper"
   },
   background: {
-    type: Boolean,
-    default: false
-  },
-  autoScroll: {
     type: Boolean,
     default: true
   }
