@@ -8,7 +8,7 @@ function isSorted(arr) {
 function measureSort(sortAlgorithm, n = 100000) {
   const arr = Array(n)
     .fill(0)
-    .map((_) => Math.floor(Math.random() * n));
+    .map(_ => Math.floor(Math.random() * n));
   const startTime = performance.now();
   sortAlgorithm(arr);
   const endTime = performance.now();
@@ -19,7 +19,7 @@ function measureSort(sortAlgorithm, n = 100000) {
 function testSort(sortAlgorithm) {
   const arr = Array(10)
     .fill(0)
-    .map((_) => Math.floor(Math.random() * 200));
+    .map(_ => Math.floor(Math.random() * 200));
   const arrSort = sortAlgorithm(arr);
   console.log("排序后有序数组 ", arrSort);
   console.log("是否是正确的排序? ", isSorted(arrSort));

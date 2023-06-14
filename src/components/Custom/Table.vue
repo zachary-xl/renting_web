@@ -49,7 +49,7 @@ const state = reactive({
 onMounted(() => {
   state.loading = false;
 });
-const selectionChange = (selections) => {
+const selectionChange = selections => {
   emits("selectionChange", selections);
 };
 </script>
