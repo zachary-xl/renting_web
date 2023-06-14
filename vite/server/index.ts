@@ -10,7 +10,7 @@ export default function createViteServer(): ServerOptions {
       "/api": {
         target: "https://ui34702984.yicp.fun",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/api")
+        rewrite: path => path.replace(/^\/api/, "/api")
       }
     }
   };

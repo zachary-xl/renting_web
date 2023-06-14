@@ -36,7 +36,7 @@ export default class MyRequest implements IRequest {
     this.showLoading = config.showLoading ?? DEFAULT_SHOW_LOADING; // 是否开启loading层效果
     // 全局拦截器
     this.instance.interceptors.request.use(
-      (config) => {
+      config => {
         this.repeatRequestCancel && addStatus(config);
         // 创建loading实例
         if (this.showLoading) {
@@ -51,13 +51,13 @@ export default class MyRequest implements IRequest {
         }
         return config;
       },
-      (error) => {
+      error => {
         return Promise.reject(error);
       }
     );
 
     this.instance.interceptors.response.use(
-      (response) => {
+      response => {
         delStatus(response.config);
         this.showLoading && closeLoading(this.showLoading);
         // code不等于0, 页面具体逻辑就不执行了
@@ -67,7 +67,7 @@ export default class MyRequest implements IRequest {
         }
         return this.reduceDataFormat ? response.data : response;
       },
-      (error) => {
+      error => {
         error.config && delStatus(error.config);
         this.showLoading && closeLoading(this.showLoading); // 关闭loading
         this.showErrorMessage && httpErrorStatusHandle(error); // 处理错误状态码
@@ -87,14 +87,14 @@ export default class MyRequest implements IRequest {
       // }
       this.instance
         .request<any, T>(config)
-        .then((res) => {
+        .then(res => {
           // api 接口响应拦截器
           // if (config.interceptors?.responseInterceptor) {
           //   res = config.interceptors.responseInterceptor(res);
           // }
           resolve(res);
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });
@@ -189,7 +189,7 @@ function addStatus(config: IAxiosConfig): void {
   const status = getStatus(config);
   config.cancelToken =
     config.cancelToken ||
-    new axios.CancelToken((cancel) => {
+    new axios.CancelToken(cancel => {
       if (!statusMap.has(status)) {
         statusMap.set(status, cancel);
       }

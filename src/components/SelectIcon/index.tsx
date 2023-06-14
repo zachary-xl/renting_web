@@ -14,7 +14,7 @@ export default defineComponent({
         iconList.value = icons.filter(item => item.indexOf(iconName.value) !== -1);
       }
     };
-    const selectedIcon = (name) => {
+    const selectedIcon = name => {
       emit("selected", name);
       document.body.click();
     };
@@ -36,16 +36,17 @@ export default defineComponent({
           onInput={_ => filterIcons()}
           onClear={_ => filterIcons()}
         />
-        <div class="h-52 overflow-y-auto my-2">
-          {
-            iconList.value.map((item, index) => (
-              <div class="w-1/3 h-8 leading-8 cursor-pointer -mb-2 float-left flex items-center" key={index}
-                   onClick={e => selectedIcon(item)}>
-                <svg-icon icon-class={item} style="height: 30px;width: 16px;" />
-                <span class="inline-block fill-current overflow-hidden pl-2">{item}</span>
-              </div>
-            ))
-          }
+        <div class="my-2 h-52 overflow-y-auto">
+          {iconList.value.map((item, index) => (
+            <div
+              class="float-left -mb-2 flex h-8 w-1/3 cursor-pointer items-center leading-8"
+              key={index}
+              onClick={e => selectedIcon(item)}
+            >
+              <svg-icon icon-class={item} style="height: 30px;width: 16px;" />
+              <span class="inline-block overflow-hidden fill-current pl-2">{item}</span>
+            </div>
+          ))}
         </div>
       </div>
     );

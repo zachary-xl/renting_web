@@ -3,18 +3,8 @@
     <CustomQuery />
     <!--    <CustomTable />-->
     <!--    <CustomQuery v-model:search-params="tableParams" :items="formConfig" />-->
-    <Table
-      ref="tableRef"
-      :columnConfig="contentTableConfig"
-      :handel-delete="handelDelete"
-      :handle-edit="handleEdit"
-    ></Table>
-    <Pagination
-      v-model:limit="limit"
-      v-model:page="page"
-      :total="100"
-      @pagination="pagination"
-    />
+    <Table ref="tableRef" :columnConfig="contentTableConfig" :handel-delete="handelDelete" :handle-edit="handleEdit"></Table>
+    <Pagination v-model:limit="limit" v-model:page="page" :total="100" @pagination="pagination" />
     <Dialog v-model:visible="visible" :config="menuConfig" @submitForm="submitForm" />
   </div>
 </template>
@@ -30,13 +20,13 @@ import formConfig from "./form.config";
 
 const visible = ref(false);
 const tableParams = ref({});
-const submitForm = (form) => {
+const submitForm = form => {
   console.log(form);
 };
-const handelDelete = (form) => {
+const handelDelete = form => {
   console.log(form);
 };
-const handleEdit = (form) => {
+const handleEdit = form => {
   console.log(form);
 };
 
@@ -46,6 +36,4 @@ watchEffect(() => {
   console.log("page", page);
   console.log("limit", limit);
 });
-
 </script>
-

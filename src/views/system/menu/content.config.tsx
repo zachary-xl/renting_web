@@ -7,15 +7,19 @@ export default [
     width: 80,
     type: "index"
   },
-  { label: "员工姓名", prop: "staffName",align: "center", },
+  { label: "员工姓名", prop: "staffName", align: "center" },
   {
     label: "角色",
     align: "center",
     render(props) {
       const { roleVOList } = props.row;
       return [
-        roleVOList.map((item) => {
-          return <ElTag type="success" class="mx-1">{item}</ElTag>;
+        roleVOList.map(item => {
+          return (
+            <ElTag type="success" class="mx-1">
+              {item}
+            </ElTag>
+          );
         })
       ];
     }

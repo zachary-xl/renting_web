@@ -6,7 +6,7 @@ const link = computed(() => route?.meta?.link);
 </script>
 
 <template>
-  <div :key="link" class="flex flex-1 flex-col w-full h-full overflow-hidden">
-    <iframe :src="link" class="flex flex-1 flex-col h-full w-full border-0" />
+  <div :key="link" class="flex h-full w-full flex-1 flex-col overflow-hidden">
+    <iframe :src="link" class="flex h-full w-full flex-1 flex-col border-0" />
   </div>
 </template>

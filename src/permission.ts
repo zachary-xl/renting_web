@@ -17,33 +17,32 @@ router.beforeEach(async (to, _, next) => {
   if (!isLogin) {
     //  如果token不存在就跳转到登录页面
     if (!whiteList.includes(to.path)) {
-      next({
+      return next({
         path: "/login",
         query: {
           redirect: encodeURIComponent(to.fullPath)
         }
       });
-      return;
     }
   } else {
     if (!role && !whiteList.includes(to.path)) {
       try {
         // await authStore[USER_INFO_ACTION]();
-        const routes = await authStore[MENUS_ACTION]();
+        await authStore[MENUS_ACTION]();
         role = true;
         return next({ ...to, replace: true });
       } catch (e) {
         if (e instanceof AxiosError && e?.response?.status === 401) {
-          next({ path: "/401" });
+          return next({ path: "/401" });
         }
       }
     } else {
       if (to.path === "/login") {
-        return next({ path: "/" });
+        return next({ path: "/login" });
       }
     }
   }
-  next();
+  return next();
 });
 
 router.afterEach((to) => {

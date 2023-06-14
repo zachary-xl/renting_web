@@ -1,9 +1,9 @@
 <template>
   <div
     :style="{ 'padding-left': settingStore[GET_IS_EXPAND_WIDTH] + 'px', position: settingStore[GET_IS_FIXED_HEADER_POSITION] }"
-    class="w-full page"
+    class="page w-full"
   >
-    <el-header class="w-full bg-white flex justify-between items-center" style="box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08); height: 50px">
+    <el-header class="flex w-full items-center justify-between bg-white" style="box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08); height: 50px">
       <div class="cursor-pointer">
         <el-icon size="20" @click="settingStore[TOGGlE_EXPAND_ACTION]">
           <component :is="isExpand ? Expand : Fold" />

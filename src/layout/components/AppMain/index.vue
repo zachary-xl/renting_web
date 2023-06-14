@@ -3,7 +3,7 @@
     :style="{ 'padding-left': settingStore[GET_IS_EXPAND_WIDTH] + 'px', 'padding-top': settingStore[GET_IS_FIXED_HEADER_TOP] }"
     class="page"
   >
-    <section class="app-main w-full h-full">
+    <section class="app-main h-full w-full">
       <RouterView>
         <template v-slot="{ Component, route }">
           <transition mode="out-in" name="fade-transform">

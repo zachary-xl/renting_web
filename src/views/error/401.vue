@@ -1,14 +1,14 @@
 <template>
-  <div class="w-full h-full overflow-hidden bg-[#fff]">
-    <div class="w-[800px] max-w-full my-28 mx-auto">
-      <el-button style="background-color: #008489; color: #fff" class="border-0 my-5" @click="back"> 返回</el-button>
+  <div class="h-full w-full overflow-hidden bg-[#fff]">
+    <div class="mx-auto my-28 w-[800px] max-w-full">
+      <el-button style="background-color: #008489; color: #fff" class="my-5 border-0" @click="back"> 返回</el-button>
       <el-row>
         <el-col :span="12">
           <h1 class="text-6xl font-bold text-[#484848]">401错误!</h1>
           <h2 class="my-2 text-sm">您没有访问权限！</h2>
           <h6 class="my-2 text-sm">对不起，您没有访问权限，请不要进行非法操作！您可以返回主页面</h6>
           <router-link to="/">
-            <a class="text-[#008489] no-underline text-base hover:underline">回首页</a>
+            <a class="text-base text-[#008489] no-underline hover:underline">回首页</a>
           </router-link>
         </el-col>
         <el-col :span="12">

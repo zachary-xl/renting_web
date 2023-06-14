@@ -24,14 +24,14 @@ export default defineStore("user", {
       formData.append("password", password);
       return new Promise((resolve, reject) => {
         postLoginAPI(formData)
-          .then((res) => {
+          .then(res => {
             resolve(res);
           })
           .catch(reject);
       });
     },
     [LOGOUT_ACTION]() {
-      return new Promise(async (resolve) => {
+      return new Promise(async resolve => {
         clearStorage();
         await localforage.clear();
         resolve(true);

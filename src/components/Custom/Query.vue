@@ -1,12 +1,7 @@
 <template>
   <div>
     <el-row :gutter="18" style="display: block !important">
-      <el-form
-        ref="form"
-        :inline="true"
-        :label-width="`${labelWidth}px`"
-        class="form_flex"
-      >
+      <el-form ref="form" :inline="true" :label-width="`${labelWidth}px`" class="form_flex">
         <el-col v-for="(item, index) of items" :key="index" v-bind="colLayout">
           <el-form-item :label="item.name">
             <template v-if="item.slot">
@@ -36,12 +31,8 @@
               <el-option
                 v-for="(option, i) of item.options"
                 :key="i"
-                :label="
-                  option[(item['props'] && item['props']['key']) || 'label']
-                "
-                :value="
-                  option[(item['props'] && item['props']['value']) || 'value']
-                "
+                :label="option[(item['props'] && item['props']['key']) || 'label']"
+                :value="option[(item['props'] && item['props']['value']) || 'value']"
               />
             </el-select>
             <el-cascader
@@ -109,7 +100,7 @@
 <script lang="ts" name="CustomQuery" setup>
 import { onMounted, ref, reactive } from "vue";
 import { Refresh, Search } from "@element-plus/icons-vue";
-import cloneDeep from "loadsh/cloneDeep"
+import cloneDeep from "loadsh/cloneDeep";
 const props = defineProps({
   labelWidth: {
     type: Number,
@@ -118,12 +109,12 @@ const props = defineProps({
   // 表单配置
   items: {
     type: Array,
-    default: () => ([])
+    default: () => []
   },
   // 表单参数
   searchParams: {
     type: Object,
-    default: () => ([])
+    default: () => []
   },
   btnWidth: {
     type: Number,
@@ -144,10 +135,7 @@ const emits = defineEmits(["update:searchParams", "change", "search", "reset"]);
 const form = reactive({
   initSearchParams: {}
 });
-const defaultTime = ref([
-  new Date(2000, 1, 1, 0, 0, 0),
-  new Date(2000, 2, 1, 23, 59, 59)
-]);
+const defaultTime = ref([new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 2, 1, 23, 59, 59)]);
 
 onMounted(() => {
   // 保存初始值
@@ -176,7 +164,7 @@ const handleReset = () => {
   emits("change", cpValue);
   emits("reset", cpValue);
 };
-const setAttrs = (params) => {
+const setAttrs = params => {
   const { slot, ...options } = params;
   return { ...options, slot };
 };

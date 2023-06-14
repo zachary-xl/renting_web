@@ -33,7 +33,7 @@ const props = defineProps({
   },
   pageSizes: {
     type: Array,
-    default: () => ([10, 20, 50, 100])
+    default: () => [10, 20, 50, 100]
   },
   layout: {
     type: String,
@@ -65,10 +65,10 @@ const pageSize = computed({
     emits("update:limit", newValue);
   }
 });
-const handleSizeChange = (val) => {
+const handleSizeChange = val => {
   emits("pagination", { page: currentPage.value, limit: val });
 };
-const handleCurrentChange = (val) => {
+const handleCurrentChange = val => {
   emits("pagination", { page: val, limit: pageSize.value });
 };
 </script>

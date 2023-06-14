@@ -9,18 +9,12 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    CustomDialog: typeof import('./src/components/Custom/CustomDialog.vue')['default']
-    CustomPagination: typeof import('./src/components/Custom/CustomPagination.vue')['default']
-    CustomQuery: typeof import('./src/components/Custom/CustomQuery.vue')['default']
-    CustomRender: typeof import('./src/components/Custom/CustomRender.vue')['default']
-    CustomTable: typeof import('./src/components/Custom/CustomTable.vue')['default']
     Dialog: typeof import('./src/components/Custom/Dialog.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
     ElCascader: typeof import('element-plus/es')['ElCascader']
-    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElContainer: typeof import('element-plus/es')['ElContainer']

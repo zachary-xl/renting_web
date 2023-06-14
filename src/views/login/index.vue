@@ -1,10 +1,10 @@
 <template>
-  <div class="w-full h-full flex rounded-xl relative">
+  <div class="relative flex h-full w-full rounded-xl">
     <el-image :src="image" alt="安居" class="flex-1" fit="fill" lazy />
-    <div class="w-[450px] flex-col bg-white relative px-16">
-      <div class="w-full h-full flex flex-col justify-center">
-        <h1 class="text-2xl font-bold text-center text-slate-900 py-4 text-[#00a8ff]">登录</h1>
-        <div class="form__box flex my-5 relative">
+    <div class="relative w-[450px] flex-col bg-white px-16">
+      <div class="flex h-full w-full flex-col justify-center">
+        <h1 class="py-4 text-center text-2xl font-bold text-[#00a8ff] text-slate-900">登录</h1>
+        <div class="form__box relative my-5 flex">
           <span class="form__box__label h-full">账号</span>
           <input
             v-model="formData.username"
@@ -17,7 +17,7 @@
           />
           <span v-show="isUserName" :style="{ width: isUserName ? 'auto' : '0' }" class="verify">请输入用户名/手机号</span>
         </div>
-        <div class="form__box flex my-5 relative">
+        <div class="form__box relative my-5 flex">
           <span class="form__box__label h-full">密码</span>
           <input
             v-model="formData.password"
@@ -33,12 +33,12 @@
             <Hide v-show="!isEye" />
           </el-icon>
         </div>
-        <el-button class="w-full mt-5" color="#c6cdd3" plain size="large" @click="submitForm"> 登录 </el-button>
+        <el-button class="mt-5 w-full" color="#c6cdd3" plain size="large" @click="submitForm"> 登录 </el-button>
         <div class="mt-4">
           <el-checkbox v-model="formData.remember" label="记住我" />
         </div>
       </div>
-      <div class="copyright absolute w-full text-center bottom-5 left-0 -translate-y-1/2">Copyright (c) 2023 未知科技</div>
+      <div class="copyright absolute bottom-5 left-0 w-full -translate-y-1/2 text-center">Copyright (c) 2023 未知科技</div>
     </div>
   </div>
 </template>
@@ -80,7 +80,7 @@ const submitForm = async () => {
       removeStorage("remember");
     }
 
-    authStore[LOGIN_ACTION](toRaw(formData)).then((res) => {
+    authStore[LOGIN_ACTION](toRaw(formData)).then(res => {
       router.push("/");
     });
   }

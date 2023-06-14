@@ -2,6 +2,45 @@
 label {
   font-weight: 700;
 }
+
 .el-input {
   min-width: 220px;
+}
+
+.el-input-number, .el-select {
+  width: 100% !important;
+}
+
+.el-table {
+
+  .el-table__header-wrapper, .el-table__header {
+    background-color: #00a8ff !important;
+
+    & th {
+      word-break: break-word;
+      background-color: #f8f8f9 !important;
+      color: #515a6e;
+      height: 40px !important;
+      font-size: 13px;
+    }
+  }
+
+  .el-table__body-wrapper {
+    .el-button.is-text {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .el-button [class*="el-icon-"] + span {
+      margin-left: 1px;
+    }
+  }
+}
+.el-pagination{
+  position: absolute;
+  top: 10px;
+  right: 0;
+  .el-input {
+    min-width: 37px;
+  }
 }

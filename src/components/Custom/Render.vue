@@ -15,12 +15,11 @@ export default defineComponent({
     }
   },
   setup(props: any, { attrs }) {
-    return () => (
+    return () =>
       props.render({
         ...props,
         ...attrs
-      })
-    );
+      });
   }
 });
 </script>

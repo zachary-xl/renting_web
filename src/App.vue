@@ -11,6 +11,7 @@ import type { Language } from "element-plus/es/locale";
 import { useDark } from "@vueuse/core";
 import zhCn from "element-plus/dist/locale/zh-cn";
 
+console.log(12312);
 const locale = ref(zhCn) as Language;
 useDark();
 </script>

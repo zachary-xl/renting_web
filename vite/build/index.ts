@@ -5,7 +5,7 @@ export default function createViteBuild(): BuildOptions {
   return {
     // target: "es2015",
     outDir: "./build", // 设置打包文件夹名称
-    cssCodeSplit: true,// css 拆分
+    cssCodeSplit: true, // css 拆分
     assetsInlineLimit: 5000, // 小于该值 图片打包成 Base64
     chunkSizeWarningLimit: 2000,
     minify: "terser", // 指定混淆器  terser需要安装包
