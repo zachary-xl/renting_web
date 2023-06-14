@@ -61,10 +61,10 @@ const pageSize = computed({
     emits("update:limit", newValue);
   }
 });
-const handleSizeChange = val => {
+const handleSizeChange = (val) => {
   emits("pagination", { page: currentPage.value, limit: val });
 };
-const handleCurrentChange = val => {
+const handleCurrentChange = (val) => {
   emits("pagination", { page: val, limit: pageSize.value });
 };
 </script>

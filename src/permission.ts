@@ -45,7 +45,7 @@ router.beforeEach(async (to, _, next) => {
   return next();
 });
 
-router.afterEach(to => {
+router.afterEach((to) => {
   NProgress.done();
   // TODO
   // const title = to.meta?.title;

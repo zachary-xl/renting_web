@@ -40,16 +40,16 @@ const props = defineProps({
   }
 });
 const emits = defineEmits(["selectionChange"]);
-onBeforeMount(()=>{
-  state.loading = true
-})
+onBeforeMount(() => {
+  state.loading = true;
+});
 const state = reactive({
   loading: false
 });
-onMounted(()=>{
-  state.loading = false
-})
-const selectionChange = selections => {
+onMounted(() => {
+  state.loading = false;
+});
+const selectionChange = (selections) => {
   emits("selectionChange", selections);
 };
 </script>

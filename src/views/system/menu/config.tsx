@@ -199,4 +199,3 @@ export const dialogConfig = [
     value: ""
   }
 ] as ICustomDialog.IConfig[];
-

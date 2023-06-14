@@ -36,20 +36,20 @@ export const getStorage = (k: string) => {
   }
 };
 // 是否存在 hasStorage
-export const hasStorage = key => {
+export const hasStorage = (key) => {
   const k = autoAddPrefix(key);
-  const arr = getStorageAll().filter(item => item.key === k);
+  const arr = getStorageAll().filter((item) => item.key === k);
   return !!arr.length;
 };
 // 获取所有key
 export const getStorageKeys = () => {
-  return getStorageAll().map(item => {
+  return getStorageAll().map((item) => {
     return item.key;
   });
 };
 // 获取全部 getAllStorage
 export const getStorageAll = () => {
-  return Object.keys(window[config.type]).map(key => {
+  return Object.keys(window[config.type]).map((key) => {
     const val = window[config.type].getItem(key);
     return { key, val };
   });

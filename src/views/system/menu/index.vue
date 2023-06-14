@@ -1,8 +1,14 @@
 <template>
   <div class="app-container">
     <Query />
-    <Table ref="tableRef" :columnConfig="tableConfig" :handel-delete="handelDelete" :handle-edit="handleEdit"
-           :table-attr="{border:false,'row-key':'id'}" :table-data="tableData"></Table>
+    <Table
+      ref="tableRef"
+      :columnConfig="tableConfig"
+      :handel-delete="handelDelete"
+      :handle-edit="handleEdit"
+      :table-attr="{ border: false, 'row-key': 'id' }"
+      :table-data="tableData"
+    ></Table>
     <Pagination v-model:limit="limit" v-model:page="page" :total="100" @pagination="pagination" />
     <Dialog v-model:visible="visible" :config="dialogConfig" @submitForm="submitForm" />
   </div>
@@ -55,13 +61,13 @@ const tableData: any[] = [
   }
 ];
 const visible = ref(false);
-const submitForm = form => {
+const submitForm = (form) => {
   console.log(form);
 };
-const handelDelete = form => {
+const handelDelete = (form) => {
   console.log(form);
 };
-const handleEdit = form => {
+const handleEdit = (form) => {
   console.log(form);
 };
 const pagination = (e) => {

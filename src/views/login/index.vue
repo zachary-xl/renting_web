@@ -80,7 +80,7 @@ const submitForm = async () => {
       removeStorage("remember");
     }
 
-    authStore[LOGIN_ACTION](toRaw(formData)).then(res => {
+    authStore[LOGIN_ACTION](toRaw(formData)).then((res) => {
       router.push("/");
     });
   }

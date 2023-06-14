@@ -10,10 +10,10 @@ export default defineComponent({
     const filterIcons = () => {
       iconList.value = icons;
       if (iconName.value) {
-        iconList.value = icons.filter(item => item.indexOf(iconName.value) !== -1);
+        iconList.value = icons.filter((item) => item.indexOf(iconName.value) !== -1);
       }
     };
-    const selectedIcon = name => {
+    const selectedIcon = (name) => {
       emit("selected", name);
       document.body.click();
     };
@@ -32,15 +32,15 @@ export default defineComponent({
           v-model={iconName.value}
           clearable
           placeholder="请输入图标名称"
-          onInput={_ => filterIcons()}
-          onClear={_ => filterIcons()}
+          onInput={(_) => filterIcons()}
+          onClear={(_) => filterIcons()}
         />
         <div class="my-2 h-52 overflow-y-auto">
           {iconList.value.map((item, index) => (
             <div
               class="float-left -mb-2 flex h-8 w-1/3 cursor-pointer items-center leading-8"
               key={index}
-              onClick={e => selectedIcon(item)}
+              onClick={(e) => selectedIcon(item)}
             >
               <svg-icon icon-class={item} style="height: 30px;width: 16px;" />
               <span class="inline-block overflow-hidden fill-current pl-2">{item}</span>
