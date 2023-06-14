@@ -15,7 +15,7 @@
   </el-form>
 </template>
 
-<script lang="ts" name="QueryForm" setup>
+<script lang="ts" name="CustomQuery" setup>
 import { reactive } from "vue";
 import { Search, Refresh } from "@element-plus/icons-vue";
 
