@@ -1,9 +1,9 @@
 import MyRequest from "./request";
-import { BASE_URL, TIMER_OUT } from "@/model";
+import { configSource } from "@/config";
 
 const request = new MyRequest({
-  baseURL: BASE_URL,
-  timeout: Number(TIMER_OUT),
+  baseURL: configSource.appEnv === "development" ? configSource.baseUrl : configSource.serverUrl,
+  timeout: configSource.timeout,
   withCredentials: true
 });
 

@@ -1,8 +1,8 @@
 <template>
   <el-config-provider :locale="locale">
-    <router-view v-slot="{ Component }">
+    <RouterView v-slot="{ Component }">
       <component :is="Component"></component>
-    </router-view>
+    </RouterView>
   </el-config-provider>
 </template>
 
@@ -10,8 +10,8 @@
 import type { Language } from "element-plus/es/locale";
 import { useDark } from "@vueuse/core";
 import zhCn from "element-plus/dist/locale/zh-cn";
-
-console.log(12312);
+import consola from "consola";
+consola.info(123);
 const locale = ref(zhCn) as Language;
 useDark();
 </script>

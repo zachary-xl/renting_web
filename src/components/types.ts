@@ -6,7 +6,7 @@ export interface ISvgIconProps {
   color?: string;
 }
 
-export namespace ICustomDialog {
+export namespace IDialog {
   export interface IConfig {
     type: "input" | "tree-select" | "input-number" | "radio-group" | "icon" | "textarea";
     prop: string;
@@ -27,5 +27,15 @@ export namespace ICustomDialog {
   export interface ILabel {
     title: string;
     content?: string;
+  }
+}
+export namespace ITable {
+  export interface IColumn {
+    width?: number;
+    label?: string;
+    prop?: string;
+    render?: Function;
+    align?: string;
+    type?: string;
   }
 }

@@ -7,7 +7,7 @@ export default function createViteBuild(): BuildOptions {
     outDir: "./build", // 设置打包文件夹名称
     cssCodeSplit: true, // css 拆分
     assetsInlineLimit: 5000, // 小于该值 图片打包成 Base64
-    chunkSizeWarningLimit: 2000,
+    chunkSizeWarningLimit: 2000, // 规定触发警告的 chunk 大小，消除打包大小超过500kb警告
     minify: "terser", // 指定混淆器  terser需要安装包
     terserOptions: {
       // 传递给 Terser 的选项
@@ -25,8 +25,8 @@ export default function createViteBuild(): BuildOptions {
       },
       output: {
         // dir:"build",
-        entryFileNames: "js/[name]-[hash]-[format].js",
-        chunkFileNames: "js/[name]-[hash]-[format].js",
+        entryFileNames: "static/js/[name]-[hash]-[format].js",
+        chunkFileNames: "static/js/[name]-[hash]-[format].js",
         assetFileNames(chunkInfo): string {
           const suffix = chunkInfo.name.split(".").pop().toLowerCase();
           if (["jpg", "png", "gif", "jpeg", "webp", "svg"].indexOf(suffix) > -1) {

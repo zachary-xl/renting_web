@@ -14,6 +14,8 @@
 </template>
 
 <script lang="ts" name="Table" setup>
+import type { PropType } from "vue";
+import type { ITable } from "@/components/types";
 import { reactive } from "vue";
 import Render from "./Render";
 
@@ -23,7 +25,7 @@ const props = defineProps({
     required: true
   },
   columnConfig: {
-    type: Array,
+    type: Array as PropType<ITable.IColumn[]>,
     default: () => []
   },
   // table组件的属性设置

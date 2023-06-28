@@ -2,7 +2,7 @@
   <div class="logo-container">
     <router-link class="logo-container-link" to="/">
       <el-image :src="logo" alt="logo" class="logo-container-link-img" fit="contain" />
-      <h1 :style="style" class="logo-container-link-title">{{ title }}</h1>
+      <h1 :style="style" class="logo-container-link-title">{{ configSource.projectName }}</h1>
     </router-link>
   </div>
 </template>
@@ -10,6 +10,7 @@
 <script lang="ts" name="SideLogo" setup>
 import { computed } from "vue";
 import { useSettingStoreToRefs } from "@/hooks";
+import { configSource } from "@/config";
 
 const { isExpand } = useSettingStoreToRefs();
 const logo = computed(() => new URL("@/assets/images/icons/logo.png", import.meta.url).href);
@@ -19,7 +20,6 @@ const style = computed(() => {
     "padding-left": isExpand ? "12px" : "0"
   };
 });
-const title = "安居后台管理";
 </script>
 
 <style lang="scss" scoped>

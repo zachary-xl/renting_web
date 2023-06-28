@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" name="Menu" setup>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import Query from "./Query.vue";
 import { Dialog, Table, Pagination } from "@/components";
 import { tableConfig, dialogConfig } from "./config";
@@ -60,7 +60,7 @@ const tableData: any[] = [
     address: "No. 189, Grove St, Los Angeles"
   }
 ];
-const visible = ref(false);
+const visible = ref(true);
 const submitForm = form => {
   console.log(form);
 };

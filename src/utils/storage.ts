@@ -1,7 +1,7 @@
-import { STORAGE_TYPE, STORAGE_IS_EXPIRE } from "@/model";
+import { configSource } from "@/config";
 
 const config = {
-  type: STORAGE_TYPE, // 本地存储类型
+  type: configSource.storage, // 本地存储类型
   prefix: "", // 名称前缀
   expire: 100000 //过期时间 单位：秒
 };
@@ -17,7 +17,7 @@ export const setStorage = (key: string, value: unknown, expire: number = 0) => {
     value: value, // 存储值
     time: Date.now() //存值时间戳
   };
-  if (JSON.parse(STORAGE_IS_EXPIRE)) data["expire"] = (expire ? expire : config.expire) * 1000; // 过期时间
+  if (configSource.storageIsExpire) data["expire"] = (expire ? expire : config.expire) * 1000; // 过期时间
   window[config.type].setItem(autoAddPrefix(key), JSON.stringify(data));
 };
 // 获取 getStorage
@@ -27,7 +27,7 @@ export const getStorage = (k: string) => {
   if (JSON.stringify(val) === "null" || !val) return null;
   const storage = JSON.parse(val);
   const nowTime = Date.now();
-  if (JSON.parse(STORAGE_IS_EXPIRE) && storage.expire && config.expire * 6000 < nowTime - storage.time) {
+  if (configSource.storageIsExpire && storage.expire && config.expire * 6000 < nowTime - storage.time) {
     removeStorage(key);
     return null;
   } else {

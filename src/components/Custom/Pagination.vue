@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts" name="Pagination" setup>
+import type { PropType } from "vue";
 import { computed } from "vue";
 
 const props = defineProps({
@@ -32,7 +33,7 @@ const props = defineProps({
     default: 10
   },
   pageSizes: {
-    type: Array,
+    type: Array as PropType<number[]>,
     default: () => [10, 20, 50, 100]
   },
   layout: {

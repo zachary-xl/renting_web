@@ -1,16 +1,16 @@
 import type { ServerOptions } from "vite";
 
-export default function createViteServer(): ServerOptions {
+export default function createViteServer(baseUrl, serverUrl): ServerOptions {
   return {
     host: "0.0.0.0",
     port: 3000,
     hmr: true,
     open: true,
     proxy: {
-      "/api": {
-        target: "https://ui34702984.yicp.fun",
+      [baseUrl]: {
+        target: serverUrl,
         changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, "/api")
+        rewrite: path => path.replace(baseUrl, baseUrl)
       }
     }
   };

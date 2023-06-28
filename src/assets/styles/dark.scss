@@ -1,0 +1,11 @@
+:root {
+  --color-body-bg: #ffffff;
+  --color-text: #000;
+  --color-secondary-bg-for-transparent: rgba(209, 209, 214, 0.28);
+}
+
+html[data-theme="dark"] {
+  --color-body-bg: #222222;
+  --color-text: #ffffff;
+  --color-primary-bg-for-transparent: rgba(255, 255, 255, 0.12);
+}

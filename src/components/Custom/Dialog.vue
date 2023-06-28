@@ -74,7 +74,7 @@
 <script lang="ts" name="Dialog" setup>
 import type { PropType } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
-import type { ICustomDialog } from "../types";
+import type { IDialog } from "../types";
 import { ref, reactive, toRaw } from "vue";
 import { ElTreeSelect } from "element-plus";
 import { QuestionFilled, Search } from "@element-plus/icons-vue";
@@ -91,7 +91,7 @@ const props = defineProps({
     default: "添加"
   },
   config: {
-    type: Array as PropType<ICustomDialog.IConfig[]>,
+    type: Array as PropType<IDialog.IConfig[]>,
     default: []
   }
 });

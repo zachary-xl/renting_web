@@ -1,7 +1,8 @@
 import type { PluginOption } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
-import VueSetupExtend from "vite-plugin-vue-setup-extend-plus";
+import VueSetupExtend from "vite-plugin-vue-setup-extend-plus/dist";
+import { createHtmlPlugin } from "vite-plugin-html";
 
 import Legacy from "./Legacy";
 import Icons from "./Icons";
@@ -10,7 +11,6 @@ import Components from "./Components";
 import Compression from "./Compression";
 import StyleImport from "./StyleImport";
 import CreateSvgIcons from "./CreateSvgIcons";
-
 export default function createVitePlugins(viteEnv, isBuild = false): PluginOption[] {
   const plugins: PluginOption[] = [
     vue({
@@ -21,7 +21,21 @@ export default function createVitePlugins(viteEnv, isBuild = false): PluginOptio
       }
     }), // vue vite 对 vue 支持
     vueJsx(), // vueJsx vite 对 jsx 支持
-    VueSetupExtend.default() // 定义组件的 name 值
+    VueSetupExtend(), // 定义组件的 name 值
+    createHtmlPlugin({
+      minify: true,
+      pages: [
+        {
+          filename: "index.html",
+          template: "/index.html",
+          entry: "src/main.ts"
+        },
+        {
+          filename: "ie.html",
+          template: "/ie.html"
+        }
+      ]
+    })
   ];
   plugins.push(Legacy());
   plugins.push(Icons());

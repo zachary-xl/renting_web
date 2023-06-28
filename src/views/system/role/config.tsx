@@ -1,19 +1,69 @@
 import { IDialog, ITable } from "@/components/types";
 import { h } from "vue";
-import { ElDivider, ElLink } from "element-plus";
+import { ElDivider, ElLink, ElTag } from "element-plus";
+
+const Status = {
+  "0": "info",
+  "1": "success",
+  "2": "warning",
+  "3": "danger"
+};
 
 export const tableConfig: ITable.IColumn[] = [
   {
-    label: "时间",
-    prop: "date"
+    label: "编号",
+    width: 80,
+    type: "index"
+  },
+  { label: "员工姓名", prop: "staffName", align: "center" },
+  {
+    label: "角色",
+    align: "center",
+    render(props) {
+      const { roleVOList } = props.row;
+      return [
+        roleVOList.map(item => {
+          return (
+            <ElTag type="success" class="mx-1">
+              {item}
+            </ElTag>
+          );
+        })
+      ];
+    }
+  },
+  { label: "手机号", prop: "phone" },
+  { label: "邮箱", prop: "email" },
+  { label: "创建时间", prop: "createTime" },
+  {
+    label: "状态",
+    width: 100,
+    align: "center",
+    render(props) {
+      const { row } = props;
+      console.log(row);
+      return [
+        <ElTag effect="dark" type={Status[row!.state]}>
+          {["启用", "停用", "启用", "停用"][row.state]}
+        </ElTag>
+      ];
+    }
   },
   {
-    label: "名字",
-    prop: "name"
-  },
-  {
-    label: "地址",
-    prop: "address"
+    label: "操作",
+    align: "center",
+    render(props) {
+      const { row } = props;
+      return [
+        <ElLink type="primary" onClick={() => props["handle-edit"](row)}>
+          编辑
+        </ElLink>,
+        <ElDivider direction="vertical" />,
+        <ElLink type="danger" onClick={() => props["handel-delete"](row)}>
+          删除
+        </ElLink>
+      ];
+    }
   }
 ];
 export const dialogConfig = [
