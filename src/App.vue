@@ -3,6 +3,9 @@
     <RouterView v-slot="{ Component }">
       <component :is="Component"></component>
     </RouterView>
+
+
+    3123
   </el-config-provider>
 </template>
 

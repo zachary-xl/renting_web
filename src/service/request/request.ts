@@ -65,6 +65,7 @@ export default class MyRequest implements IRequest {
           ElMessage({ type: "error", message: response.data.message });
           return Promise.reject(response.data);
         }
+
         return this.reduceDataFormat ? response.data : response;
       },
       error => {

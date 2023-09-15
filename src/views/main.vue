@@ -1,7 +1,18 @@
 <template>
-  <div>main</div>
+  <div class="wrapper">
+    <button @click="settingStore[TOGGLE_THEME_ACTION](isThemed)">切换</button>
+  </div>
 </template>
 
-<script lang="ts" name="Main" setup></script>
+<script lang="ts" name="Main" setup>
+import { useSettingStoreToRefs } from "@/hooks";
+import { TOGGLE_THEME_ACTION } from "@/model";
 
-<style scoped></style>
+const { settingStore, isThemed } = useSettingStoreToRefs();
+</script>
+
+<style scoped>
+.wrapper {
+
+}
+</style>

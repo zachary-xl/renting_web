@@ -1,19 +1,22 @@
 import { defineStore } from "pinia";
+import {initTheme} from "@/config";
 import {
   GET_IS_EXPAND_WIDTH,
   GET_IS_FULLSCREEN,
+  GET_IS_FIXED_HEADER_POSITION,
+  GET_IS_FIXED_HEADER_TOP,
   TOGGlE_EXPAND_ACTION,
   TOGGlE_FULLSCREEN_ACTION,
-  GET_IS_FIXED_HEADER_POSITION,
-  GET_IS_FIXED_HEADER_TOP
+  TOGGLE_THEME_ACTION
 } from "@/model";
-import type { IState } from "./types";
+import type { IState, TTheme } from "./types";
 
 export default defineStore("settings", {
   state: (): IState => ({
     isExpand: true, // 是否展开
     isFullScreen: false, // 是否全屏
-    isFixedHeader: true // 是否固定头部
+    isFixedHeader: true, // 是否固定头部
+    isThemed: "light" // 当前主题状态
   }),
   getters: {
     [GET_IS_EXPAND_WIDTH](state) {
@@ -41,6 +44,10 @@ export default defineStore("settings", {
     },
     [TOGGlE_FULLSCREEN_ACTION]() {
       this.isFullScreen = !this.isFullScreen;
+    },
+    [TOGGLE_THEME_ACTION](theme: TTheme) {
+      this.isThemed = theme === "light" ? "dark" : "light";
+      initTheme(this.isThemed);
     }
   },
   persist: {

@@ -67,16 +67,16 @@ export function formatTree(list) {
       ...item,
       children: dataMap[id]?.children || []
     };
-    let tempItem = dataMap[id];
+    let curItem = dataMap[id];
     if (pid === 0) {
-      result.push(tempItem);
+      result.push(curItem);
     } else {
       if (!dataMap[pid]) {
         dataMap[pid] = {
           children: []
         };
       }
-      dataMap[pid]["children"].push(tempItem);
+      dataMap[pid]["children"].push(curItem);
     }
   }
   return result;
