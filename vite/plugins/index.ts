@@ -1,7 +1,6 @@
 import type { PluginOption } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
-import VueSetupExtend from "vite-plugin-vue-setup-extend-plus/dist";
 import { createHtmlPlugin } from "vite-plugin-html";
 import { visualizer } from "rollup-plugin-visualizer";
 
@@ -23,7 +22,6 @@ export default function createVitePlugins(viteEnv: Record<string, string>, isBui
       }
     }), // vue vite 对 vue 支持
     vueJsx(), // vueJsx vite 对 jsx 支持
-    VueSetupExtend, // 定义组件的 name 值
     createHtmlPlugin({
       minify: true,
       pages: [
@@ -45,7 +43,7 @@ export default function createVitePlugins(viteEnv: Record<string, string>, isBui
   plugins.push(Components());
   plugins.push(StyleImport());
   plugins.push(CreateSvgIcons());
-  isBuild && plugins.push(visualizer({ open: true }));
+  isBuild && plugins.push(visualizer());
   isBuild && plugins.push(Compression(viteEnv));
   return plugins;
 }

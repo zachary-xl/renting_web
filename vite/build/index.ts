@@ -17,7 +17,7 @@ export default function createViteBuild(): BuildOptions {
       }
     },
     manifest: true, // 生成 manifest.json文件 输入源文件和 hash 后文件的映射
-    sourcemap: true, // 生成 sourcemap 文件映射 定位错误查看源代码等
+    sourcemap: false, // 生成 sourcemap 文件映射 定位错误查看源代码等
     rollupOptions: {
       input: {
         index: path.resolve(__dirname, "../../index.html"),
@@ -30,12 +30,12 @@ export default function createViteBuild(): BuildOptions {
         assetFileNames(chunkInfo): string {
           const suffix = chunkInfo.name.split(".").pop().toLowerCase();
           if (["jpg", "png", "gif", "jpeg", "webp", "svg"].indexOf(suffix) > -1) {
-            return "img/[name]-[hash].[ext]";
+            return "static/img/[name]-[hash].[ext]";
           }
           if (["eot", "ttf", "svg", "woff", "woff2"].indexOf(suffix) > -1) {
-            return "font/[name]-[hash].[ext]";
+            return "static/font/[name]-[hash].[ext]";
           }
-          return "[ext]/[name]-[hash].[ext]";
+          return "static/[ext]/[name]-[hash].[ext]";
         }
       }
     }
