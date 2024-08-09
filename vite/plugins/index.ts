@@ -13,7 +13,7 @@ import Compression from "./Compression";
 import StyleImport from "./StyleImport";
 import CreateSvgIcons from "./CreateSvgIcons";
 
-export default function createVitePlugins(viteEnv, isBuild = false): PluginOption[] {
+export default function createVitePlugins(viteEnv: Record<string, string>, isBuild = false): PluginOption[] {
   const plugins: PluginOption[] = [
     vue({
       template: {

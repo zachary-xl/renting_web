@@ -6,5 +6,3 @@ export const GET_IS_FIXED_HEADER_POSITION = "getIsFixedHeaderPosition";
 export const GET_IS_FIXED_HEADER_TOP = "getIsFixedHeaderTop";
 export const TOGGlE_EXPAND_ACTION = "toggleExpandAction";
 export const TOGGlE_FULLSCREEN_ACTION = "toggleFullScreenAction";
-
-

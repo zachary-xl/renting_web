@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script lang="ts" name="Main" setup>
+<script lang="ts" name="Mains" setup>
 import { useSettingStoreToRefs } from "@/hooks";
 import { TOGGLE_THEME_ACTION } from "@/model";
 
@@ -13,6 +13,5 @@ const { settingStore, isThemed } = useSettingStoreToRefs();
 
 <style scoped>
 .wrapper {
-
 }
 </style>

@@ -3,7 +3,7 @@
     <ScrollPanel ref="scrollPaneRef" class="tags-view-wrapper">
       <router-link v-for="tag of tagsViewStore[GET_TAGS_LIST]" :key="tag.path" :to="tag.path" active-class="active" class="tags-view-item">
         {{ tag.meta.title }}
-        <span v-if="!tag.isClose" class="close" @click.prevent.stop="closeSelectedTag(tag)"> &times; </span>
+        <span v-if="!tag.meta.isClose" class="close" @click.prevent.stop="closeSelectedTag(tag)"> &times; </span>
       </router-link>
     </ScrollPanel>
   </div>

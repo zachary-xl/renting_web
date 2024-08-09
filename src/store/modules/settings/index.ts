@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import {initTheme} from "@/config";
+import { initTheme } from "@/config";
 import {
   GET_IS_EXPAND_WIDTH,
   GET_IS_FULLSCREEN,
