@@ -7,11 +7,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { Language } from "element-plus/es/locale";
 import { useDark } from "@vueuse/core";
 import zhCn from "element-plus/dist/locale/zh-cn";
-import consola from "consola";
-consola.info(123);
+import type { Language } from "element-plus/es/locale";
 const locale = ref<Language>(zhCn);
 useDark();
 </script>

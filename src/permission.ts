@@ -9,7 +9,7 @@ import { AxiosError } from "axios";
 NProgress.configure({ showSpinner: false });
 const whiteList = ["/login", "/401", "/404"];
 
-let isLogin = true;
+let isLogin = false;
 let role = false;
 router.beforeEach(async (to, _, next) => {
   NProgress.start();
@@ -48,7 +48,6 @@ router.beforeEach(async (to, _, next) => {
 router.afterEach(to => {
   NProgress.done();
   // TODO
-  // const title = to.meta?.title;
-  // if (title)
-  //   document.title = title as string;
+  const title = to.meta?.title;
+  if (title) document.title = title as string;
 });
