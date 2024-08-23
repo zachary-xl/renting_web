@@ -1,19 +1,12 @@
-export type { FormInstance, FormRules } from "element-plus";
+import type { FormInstance } from "element-plus";
 
-export interface IFormData {
+export type TLoginForm = {
   username: string;
   password: string;
-  remember: boolean;
+  captchaCode: string;
+  captchaId: string;
 }
 
-export interface IReqLoginForm {
-  username: string;
-  password: string;
-  code: string;
-}
-export interface IResLogin {
-  access_token: string;
-}
-export interface IResAuthButtons {
-  [key: string]: string[];
+export {
+  FormInstance
 }

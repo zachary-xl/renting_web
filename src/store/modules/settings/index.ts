@@ -10,9 +10,13 @@ import {
   TOGGLE_THEME_ACTION
 } from "@/model";
 import type { IState, TTheme } from "./types";
+import { useDynamicTitle } from "@/utils/dynamicTitle";
 
 export default defineStore("settings", {
   state: (): IState => ({
+    title: '',
+    dynamicTitle: '',
+
     isExpand: true, // 是否展开
     isFullScreen: false, // 是否全屏
     isFixedHeader: true, // 是否固定头部
@@ -48,6 +52,10 @@ export default defineStore("settings", {
     [TOGGLE_THEME_ACTION](theme: TTheme) {
       this.isThemed = theme === "light" ? "dark" : "light";
       initTheme(this.isThemed);
+    },
+    setTitle(title) {
+      this.title = title
+      useDynamicTitle();
     }
   },
   persist: {

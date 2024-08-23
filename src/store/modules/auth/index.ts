@@ -5,7 +5,7 @@ import { postLoginAPI, getUserGetInfoAPI, getMenusAPI } from "@/service";
 import { addRoutesWithMenu, clearStorage, formatTree, loadLocalRoutes, mapPathToMenu } from "@/utils";
 import { MENUS_ACTION, USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
 
-export default defineStore("user", {
+export default defineStore("auth", {
   state: (): IState => ({
     roles: [],
     user: {

@@ -3,6 +3,9 @@ export interface IState {
   isFullScreen: boolean;
   isFixedHeader: boolean;
   isThemed: TTheme;
+
+  title: string
+  dynamicTitle: string
 }
 
 export type TTheme = "light" | "dark";

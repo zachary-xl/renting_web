@@ -7,10 +7,15 @@ export default function createViteServer(baseUrl, serverUrl): ServerOptions {
     hmr: true,
     open: true,
     proxy: {
-      [baseUrl]: {
+      // [baseUrl]: {
+      //   target: serverUrl,
+      //   changeOrigin: true,
+      //   rewrite: path => path.replace(baseUrl, "")
+      // }
+      "/v1": {
         target: serverUrl,
         changeOrigin: true,
-        rewrite: path => path.replace(baseUrl, baseUrl)
+        rewrite: path => path.replace("/v1", "")
       }
     }
   };
