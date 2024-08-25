@@ -20,7 +20,7 @@ const useUserStore = defineStore("user",{
           this.accessToken = data.accessToken
           this.refreshToken = data.refreshToken
           this.expire = data.expire
-          resolve()
+          resolve(true)
         }).catch(error => {
           reject(error)
         })

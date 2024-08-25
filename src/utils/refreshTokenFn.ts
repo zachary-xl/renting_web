@@ -1,0 +1,20 @@
+import { getStorage } from "@/utils/storage";
+import request from "@/service";
+import axios from "axios";
+import type { TRefreshToken } from "@/service/request/types";
+import { configSource } from "@/config";
+
+export async function refreshTokenFn() {
+  // 发送请求到后端，获取新的Access Token
+  try{
+    return await axios.request({
+      url: configSource.serverUrl + "/v1/auth/token/refresh",
+      data:{
+        accessToken: getStorage('accessToken'),
+        refreshToken: getStorage('refreshToken')
+      }
+    })
+  }catch(error){
+    console.error('刷新Token失败：', error);
+  }
+}

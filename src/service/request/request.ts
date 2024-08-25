@@ -9,13 +9,15 @@ import {
   DEFAULT_SHOW_CODE_MESSAGE,
   DEFAULT_HEADER_AUTHORIZATION
 } from "./constant";
-import { getStorage, hasStorage } from "@/utils";
-
+import { getStorage, hasStorage, removeStorage, setStorage } from "@/utils";
+import { refreshTokenFn } from "@/utils/refreshTokenFn";
+import {useRouter} from "vue-router"
 const statusMap: TStatusMap = new Map();
 const LoadingInstance: ILoadingInstance = {
   _target: null,
   _count: 0
 };
+const router = useRouter();
 
 export default class MyRequest implements IRequest {
   instance: AxiosInstance;
@@ -45,19 +47,24 @@ export default class MyRequest implements IRequest {
             LoadingInstance._target = ElLoading.service({});
           }
         }
-        // 自动携带token
-        if (hasStorage("token") && typeof window !== "undefined") {
-          config.headers![DEFAULT_HEADER_AUTHORIZATION] = getStorage("token");
+        if(config!.url && config.url.indexOf("/refresh") >= 0){
+          // token 过期
+          config.headers![DEFAULT_HEADER_AUTHORIZATION] = getStorage("refreshToken");
+        }else if (hasStorage("accessToken") && typeof window !== "undefined") {
+          // 自动携带token
+          config.headers![DEFAULT_HEADER_AUTHORIZATION] = getStorage("accessToken");
         }
         return config;
       },
       error => {
+        console.log(error,'error');
         return Promise.reject(error);
       }
     );
 
     this.instance.interceptors.response.use(
       response => {
+        console.log(response,'response');
         delStatus(response.config);
         this.showLoading && closeLoading(this.showLoading);
 
@@ -68,9 +75,25 @@ export default class MyRequest implements IRequest {
 
         return this.reduceDataFormat ? response.data : response;
       },
-      error => {
-        error.config && delStatus(error.config);
+      async (error) => {
+        console.log(error,'error');
         this.showLoading && closeLoading(this.showLoading); // 关闭loading
+        if(error.response.status === 401){
+          const result = await refreshTokenFn();
+          console.log(result,'------');
+          if(result && result.data){
+            const accessToken = result.data.accessToken
+            setStorage("accessToken", accessToken)
+            error.config.headers![DEFAULT_HEADER_AUTHORIZATION] = accessToken
+            return await this.instance.request(error.config);
+          }else{
+            removeStorage("accessToken")
+            removeStorage("refreshToken")
+            console.log(router);
+            return await router.replace("/login")
+          }
+        }
+        error.config && delStatus(error.config);
         this.showErrorMessage && httpErrorStatusHandle(error); // 处理错误状态码
         return Promise.reject(error); // 错误继续返回给到具体页面
       }
@@ -114,7 +137,7 @@ export default class MyRequest implements IRequest {
  * 处理异常
  * @param {*} error
  */
-function httpErrorStatusHandle(error) {
+function httpErrorStatusHandle(error: any) {
   // 处理被取消的请求
   if (axios.isCancel(error)) return console.error("请求的重复请求：" + error.message);
   let message = "";

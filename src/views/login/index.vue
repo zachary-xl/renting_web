@@ -5,7 +5,10 @@
         <img class="login-left-img" src="@/assets/images/login_left.png" alt="login" />
       </div>
       <el-form ref="formInstance" :model="loginForm" :rules="loginRules" class="login-form">
-<!--        <h3 class="title">科力安后台管理系统</h3>-->
+        <div class="flex items-center justify-center mb-4">
+          <img class="w-[30px] h-[26px]" src="@/assets/images/logo.png" alt="" />
+          <h3 class="font-bold text-xl">科力安后台管理系统</h3>
+        </div>
         <el-form-item prop="username">
           <el-input
             v-model="loginForm.username"
@@ -33,7 +36,7 @@
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item prop="captchaCode" class="justify-between">
+        <el-form-item prop="captchaCode" class="justify-between flex-nowrap">
           <el-input
             v-model="loginForm.captchaCode"
             size="large"
@@ -140,8 +143,7 @@ onMounted(() => {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    width: 96.5%;
-    height: 94%;
+    height: 100%;
     padding: 0 50px;
     background-color: rgb(255 255 255 / 80%);
     border-radius: 10px;
@@ -203,18 +205,6 @@ onMounted(() => {
     vertical-align: middle;
     width: 100%;
     height: 100%;
-  }
-}
-
-@media screen and (width <= 1250px) {
-  .login-left {
-    display: none;
-  }
-}
-
-@media screen and (width <= 600px) {
-  .login-form {
-    width: 97% !important;
   }
 }
 

@@ -9,10 +9,15 @@ import "./assets/fonts/index.scss";
 import "element-plus/dist/index.css";
 import "virtual:svg-icons-register";
 
+
 import { SvgIcon } from "@/components";
 import { registerIconComponent } from "@/utils";
 import { initTheme } from "@/config";
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
 
+// 插件扩展
+dayjs.extend(duration);
 const app = createApp(App);
 registerIconComponent(app);
 initTheme("light");

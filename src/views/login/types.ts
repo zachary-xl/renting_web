@@ -7,6 +7,13 @@ export type TLoginForm = {
   captchaId: string;
 }
 
+export type TLoginResponse = {
+  data:{
+    accessToken: string
+    refreshToken: string
+    expire: number
+  }
+}
 export {
   FormInstance
 }

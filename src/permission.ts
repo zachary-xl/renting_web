@@ -14,24 +14,28 @@ let isLogin = false;
 let role = false;
 router.beforeEach(async (to, _, next) => {
   NProgress.start();
-  if(getStorage("accessToken")){
-    const {settingStore} = useSettingStoreToRefs()
-    to.meta.title && settingStore.setTitle(to.meta.title)
-    if (to.path === '/login') {
-      next({ path: '/' })
-      NProgress.done()
+  if (getStorage("accessToken")) {
+    const { settingStore } = useSettingStoreToRefs();
+    const { authStore } = useAuthStoreToRefs();
+    to.meta.title && settingStore.setTitle(to.meta.title || "");
+    if (to.path === "/login") {
+      NProgress.done();
+      return next({ path: "/" });
     } else if (whiteList.indexOf(to.path) !== -1) {
-      next()
-    }else{
-
+      NProgress.done();
+      return next();
+    } else{
+      NProgress.done();
+      await authStore[MENUS_ACTION]();
+      return next();
     }
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
       // 在免登录白名单，直接进入
-      next()
+      return next();
     } else {
-      next(`/login?redirect=${to.fullPath}`) // 否则全部重定向到登录页
-      NProgress.done()
+      NProgress.done();
+      next(`/login?redirect=${to.fullPath}`); // 否则全部重定向到登录页
     }
   }
   // const { authStore, roles } = useAuthStoreToRefs();

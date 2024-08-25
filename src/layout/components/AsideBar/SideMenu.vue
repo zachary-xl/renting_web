@@ -31,7 +31,7 @@ const { tagsViewStore } = useTagsViewStoreToRefs();
 const unwatch = watch(
   () => route,
   newVal => {
-    console.info(tagsViewStore[GET_CURRENT_TAG]);
+    // console.info(tagsViewStore[GET_CURRENT_TAG]);
   },
   {
     deep: true,

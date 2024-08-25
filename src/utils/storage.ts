@@ -63,7 +63,7 @@ export const getStorageLength = (): number => {
   return window[config.type].length;
 };
 // 删除 removeStorage
-export const removeStorage = (key): void => {
+export const removeStorage = (key:string): void => {
   window[config.type].removeItem(autoAddPrefix(key));
 };
 // 清空 clearStorage

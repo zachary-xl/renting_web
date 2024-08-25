@@ -40,3 +40,9 @@ export interface IRequest {
   showErrorMessage: boolean;
   showCodeMessage: boolean;
 }
+
+export type TRefreshToken = {
+  data:{
+    accessToken:string
+  }
+}

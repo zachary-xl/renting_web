@@ -62,54 +62,89 @@ export default defineStore("auth", {
       return new Promise(async (resolve, reject) => {
         try {
           // const data = await getMenusAPI();
+          // let data = [
+          //   {
+          //     id: 1,
+          //     title: "系统管理",
+          //     icon: "logo",
+          //     name: "System",
+          //     path: "/system",
+          //     redirect: "/system/user",
+          //     pid: 0
+          //   },
+          //   {
+          //     id: 2,
+          //     title: "用户管理",
+          //     icon: "login",
+          //     name: "User",
+          //     path: "/system/user",
+          //     pid: 1
+          //   },
+          //   {
+          //     id: 3,
+          //     title: "角色管理",
+          //     icon: "jeep-car",
+          //     name: "Role",
+          //     path: "/system/role",
+          //     pid: 1
+          //   },
+          //   {
+          //     id: 4,
+          //     title: "菜单管理",
+          //     icon: "lovers-aoc",
+          //     name: "Menu",
+          //     path: "/system/menu",
+          //     pid: 1
+          //   },
+          //   {
+          //     id: 5,
+          //     title: "生活",
+          //     icon: "parachute-man",
+          //     name: "Life",
+          //     path: "/life",
+          //     link: "https://www.baidu.com",
+          //     pid: 0
+          //   }
+          // ];
           let data = [
             {
               id: 1,
-              title: "系统管理",
-              icon: "logo",
-              name: "System",
-              path: "/system",
-              redirect: "/system/user",
+              title: "用户管理",
+              icon: "login",
+              name: "User",
+              path: "/user",
               pid: 0
             },
             {
               id: 2,
-              title: "用户管理",
-              icon: "login",
-              name: "User",
-              path: "/system/user",
-              pid: 1
-            },
-            {
-              id: 3,
-              title: "角色管理",
+              title: "订单管理",
               icon: "jeep-car",
-              name: "Role",
-              path: "/system/role",
-              pid: 1
+              name: "Order",
+              path: "/order",
+              pid: 0
             },
+              {
+                id: 3,
+                title: "充电桩管理",
+                icon: "logo",
+                name: "Charging",
+                path: "/charging",
+                redirect: "/charging/deviceEncoding",
+                pid: 0
+              },
             {
               id: 4,
-              title: "菜单管理",
-              icon: "lovers-aoc",
-              name: "Menu",
-              path: "/system/menu",
-              pid: 1
-            },
-            {
-              id: 5,
-              title: "生活",
-              icon: "parachute-man",
-              name: "Life",
-              path: "/life",
-              link: "https://www.baidu.com",
-              pid: 0
+              title: "设备编码管理",
+              icon: "logo",
+              name: "DeviceEncoding",
+              path: "/charging/deviceEncoding",
+              pid: 3
             }
-          ];
+          ]
           let localRoutes = loadLocalRoutes();
           let treeMenuData = formatTree(data);
-          let menus = mapPathToMenu(treeMenuData, localRoutes);
-          addRoutesWithMenu(menus);
+          // let menus = mapPathToMenu(treeMenuData, localRoutes);
+          // addRoutesWithMenu(menus);
 
           this.menusList = [{ name: "Main", path: "/main", title: "首页", icon: "shouye" }, ...treeMenuData];
           resolve(true);
