@@ -1,13 +1,15 @@
 <template>
   <div class="app-container">
     <el-form ref="formHeaderRef" :inline="true" :model="queryParams" class="demo-form-inline">
-      <el-form-item label="用户名" property="username">
-        <el-input v-model="queryParams.username" class="input rounded" placeholder="请输入用户名" clearable />
+      <el-form-item label="用户名" prop="username">
+        <el-input v-model="queryParams.username" @keydown.enter="getList" class="input rounded"
+                  placeholder="请输入用户名" clearable />
       </el-form-item>
-      <el-form-item label="微信id" property="code">
-        <el-input v-model="queryParams.code" class="input rounded" placeholder="请输入微信id" clearable />
+      <el-form-item label="手机号" prop="phone">
+        <el-input v-model="queryParams.code" @keydown.enter="getList" class="input rounded"
+                  placeholder="请输入手机号" clearable />
       </el-form-item>
-      <el-form-item label="创建时间" property="datePickerValue">
+      <el-form-item label="创建时间" prop="datePickerValue">
         <el-date-picker
           v-model="datePickerValue"
           type="daterange"
@@ -19,13 +21,13 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button text bg class="h-[30px]" @click="resetHeaderForm">
+        <el-button text bg class="h-[30px]" @click="resetHeaderForm(formHeaderRef)">
           <el-icon class="mr-2">
             <RefreshLeft />
           </el-icon>
           重置
         </el-button>
-        <el-button type="primary" class="h-[30px]" @click="submitHeaderForm">
+        <el-button type="primary" class="h-[30px]" @click="getList">
           <el-icon class="mr-2">
             <Search />
           </el-icon>
@@ -34,7 +36,7 @@
       </el-form-item>
     </el-form>
     <div class="line"></div>
-    <el-table :data="tableData" class="w-full" header-cell-class-name="table-header">
+    <el-table :data="tableData" v-loading="loading" class="w-full" header-cell-class-name="table-header">
       <el-table-column type="index" label="序号" align="center" width="60" />
       <el-table-column label="用户名" align="center" prop="username" />
       <el-table-column label="微信id" align="center" prop="wxId" />
@@ -62,55 +64,56 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      :total="total"
-      v-model:page="paginationParams.currentPage"
-      v-model:limit="paginationParams.pageSize"
-      @pagination="getList"
+    <el-pagination
+      class="relative float-right"
+      v-model:current-page="paginationParams.currentPage"
+      v-model:page-size="paginationParams.pageSize"
+      :page-sizes="[10, 30,50, 100]"
+      background
+      :total="5"
+      layout="total, sizes, prev, pager, next, jumper"
+      @size-change="val => paginationParams.pageSize = val"
+      @current-change="val => paginationParams.currentPage = val"
+      @change="getList"
     />
   </div>
 </template>
 <script setup lang="ts">
 import dayjs from "dayjs";
 import { getUserListAPI } from "@/service/user";
-import { dateTimeFormat } from "@/utils";
-import { TUserList, TUserListParams } from "@/views/user/types";
-import type { FormInstance } from "@/views/login/types";
+import { dateTimeFormat, excludingFakeObject } from "@/utils";
+import type { TUserList, TUserListParams } from "@/views/user/types";
+import type { FormInstance } from "element-plus";
 
 const formHeaderRef = ref<FormInstance>();
 const total = ref(10);
+const loading = ref(true);
 const datePickerValue = ref([]);
 const paginationParams = reactive({
-  noPage: "true",
   currentPage: 1,
   pageSize: 10
 });
 const queryParams = reactive<Partial<TUserListParams>>({
-  search: "",
-  nickname: "",
   username: "",
   phone: "",
-  email: "",
-  code: "",
   createdAtGte: undefined,
   createdAtLte: undefined
 });
 const tableData = ref<TUserList[]>([]);
-const submitHeaderForm = () => {
-  console.log(formHeaderRef.value);
-  console.log(queryParams);
-  getList();
+const resetHeaderForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  datePickerValue.value = [];
+  queryParams.createdAtGte = undefined;
+  queryParams.createdAtLte = undefined;
+  formEl.resetFields();
 };
-const resetHeaderForm = () => {
-  formHeaderRef.value?.resetFields();
-};
-
-const getList = (queryParams: Partial<TUserListParams> = {}) => {
-  getUserListAPI({ ...paginationParams, ...queryParams }).then(res => {
-    console.log(res);
+const getList = () => {
+  loading.value = true;
+  getUserListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then(res => {
     const data = res.data;
     tableData.value = data.list;
     total.value = data.total;
+    loading.value = false;
   });
 };
 const onHandleDatePicker = (date) => {
@@ -122,17 +125,17 @@ const onHandleDatePicker = (date) => {
     queryParams.createdAtLte = undefined;
   }
 };
-onMounted(() => {
-  getList();
-});
+getList();
 </script>
 <style scoped lang="scss">
-::v-deep .el-button {
+:deep(.el-button) {
   height: 30px;
   font-size: 12px;
 }
-
-::v-deep .el-input {
+:deep(.el-select) {
+  width: 100px !important;
+}
+:deep(.el-input) {
   .el-input__wrapper {
     box-shadow: none;
     background-color: rgba(247, 248, 250, 1);
@@ -141,7 +144,7 @@ onMounted(() => {
   }
 }
 
-::v-deep .el-date-editor {
+:deep(.el-date-editor) {
   background-color: rgba(247, 248, 250, 1);
   color: rgba(136, 136, 136, 1);
   width: 220px;
@@ -149,7 +152,7 @@ onMounted(() => {
   box-shadow: none;
 }
 
-::v-deep .table-header {
+:deep(.table-header) {
   .cell {
     font-weight: bolder !important;
     white-space: nowrap !important;

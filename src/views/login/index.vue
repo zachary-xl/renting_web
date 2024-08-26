@@ -7,7 +7,7 @@
       <el-form ref="formInstance" :model="loginForm" :rules="loginRules" class="login-form">
         <div class="flex items-center justify-center mb-4">
           <img class="w-[30px] h-[26px]" src="@/assets/images/logo.png" alt="" />
-          <h3 class="font-bold text-xl">科力安后台管理系统</h3>
+          <h3 class="font-bold text-xl">{{ configSource.projectName }}</h3>
         </div>
         <el-form-item prop="username">
           <el-input
@@ -73,14 +73,16 @@
 
 <script lang="ts" name="login" setup>
 import { postCaptchaAPI } from "@/service/login";
-import type { TLoginForm, FormInstance } from "@/views/login/types";
 import { useUserStoreToRefs } from "@/hooks";
+import { configSource } from "@/config";
+import type { TLoginForm } from "@/views/login/types";
+import type { FormInstance } from "element-plus";
 
 const route = useRoute();
 const router = useRouter();
-const { userStore } = useUserStoreToRefs()
+const { userStore } = useUserStoreToRefs();
 
-const formInstance = ref<FormInstance>()
+const formInstance = ref<FormInstance>();
 const captchaUrl = ref("");
 const loading = ref(false);
 const redirect = ref(undefined);
@@ -88,6 +90,7 @@ const redirect = ref(undefined);
 watch(route, (newRoute) => {
   redirect.value = newRoute.query && newRoute.query.redirect;
 }, { immediate: true });
+
 const loginForm = reactive<TLoginForm>({
   username: "admin",
   password: "@admin123",
@@ -100,10 +103,10 @@ const loginRules = {
   captchaCode: [{ required: true, trigger: "change", message: "请输入验证码" }]
 };
 const handleLogin = () => {
-  formInstance.value?.validate((isValid)=>{
-    if(!isValid) return;
+  formInstance.value?.validate((isValid) => {
+    if (!isValid) return;
     loading.value = true;
-    userStore.loginAction(loginForm).then(()=>{
+    userStore.loginAction(loginForm).then(() => {
       const query = route.query;
       const otherQueryParams = Object.keys(query).reduce((acc, cur) => {
         if (cur !== "redirect") {
@@ -112,11 +115,13 @@ const handleLogin = () => {
         return acc;
       }, {});
       router.push({ path: redirect.value || "/", query: otherQueryParams });
-    }).catch(()=>{
+    }).catch(() => {
       loading.value = false;
+      loginForm.captchaCode = "";
+      loginForm.captchaId = "";
       getCaptchaCode();
-    })
-  })
+    });
+  });
 };
 const getCaptchaCode = () => {
   postCaptchaAPI().then(({ data }) => {
@@ -165,6 +170,7 @@ onMounted(() => {
     }
   }
 }
+
 .title {
   padding: 0 0 0 14px;
   font-size: 26px;
@@ -174,12 +180,14 @@ onMounted(() => {
   text-align: center;
   margin-bottom: 20px;
 }
+
 .login-form {
   width: 400px;
   padding: 25px 25px 5px 25px;
   background-color: var(--el-bg-color);
   border-radius: 10px;
   box-shadow: rgb(0 0 0 / 10%) 0 2px 10px 2px;
+
   .el-input {
     height: 40px;
 

@@ -1,4 +1,4 @@
-import { getStorage, setStorage } from "@/utils";
+import { clearStorage, getStorage, setStorage } from "@/utils";
 import type { TLoginForm } from "@/views/login/types";
 import type { TState } from "@/store/modules/user/types";
 import { postLoginAPI } from "@/service/login";
@@ -26,6 +26,12 @@ const useUserStore = defineStore("user",{
         })
       })
     },
+    logoutAction(){
+      return new Promise((resolve, reject) => {
+        clearStorage()
+        resolve()
+      })
+    }
   }
 })
 

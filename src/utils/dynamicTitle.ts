@@ -6,8 +6,8 @@ import { useSettingStoreToRefs } from "@/hooks";
  */
 export function useDynamicTitle() {
   const { dynamicTitle, title } = useSettingStoreToRefs();
-  if (dynamicTitle) {
-    document.title = title + ' - ' + configSource.projectName;
+  if (dynamicTitle.value) {
+    document.title = title.value + ' - ' + configSource.projectName;
   } else {
     document.title = configSource.projectName;
   }

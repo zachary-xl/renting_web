@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form ref="formHeaderRef" :inline="true" :model="queryParams" class="demo-form-inline">
+    <el-form ref="formHeaderRef" :inline="true" :model="queryParams">
       <el-form-item label="设备编码" property="imei">
         <el-input v-model="queryParams.imei" class="input rounded" placeholder="请输入设备编码" clearable />
       </el-form-item>
@@ -10,8 +10,8 @@
       <el-form-item label="品牌" property="brandName">
         <el-input v-model="queryParams.brandName" class="input rounded" placeholder="请输入品牌" clearable />
       </el-form-item>
-      <el-form-item label="绑定用户" property="userId">
-        <el-input v-model="queryParams.userId" class="input rounded" placeholder="请输入绑定用户" clearable />
+      <el-form-item label="绑定用户" property="nickame">
+        <el-input v-model="queryParams.nickame" class="input rounded" placeholder="请输入绑定用户" clearable />
       </el-form-item>
       <el-form-item label="绑定时间" property="datePickerValue">
         <el-date-picker
@@ -32,7 +32,7 @@
           </el-icon>
           重置
         </el-button>
-        <el-button type="primary" class="h-[30px]" @click="submitHeaderForm">
+        <el-button type="primary" class="h-[30px]" @click="getList">
           <el-icon class="mr-2">
             <Search />
           </el-icon>
@@ -41,100 +41,143 @@
       </el-form-item>
     </el-form>
     <div class="line"></div>
-    <el-table :data="tableData" class="w-full" header-cell-class-name="table-header">
+    <div class="flex items-center my-2">
+      <el-button color="#1F63FF" :icon="Plus" @click="onHandleAdd">新建</el-button>
+      <el-button color="#F7F8FA">批量导入</el-button>
+    </div>
+    <el-table :data="tableData" v-loading="loading" class="w-full" header-cell-class-name="table-header">
       <el-table-column type="index" label="序号" align="center" width="60" />
-      <el-table-column label="设备编码" align="center" prop="username"  />
-      <el-table-column label="型号" align="center" prop="wxId" />
-      <el-table-column label="品牌" align="center" prop="chargeDegree" />
-      <el-table-column label="绑定用户" align="center" prop="chargeStationNum" />
+      <el-table-column label="设备编码" align="center" prop="imei" />
+      <el-table-column label="型号" align="center" prop="categoryName">
+        <template #default="{ row }">
+          <span>{{ (row as TList).categoryName || "-" }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="品牌" align="center" prop="brandName">
+        <template #default="{ row }">
+          <span>{{ (row as TList).brandName || "-" }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="绑定用户" align="center" prop="nickname">
+        <template #default="{ row }">
+          <span>{{ (row as TList).nickname || "-" }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="绑定时间" align="center" prop="createdAt">
         <template #default="{ row }">
-          <span>{{ dateTimeFormat((row as TUserList).createdAt) }}</span>
+          <span>{{ dateTimeFormat((row as TList).createdAt) }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
-        <template #default="scope">
+        <template #default="{row}">
           <el-button
             type="primary"
             link
+            @click="onHandleChargeStationUnbind(row!.id)"
           >
             解绑
           </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      :total="total"
-      v-model:page="queryParams.currentPage"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
+    <el-pagination
+      class="relative float-right"
+      v-model:current-page="paginationParams.currentPage"
+      v-model:page-size="paginationParams.pageSize"
+      :page-sizes="[10, 30,50, 100]"
+      background
+      :total="5"
+      layout="total, sizes, prev, pager, next, jumper"
+      @size-change="val => paginationParams.pageSize = val"
+      @current-change="val => paginationParams.currentPage = val"
+      @change="getList"
     />
+    <FormComp v-if="visible" v-model.visible="visible" :title="title"/>
   </div>
 </template>
 <script setup lang="ts">
 import dayjs from "dayjs";
-import type { FormInstance } from "@/views/login/types";
-import { postUserListAPI } from "@/service/user";
-import { dateTimeFormat } from "@/utils";
-import { TUserList } from "@/views/user/types";
-const formHeaderRef = ref<FormInstance>()
-const total = ref(0);
-const datePickerValue = ref([]);
-const queryParams = reactive({
-  noPage: "true",
-  currentPage: 2,
-  pageSize: 20,
-  search: "",
-  imei: "",
-  brandId: "",
-  brandName: "",
-  categoryName: "",
-  userId: "",
-  nickame: "",
-  isParkCharge: "",
-  status: 0,
-  bindAtGte: 0,
-  bindAtLte: 0
-});
-const tableData = ref<TUserList[]>([]);
-const submitHeaderForm = ()=>{
-  console.log(formHeaderRef.value);
-  console.log(queryParams);
-}
-const resetHeaderForm = ()=>{
-  formHeaderRef.value?.resetFields()
-}
+import { ElMessage, type FormInstance } from "element-plus";
+import { Search, RefreshLeft, Plus } from "@element-plus/icons-vue";
+import { dateTimeFormat, excludingFakeObject } from "@/utils";
+import {
+  getChargeStationListAPI,
+  postChargeStationOperateUnbindAPI
+} from "@/service/charging";
+import FormComp from "@/views/charging/deviceEncoding/components/FormComp.vue";
+import type { TList, TListParams } from "@/views/charging/deviceEncoding/types";
 
+const formHeaderRef = ref<FormInstance>();
+const total = ref(0);
+const loading = ref(true);
+const title = ref("")
+const visible = ref(false)
+const datePickerValue = ref([]);
+const paginationParams = reactive({
+  currentPage: 1,
+  pageSize: 10
+});
+const queryParams = reactive<Partial<TListParams>>({
+  imei: "",
+  categoryName: "",
+  brandId: "",
+  nickame: "",
+  bindAtGte: undefined,
+  bindAtLte: undefined
+});
+const tableData = ref<TList[]>([]);
+const onHandleChargeStationUnbind = (id) => {
+  postChargeStationOperateUnbindAPI(id).then(() => {
+    ElMessage({
+      message: "解绑成功",
+      type: "success",
+      plain: true
+    });
+    getList();
+  });
+};
+const resetHeaderForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  datePickerValue.value = [];
+  queryParams.bindAtGte = undefined;
+  queryParams.bindAtLte = undefined;
+  formEl.resetFields();
+};
 const getList = () => {
-  postUserListAPI(queryParams).then(res => {
-    console.log(res);
+  loading.value = true;
+  getChargeStationListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then(res => {
     const data = res.data;
     tableData.value = data.list;
-    total.value = data.total
+    total.value = data.total;
+    loading.value = false;
   });
+};
+const onHandleAdd = () => {
+  title.value = "新建";
+  visible.value = true;
 };
 const onHandleDatePicker = (date) => {
   if (date) {
-    queryParams.createdAtGte = dayjs(date[0]).valueOf() as undefined;
-    queryParams.createdAtLte = dayjs(date[1]).valueOf() as undefined;
+    queryParams.bindAtGte = dayjs(date[0]).valueOf() as undefined;
+    queryParams.bindAtLte = dayjs(date[1]).valueOf() as undefined;
   } else {
-    queryParams.createdAtGte = undefined;
-    queryParams.createdAtLte = undefined;
+    queryParams.bindAtGte = undefined;
+    queryParams.bindAtLte = undefined;
   }
 };
-onMounted(() => {
-  getList();
-});
+getList();
 </script>
 <style scoped lang="scss">
-::v-deep .el-button {
+:deep(.el-button) {
   height: 30px;
   font-size: 12px;
 }
 
-::v-deep .el-input {
-  width: 100px;
+:deep(.el-select) {
+  width: 100px !important;
+}
 
+:deep(.el-input) {
   .el-input__wrapper {
     box-shadow: none;
     background-color: rgba(247, 248, 250, 1);
@@ -143,22 +186,15 @@ onMounted(() => {
   }
 }
 
-::v-deep .el-date-editor {
+:deep(.el-date-editor) {
   background-color: rgba(247, 248, 250, 1);
   color: rgba(136, 136, 136, 1);
-  width: 200px;
+  width: 220px;
   height: 30px;
   box-shadow: none;
-
-  .el-range-input {
-    font-size: 12px;
-  }
 }
 
-::v-deep .table-header {
-  font-weight: bolder !important;
-  white-space: nowrap !important;
-
+:deep(.table-header) {
   .cell {
     font-weight: bolder !important;
     white-space: nowrap !important;

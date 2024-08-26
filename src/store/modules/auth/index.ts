@@ -123,15 +123,15 @@ export default defineStore("auth", {
               path: "/order",
               pid: 0
             },
-              {
-                id: 3,
-                title: "充电桩管理",
-                icon: "logo",
-                name: "Charging",
-                path: "/charging",
-                redirect: "/charging/deviceEncoding",
-                pid: 0
-              },
+            {
+              id: 3,
+              title: "充电桩管理",
+              icon: "logo",
+              name: "Charging",
+              path: "/charging",
+              redirect: "/charging/deviceEncoding",
+              pid: 0
+            },
             {
               id: 4,
               title: "设备编码管理",
@@ -140,13 +140,14 @@ export default defineStore("auth", {
               path: "/charging/deviceEncoding",
               pid: 3
             }
-          ]
+          ];
           let localRoutes = loadLocalRoutes();
           let treeMenuData = formatTree(data);
           // let menus = mapPathToMenu(treeMenuData, localRoutes);
           // addRoutesWithMenu(menus);
 
-          this.menusList = [{ name: "Main", path: "/main", title: "首页", icon: "shouye" }, ...treeMenuData];
+          // this.menusList = [{ name: "Main", path: "/main", title: "首页", icon: "shouye" }, ...treeMenuData];
+          this.menusList = [...treeMenuData];
           resolve(true);
         } catch (e) {
           reject(e);

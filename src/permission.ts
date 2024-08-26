@@ -1,41 +1,40 @@
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
-import { ElMessage } from "element-plus";
 import router from "./router/router";
 import { useAuthStoreToRefs, useSettingStoreToRefs } from "@/hooks";
-import { MENUS_ACTION, USER_INFO_ACTION, LOGOUT_ACTION } from "@/model";
-import { AxiosError } from "axios";
-import { getStorage } from "@/utils";
+import { MENUS_ACTION } from "@/model";
+import { clearStorage, getStorage } from "@/utils";
 // 关闭加载微调器
 NProgress.configure({ showSpinner: false });
 const whiteList = ["/login", "/401", "/404"];
 
-let isLogin = false;
-let role = false;
 router.beforeEach(async (to, _, next) => {
   NProgress.start();
   if (getStorage("accessToken")) {
     const { settingStore } = useSettingStoreToRefs();
     const { authStore } = useAuthStoreToRefs();
     to.meta.title && settingStore.setTitle(to.meta.title || "");
+    NProgress.done();
     if (to.path === "/login") {
-      NProgress.done();
-      return next({ path: "/" });
+      clearStorage();
+      return next({
+        path: "/login",
+        query: {
+          redirect: encodeURIComponent(to.fullPath)
+        }
+      });
     } else if (whiteList.indexOf(to.path) !== -1) {
-      NProgress.done();
       return next();
-    } else{
-      NProgress.done();
+    } else {
       await authStore[MENUS_ACTION]();
       return next();
     }
   } else {
+    NProgress.done();
     if (whiteList.indexOf(to.path) !== -1) {
-      // 在免登录白名单，直接进入
       return next();
     } else {
-      NProgress.done();
-      next(`/login?redirect=${to.fullPath}`); // 否则全部重定向到登录页
+      return next(`/login?redirect=${encodeURIComponent(to.fullPath)}`); // 否则全部重定向到登录页
     }
   }
   // const { authStore, roles } = useAuthStoreToRefs();

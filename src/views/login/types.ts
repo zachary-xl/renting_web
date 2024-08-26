@@ -1,5 +1,3 @@
-import type { FormInstance } from "element-plus";
-
 export type TLoginForm = {
   username: string;
   password: string;
@@ -14,6 +12,4 @@ export type TLoginResponse = {
     expire: number
   }
 }
-export {
-  FormInstance
-}
+

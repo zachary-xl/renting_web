@@ -8,7 +8,6 @@ declare module "vue-router" {
     link?: string;
   }
 }
-
 // declare module "css-vars-ponyfill" {
 //   interface cssVars {
 //     watch: boolean;

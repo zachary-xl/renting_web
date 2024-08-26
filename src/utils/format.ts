@@ -23,3 +23,4 @@ export function dateTimeDifference(startTime: Date | number, endTime: Date | num
 
   return `${hourStr}${minuteStr}${secondStr}` || "00秒";
 }
+

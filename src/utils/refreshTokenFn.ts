@@ -7,8 +7,9 @@ import { configSource } from "@/config";
 export async function refreshTokenFn() {
   // 发送请求到后端，获取新的Access Token
   try{
-    return await axios.request({
-      url: configSource.serverUrl + "/v1/auth/token/refresh",
+    return await axios({
+      url: configSource.serverUrl + "/auth/token/refresh",
+      method: "POST",
       data:{
         accessToken: getStorage('accessToken'),
         refreshToken: getStorage('refreshToken')

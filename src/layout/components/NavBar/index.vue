@@ -14,8 +14,15 @@
           :class="['iconfont', 'text-2xl', 'cursor-pointer', 'pr-3', settingStore[GET_IS_FULLSCREEN]]"
           @click="settingStore[TOGGlE_FULLSCREEN_ACTION]"
         />
-        <strong class="pr-5">{{ user.username }}</strong>
-        <el-avatar :size="36" :src="getAvatar(user.avatar)" shape="square" />
+        <strong class="pr-5">管理员</strong>
+        <el-dropdown @command="onHandleCommand" class="right-menu-item hover-effect" trigger="click">
+          <el-avatar :size="36" :src="getAvatar(avatar)" shape="square" />
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
     </el-header>
     <TagsView />
@@ -24,9 +31,11 @@
 
 <script lang="ts" name="NavBar" setup>
 import { computed } from "vue";
+import { useRouter } from "vue-router";
+import { ElMessageBox } from "element-plus";
 import { Fold, Expand } from "@element-plus/icons-vue";
 import TagsView from "./TagsView.vue";
-import { useSettingStoreToRefs, useAuthStoreToRefs } from "@/hooks";
+import { useSettingStoreToRefs, useUserStoreToRefs } from "@/hooks";
 import {
   GET_IS_EXPAND_WIDTH,
   GET_IS_FULLSCREEN,
@@ -35,14 +44,37 @@ import {
   TOGGlE_FULLSCREEN_ACTION
 } from "@/model";
 import { getAssets } from "@/utils";
-
-const { user } = useAuthStoreToRefs();
+const router = useRouter()
+const { userStore } = useUserStoreToRefs()
 const { settingStore, isExpand } = useSettingStoreToRefs();
 const avatar = computed(() => getAssets("images", "icons/avatar.gif"));
 
 const getAvatar = (source: string | undefined) => {
   return source || avatar.value;
 };
+
+const logout = ()=> {
+  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    userStore.logoutAction().then(() => {
+      location.href = '/index';
+      router.replace("/login")
+    })
+  }).catch(() => { });
+}
+
+const onHandleCommand = (command)=>{
+  switch (command) {
+    case "logout":
+      logout();
+      break;
+    default:
+      break;
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -51,5 +83,21 @@ const getAvatar = (source: string | undefined) => {
   transition: all 0.28s;
   top: 0;
   right: 0;
+}
+.right-menu-item {
+  display: inline-block;
+  height: 100%;
+  font-size: 18px;
+  color: #5a5e66;
+  vertical-align: text-bottom;
+
+  &.hover-effect {
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.025);
+    }
+  }
 }
 </style>

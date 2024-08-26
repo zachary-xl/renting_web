@@ -2,10 +2,10 @@
   <div class="app-container">
     <el-form ref="formHeaderRef" :inline="true" :model="queryParams" class="demo-form-inline">
       <el-form-item label="订单号" property="code">
-        <el-input v-model="queryParams.code" class="input rounded" placeholder="请输入订单号" clearable />
+        <el-input v-model="queryParams.code" @keydown.enter="getList" class="input rounded" placeholder="请输入订单号" clearable />
       </el-form-item>
-      <el-form-item label="充电桩编码" property="chargeStationId">
-        <el-input v-model="queryParams.chargeStationId" class="input rounded" placeholder="请输入充电桩编码"
+      <el-form-item label="充电桩编码" property="chargeStationImei">
+        <el-input v-model="queryParams.chargeStationImei"  @keydown.enter="getList" class="input rounded" placeholder="请输入充电桩编码"
                   clearable />
       </el-form-item>
       <el-form-item label="充电时间" property="datePickerValue">
@@ -21,13 +21,13 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button text bg class="h-[30px]" @click="resetHeaderForm">
+        <el-button text bg class="h-[30px]" @click="resetHeaderForm(formHeaderRef)">
           <el-icon class="mr-2">
             <RefreshLeft />
           </el-icon>
           重置
         </el-button>
-        <el-button type="primary" class="h-[30px]" @click="submitHeaderForm">
+        <el-button type="primary" class="h-[30px]" @click="getList">
           <el-icon class="mr-2">
             <Search />
           </el-icon>
@@ -36,7 +36,7 @@
       </el-form-item>
     </el-form>
     <div class="line"></div>
-    <el-table :data="tableData" class="w-full" header-cell-class-name="table-header">
+    <el-table :data="tableData" v-loading="loading" class="w-full" header-cell-class-name="table-header">
       <el-table-column type="index" label="序号" align="center" width="60" />
       <el-table-column label="用户名" align="center" prop="userName" />
       <el-table-column label="订单号" align="center" prop="code" />
@@ -64,11 +64,17 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      :total="total"
-      v-model:page="paginationParams.currentPage"
-      v-model:limit="paginationParams.pageSize"
-      @pagination="getList"
+    <el-pagination
+      class="relative float-right"
+      v-model:current-page="paginationParams.currentPage"
+      v-model:page-size="paginationParams.pageSize"
+      :page-sizes="[10, 30,50, 100]"
+      background
+      :total="5"
+      layout="total, sizes, prev, pager, next, jumper"
+      @size-change="val => paginationParams.pageSize = val"
+      @current-change="val => paginationParams.currentPage = val"
+      @change="getList"
     />
     <el-dialog title="订单详情" v-model="isShowDialog" width="450px" append-to-body>
       <div class="bg-[#f7f7f7] rounded px-2 pt-2 pb-1 mb-2">
@@ -167,48 +173,45 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import { postOrderManageDetailAPI, postOrderManageListAPI } from "@/service/order";
-import { dateTimeDifference, dateTimeFormat, defaultFormatter } from "@/utils";
-import type { FormInstance } from "@/views/login/types";
-import { TOrderList, TOrderManageListParams } from "@/views/order/types";
+import { dateTimeDifference, dateTimeFormat, excludingFakeObject } from "@/utils";
+import type { TOrderList, TOrderManageListParams } from "@/views/order/types";
+import type { FormInstance } from "element-plus";
 
 const formHeaderRef = ref<FormInstance>();
 const total = ref(0);
+const loading = ref(true);
 const isShowDialog = ref(false);
 const datePickerValue = ref([]);
 const paginationParams = reactive({
-  noPage: "true",
   currentPage: 1,
   pageSize: 10
 });
 const queryParams = reactive<Partial<TOrderManageListParams>>({
-  search: "",
   code: "",
-  userId: "",
-  userName: "",
-  chargeStationId: "",
-  chargeStationName: "",
+  chargeStationImei: "",
   startAt: undefined,
   endAt: undefined
 });
 const tableData = ref<TOrderList[]>([]);
 const formData = ref<TOrderList>();
-const submitHeaderForm = () => {
-  console.log(formHeaderRef.value);
-  console.log(queryParams);
-};
-const resetHeaderForm = () => {
-  formHeaderRef.value?.resetFields();
+const resetHeaderForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  datePickerValue.value = [];
+  queryParams.startAt = undefined;
+  queryParams.endAt = undefined;
+  formEl.resetFields();
 };
 const recordListFormatter = (row) => {
   if (!row.recordList) return "-";
   return row.recordList.reduce((sum, record) => sum + record.chargeCost, 0);
 };
-const getList = (queryParams: Partial<TOrderManageListParams> = {}) => {
-  postOrderManageListAPI({ ...paginationParams, ...queryParams }).then(res => {
-    console.log(res);
+const getList = () => {
+  loading.value = true;
+  postOrderManageListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then(res => {
     const data = res.data;
     tableData.value = data.list;
     total.value = data.total;
+    loading.value = false;
   });
 };
 const onHandleDetail = (id: string) => {
@@ -230,19 +233,17 @@ const onHandleDatePicker = (date) => {
     queryParams.endAt = undefined;
   }
 };
-onMounted(() => {
-  getList();
-});
+getList();
 </script>
 <style scoped lang="scss">
-::v-deep .el-button {
+:deep(.el-button) {
   height: 30px;
   font-size: 12px;
 }
-
-::v-deep .el-input {
-  width: 100px;
-
+:deep(.el-select) {
+  width: 100px !important;
+}
+:deep(.el-input) {
   .el-input__wrapper {
     box-shadow: none;
     background-color: rgba(247, 248, 250, 1);
@@ -251,22 +252,15 @@ onMounted(() => {
   }
 }
 
-::v-deep .el-date-editor {
+:deep(.el-date-editor) {
   background-color: rgba(247, 248, 250, 1);
   color: rgba(136, 136, 136, 1);
-  width: 200px;
+  width: 220px;
   height: 30px;
   box-shadow: none;
-
-  .el-range-input {
-    font-size: 12px;
-  }
 }
 
-::v-deep .table-header {
-  font-weight: bolder !important;
-  white-space: nowrap !important;
-
+:deep(.table-header) {
   .cell {
     font-weight: bolder !important;
     white-space: nowrap !important;

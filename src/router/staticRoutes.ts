@@ -7,19 +7,19 @@ export default [
   },
   {
     path: "",
-    redirect: "/main",
+    redirect: "/user",
     name: "Layout",
     component: () => import("@/layout/index.vue"),
     children: [
-      {
-        name: "Main",
-        path: "/main",
-        component: () => import("@/views/main.vue"),
-        meta: {
-          title: "首页",
-          icon: "shouye"
-        }
-      },
+      // {
+      //   name: "Main",
+      //   path: "/main",
+      //   component: () => import("@/views/main.vue"),
+      //   meta: {
+      //     title: "首页",
+      //     icon: "shouye"
+      //   }
+      // },
       {
         name: "User",
         path: "/user",

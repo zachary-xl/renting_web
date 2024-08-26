@@ -11,13 +11,12 @@ import {
 } from "./constant";
 import { getStorage, hasStorage, removeStorage, setStorage } from "@/utils";
 import { refreshTokenFn } from "@/utils/refreshTokenFn";
-import {useRouter} from "vue-router"
+import router from "@/router"
 const statusMap: TStatusMap = new Map();
 const LoadingInstance: ILoadingInstance = {
   _target: null,
   _count: 0
 };
-const router = useRouter();
 
 export default class MyRequest implements IRequest {
   instance: AxiosInstance;
@@ -64,7 +63,7 @@ export default class MyRequest implements IRequest {
 
     this.instance.interceptors.response.use(
       response => {
-        console.log(response,'response');
+        console.log(response,'interceptors response');
         delStatus(response.config);
         this.showLoading && closeLoading(this.showLoading);
 
@@ -79,18 +78,23 @@ export default class MyRequest implements IRequest {
         console.log(error,'error');
         this.showLoading && closeLoading(this.showLoading); // 关闭loading
         if(error.response.status === 401){
-          const result = await refreshTokenFn();
-          console.log(result,'------');
-          if(result && result.data){
-            const accessToken = result.data.accessToken
-            setStorage("accessToken", accessToken)
-            error.config.headers![DEFAULT_HEADER_AUTHORIZATION] = accessToken
-            return await this.instance.request(error.config);
-          }else{
+          try {
+            const result = await refreshTokenFn();
+            console.log(result,'refreshTokenFn');
+            if(result?.data?.data?.accessToken){
+              const accessToken = result.data.data.accessToken
+              setStorage("accessToken", accessToken)
+              error.config.headers![DEFAULT_HEADER_AUTHORIZATION] = accessToken
+              return await this.instance.request(error.config);
+            }else{
+              removeStorage("accessToken")
+              removeStorage("refreshToken")
+              return await router.push("/login?redirect="+ encodeURIComponent(router.currentRoute.value.fullPath))
+            }
+          }catch (e) {
             removeStorage("accessToken")
             removeStorage("refreshToken")
-            console.log(router);
-            return await router.replace("/login")
+            return await router.push("/login?redirect="+ encodeURIComponent(router.currentRoute.value.fullPath))
           }
         }
         error.config && delStatus(error.config);

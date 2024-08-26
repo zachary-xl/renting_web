@@ -10,6 +10,7 @@ export type TOrderManageListParams = {
   userId?: string
   userName?: string
   chargeStationId?: string
+  chargeStationImei?: string
   chargeStationName?: string
   startAt?: number
   endAt?: number
