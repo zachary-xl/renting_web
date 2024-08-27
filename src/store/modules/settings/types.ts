@@ -4,8 +4,8 @@ export interface IState {
   isFixedHeader: boolean;
   isThemed: TTheme;
 
-  title: string
-  dynamicTitle: string
+  title: string;
+  dynamicTitle: string;
 }
 
 export type TTheme = "light" | "dark";

@@ -6,16 +6,16 @@ import { configSource } from "@/config";
 
 export async function refreshTokenFn() {
   // 发送请求到后端，获取新的Access Token
-  try{
+  try {
     return await axios({
       url: configSource.serverUrl + "/auth/token/refresh",
       method: "POST",
-      data:{
-        accessToken: getStorage('accessToken'),
-        refreshToken: getStorage('refreshToken')
+      data: {
+        accessToken: getStorage("accessToken"),
+        refreshToken: getStorage("refreshToken")
       }
-    })
-  }catch(error){
-    console.error('刷新Token失败：', error);
+    });
+  } catch (error) {
+    console.error("刷新Token失败：", error);
   }
 }

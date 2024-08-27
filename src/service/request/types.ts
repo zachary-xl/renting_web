@@ -42,7 +42,7 @@ export interface IRequest {
 }
 
 export type TRefreshToken = {
-  data:{
-    accessToken:string
-  }
-}
+  data: {
+    accessToken: string;
+  };
+};

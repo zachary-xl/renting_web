@@ -4,9 +4,14 @@
       <el-form-item label="订单号" property="code">
         <el-input v-model="queryParams.code" @keydown.enter="getList" class="input rounded" placeholder="请输入订单号" clearable />
       </el-form-item>
-      <el-form-item label="充电桩编码" property="chargeStationImei">
-        <el-input v-model="queryParams.chargeStationImei"  @keydown.enter="getList" class="input rounded" placeholder="请输入充电桩编码"
-                  clearable />
+      <el-form-item label="充电桩编码" property="chargeStationDeviceCode">
+        <el-input
+          v-model="queryParams.chargeStationDeviceCode"
+          @keydown.enter="getList"
+          class="input rounded"
+          placeholder="请输入充电桩编码"
+          clearable
+        />
       </el-form-item>
       <el-form-item label="充电时间" property="datePickerValue">
         <el-date-picker
@@ -46,7 +51,7 @@
         </template>
       </el-table-column>
       <el-table-column label="充电金额" align="center" prop="recordList" :formatter="recordListFormatter" />
-      <el-table-column label="充电桩编码" align="center" prop="chargeStationImei" />
+      <el-table-column label="充电桩编码" align="center" prop="chargeStationDeviceCode" />
       <el-table-column label="充电开始时间" align="center" prop="startAt">
         <template #default="{ row }">
           <span>{{ dateTimeFormat((row as TOrderList).startAt) }}</span>
@@ -54,13 +59,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template #default="scope">
-          <el-button
-            type="primary"
-            link
-            @click="onHandleDetail(scope.row.id)"
-          >
-            查看
-          </el-button>
+          <el-button type="primary" link @click="onHandleDetail(scope.row.id)"> 查看 </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -68,18 +67,17 @@
       class="relative float-right"
       v-model:current-page="paginationParams.currentPage"
       v-model:page-size="paginationParams.pageSize"
-      :page-sizes="[10, 30,50, 100]"
+      :page-sizes="[10, 30, 50, 100]"
       background
       :total="5"
       layout="total, sizes, prev, pager, next, jumper"
-      @size-change="val => paginationParams.pageSize = val"
-      @current-change="val => paginationParams.currentPage = val"
+      @size-change="val => (paginationParams.pageSize = val)"
+      @current-change="val => (paginationParams.currentPage = val)"
       @change="getList"
     />
     <el-dialog title="订单详情" v-model="isShowDialog" width="450px" append-to-body>
-      <div class="bg-[#f7f7f7] rounded px-2 pt-2 pb-1 mb-2">
-        <div
-          class="font-bold text-base before:w-[4px] before:bg-[#00BCBC] before:h-[20px] before:mr-2 flex items-center pl-2">
+      <div class="mb-2 rounded bg-[#f7f7f7] px-2 pb-1 pt-2">
+        <div class="flex items-center pl-2 text-base font-bold before:mr-2 before:h-[20px] before:w-[4px] before:bg-[#00BCBC]">
           充电桩信息
         </div>
         <div class="px-4">
@@ -87,83 +85,77 @@
             <span class="text-[#7D7D7D]">充电桩名：</span>
             <span class="font-medium text-black">{{ formData?.chargeStationName }}</span>
           </div>
-          <div class="flex items-center my-1">
+          <div class="my-1 flex items-center">
             <span class="text-[#7D7D7D]">充电桩编码：</span>
-            <span class="font-medium text-black">{{ formData?.chargeStationImei }}</span>
+            <span class="font-medium text-black">{{ formData?.chargeStationDeviceCode }}</span>
           </div>
-          <div class="flex items-center my-1">
+          <div class="my-1 flex items-center">
             <span class="text-[#7D7D7D]">所属位置：</span>
             <span class="font-medium text-black">{{ formData?.chargeStationaddress }}</span>
           </div>
         </div>
       </div>
-      <div class="bg-[#f7f7f7] rounded px-2 pt-2 pb-1 mb-2">
-        <div
-          class="font-bold text-base before:w-[4px] before:bg-[#00BCBC] before:h-[20px] before:mr-2 flex items-center pl-2">
+      <div class="mb-2 rounded bg-[#f7f7f7] px-2 pb-1 pt-2">
+        <div class="flex items-center pl-2 text-base font-bold before:mr-2 before:h-[20px] before:w-[4px] before:bg-[#00BCBC]">
           订单信息
         </div>
         <div class="px-4 py-1">
-          <div class="flex items-center my-1">
+          <div class="my-1 flex items-center">
             <span class="text-[#7D7D7D]">订单号：</span>
             <span class="font-medium text-black">{{ formData?.code }}</span>
           </div>
-          <div class="flex items-center my-1">
+          <div class="my-1 flex items-center">
             <span class="text-[#7D7D7D]">充电用户：</span>
             <span class="font-medium text-black">{{ formData?.userName }}</span>
           </div>
         </div>
       </div>
-      <div class="bg-[#f7f7f7] rounded px-2 pt-2 pb-1 mb-2">
-        <div
-          class="font-bold text-base before:w-[4px] before:bg-[#00BCBC] before:h-[20px] before:mr-2 flex items-center pl-2">
+      <div class="mb-2 rounded bg-[#f7f7f7] px-2 pb-1 pt-2">
+        <div class="flex items-center pl-2 text-base font-bold before:mr-2 before:h-[20px] before:w-[4px] before:bg-[#00BCBC]">
           充电信息
         </div>
         <div class="px-4 py-1">
-          <div class="flex items-center mt-1">
+          <div class="mt-1 flex items-center">
             <div class="flex flex-col">
               <div>{{ dateTimeFormat(formData?.startAt, "MM月DD日") }}</div>
-              <div class="font-bold text-base">{{ dateTimeFormat(formData?.startAt, "HH:mm:ss") }}</div>
+              <div class="text-base font-bold">{{ dateTimeFormat(formData?.startAt, "HH:mm:ss") }}</div>
             </div>
-            <div class="w-full bg-[#ECECEC] h-0.5 mx-4"></div>
+            <div class="mx-4 h-0.5 w-full bg-[#ECECEC]"></div>
             <div v-if="formData?.endAt">
               <div>{{ dateTimeFormat(formData?.endAt, "MM月DD日") }}</div>
-              <div class="font-bold text-base">{{ dateTimeFormat(formData?.endAt, "HH:mm:ss") }}</div>
+              <div class="text-base font-bold">{{ dateTimeFormat(formData?.endAt, "HH:mm:ss") }}</div>
             </div>
-            <div class="whitespace-nowrap font-bold text-base" v-else>
-              充电中
-            </div>
+            <div class="whitespace-nowrap text-base font-bold" v-else>充电中</div>
           </div>
-          <div class="w-full bg-[#ECECEC80] h-0.5 my-1"></div>
-          <div class="flex item-center justify-between">
+          <div class="my-1 h-0.5 w-full bg-[#ECECEC80]"></div>
+          <div class="item-center flex justify-between">
             <div>充电时长</div>
             <div class="text-black">{{ dateTimeDifference(formData?.startAt, formData?.endAt) }}</div>
           </div>
-          <div class="flex item-center justify-between">
+          <div class="item-center flex justify-between">
             <div>充电度数</div>
-            <div class="text-black">{{ formData?.chargeDegree }}</div>
+            <div class="text-black">{{ formData?.chargeDegree }}度</div>
           </div>
         </div>
       </div>
-      <div class="bg-[#f7f7f7] rounded px-2 pt-2 pb-1 mb-2">
-        <div
-          class="font-bold text-base before:w-[4px] before:bg-[#00BCBC] before:h-[20px] before:mr-2 flex items-center pl-2">
+      <div class="mb-2 rounded bg-[#f7f7f7] px-2 pb-1 pt-2">
+        <div class="flex items-center pl-2 text-base font-bold before:mr-2 before:h-[20px] before:w-[4px] before:bg-[#00BCBC]">
           充电费用
         </div>
         <div class="px-4 py-1">
-          <div class="flex items-center my-1">
+          <div class="my-1 flex items-center">
             <span class="text-[#7D7D7D]">充电费用：</span>
-            <span class="font-medium text-black">{{ formData?.chargeCost }}</span>
+            <span class="font-medium text-black">{{ formData?.chargeCost }}元</span>
           </div>
-          <div class="w-full bg-[#ECECEC80] h-0.5 my-1"></div>
-          <div class="flex items-center my-1" v-for="record of formData?.recordList" :key="record.id">
-            <span class="text-[#7D7D7D]">{{ dateTimeFormat(record.startAt, "HH")
-              }}-{{ dateTimeFormat(record.endAt, "HH") }}:00</span>
-            <span class="font-medium text-black pl-4">充电{{ record.chargeDegree }}度</span>
+          <div class="my-1 h-0.5 w-full bg-[#ECECEC80]"></div>
+          <div class="my-1 flex items-center" v-for="record of formData?.recordList" :key="record.id">
+            <span class="text-[#7D7D7D]">{{ record.startHour }}:00-{{ record.startHour + 1 }}:00</span>
+            <span class="pl-4 font-medium text-black">充电{{ record.chargeDegree }}度</span>
           </div>
         </div>
       </div>
       <template #footer>
-        <div>
+        <div class="flex items-center justify-center">
           <el-button @click="onHandleCloseDialog()">关闭</el-button>
         </div>
       </template>
@@ -188,7 +180,7 @@ const paginationParams = reactive({
 });
 const queryParams = reactive<Partial<TOrderManageListParams>>({
   code: "",
-  chargeStationImei: "",
+  chargeStationDeviceCode: "",
   startAt: undefined,
   endAt: undefined
 });
@@ -201,7 +193,7 @@ const resetHeaderForm = (formEl: FormInstance | undefined) => {
   queryParams.endAt = undefined;
   formEl.resetFields();
 };
-const recordListFormatter = (row) => {
+const recordListFormatter = row => {
   if (!row.recordList) return "-";
   return row.recordList.reduce((sum, record) => sum + record.chargeCost, 0);
 };
@@ -224,7 +216,7 @@ const onHandleCloseDialog = () => {
   isShowDialog.value = false;
   formData.value = undefined;
 };
-const onHandleDatePicker = (date) => {
+const onHandleDatePicker = date => {
   if (date) {
     queryParams.startAt = dayjs(date[0]).valueOf();
     queryParams.endAt = dayjs(date[1]).valueOf();

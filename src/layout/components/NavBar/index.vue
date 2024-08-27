@@ -44,8 +44,8 @@ import {
   TOGGlE_FULLSCREEN_ACTION
 } from "@/model";
 import { getAssets } from "@/utils";
-const router = useRouter()
-const { userStore } = useUserStoreToRefs()
+const router = useRouter();
+const { userStore } = useUserStoreToRefs();
 const { settingStore, isExpand } = useSettingStoreToRefs();
 const avatar = computed(() => getAssets("images", "icons/avatar.gif"));
 
@@ -53,20 +53,22 @@ const getAvatar = (source: string | undefined) => {
   return source || avatar.value;
 };
 
-const logout = ()=> {
-  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    type: 'warning'
-  }).then(() => {
-    userStore.logoutAction().then(() => {
-      location.href = '/index';
-      router.replace("/login")
+const logout = () => {
+  ElMessageBox.confirm("确定注销并退出系统吗？", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  })
+    .then(() => {
+      userStore.logoutAction().then(() => {
+        location.href = "/index";
+        router.replace("/login");
+      });
     })
-  }).catch(() => { });
-}
+    .catch(() => {});
+};
 
-const onHandleCommand = (command)=>{
+const onHandleCommand = command => {
   switch (command) {
     case "logout":
       logout();
@@ -74,7 +76,7 @@ const onHandleCommand = (command)=>{
     default:
       break;
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

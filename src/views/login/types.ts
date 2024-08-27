@@ -3,13 +3,12 @@ export type TLoginForm = {
   password: string;
   captchaCode: string;
   captchaId: string;
-}
+};
 
 export type TLoginResponse = {
-  data:{
-    accessToken: string
-    refreshToken: string
-    expire: number
-  }
-}
-
+  data: {
+    accessToken: string;
+    refreshToken: string;
+    expire: number;
+  };
+};

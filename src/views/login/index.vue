@@ -5,18 +5,12 @@
         <img class="login-left-img" src="@/assets/images/login_left.png" alt="login" />
       </div>
       <el-form ref="formInstance" :model="loginForm" :rules="loginRules" class="login-form">
-        <div class="flex items-center justify-center mb-4">
-          <img class="w-[30px] h-[26px]" src="@/assets/images/logo.png" alt="" />
-          <h3 class="font-bold text-xl">{{ configSource.projectName }}</h3>
+        <div class="mb-4 flex items-center justify-center">
+          <img class="h-[26px] w-[30px]" src="@/assets/images/logo.png" alt="" />
+          <h3 class="text-xl font-bold">{{ configSource.projectName }}</h3>
         </div>
         <el-form-item prop="username">
-          <el-input
-            v-model="loginForm.username"
-            type="text"
-            size="large"
-            auto-complete="off"
-            placeholder="账号"
-          >
+          <el-input v-model="loginForm.username" type="text" size="large" auto-complete="off" placeholder="账号">
             <template #prefix>
               <svg-icon icon-class="user" class="el-input__icon input-icon" />
             </template>
@@ -36,7 +30,7 @@
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item prop="captchaCode" class="justify-between flex-nowrap">
+        <el-form-item prop="captchaCode" class="flex-nowrap justify-between">
           <el-input
             v-model="loginForm.captchaCode"
             size="large"
@@ -55,13 +49,7 @@
         </el-form-item>
         <!--        <el-checkbox v-model="loginForm.rememberMe" class="mb-4">记住密码</el-checkbox>-->
         <el-form-item class="w-full">
-          <el-button
-            :loading="loading"
-            size="large"
-            type="primary"
-            @click.prevent="handleLogin"
-            class="w-full"
-          >
+          <el-button :loading="loading" size="large" type="primary" @click.prevent="handleLogin" class="w-full">
             <span v-if="!loading">登 录</span>
             <span v-else>登 录 中...</span>
           </el-button>
@@ -87,9 +75,13 @@ const captchaUrl = ref("");
 const loading = ref(false);
 const redirect = ref(undefined);
 
-watch(route, (newRoute) => {
-  redirect.value = newRoute.query && newRoute.query.redirect;
-}, { immediate: true });
+watch(
+  route,
+  newRoute => {
+    redirect.value = newRoute.query && newRoute.query.redirect;
+  },
+  { immediate: true }
+);
 
 const loginForm = reactive<TLoginForm>({
   username: "admin",
@@ -103,24 +95,27 @@ const loginRules = {
   captchaCode: [{ required: true, trigger: "change", message: "请输入验证码" }]
 };
 const handleLogin = () => {
-  formInstance.value?.validate((isValid) => {
+  formInstance.value?.validate(isValid => {
     if (!isValid) return;
     loading.value = true;
-    userStore.loginAction(loginForm).then(() => {
-      const query = route.query;
-      const otherQueryParams = Object.keys(query).reduce((acc, cur) => {
-        if (cur !== "redirect") {
-          acc[cur] = query[cur];
-        }
-        return acc;
-      }, {});
-      router.push({ path: redirect.value || "/", query: otherQueryParams });
-    }).catch(() => {
-      loading.value = false;
-      loginForm.captchaCode = "";
-      loginForm.captchaId = "";
-      getCaptchaCode();
-    });
+    userStore
+      .loginAction(loginForm)
+      .then(() => {
+        const query = route.query;
+        const otherQueryParams = Object.keys(query).reduce((acc, cur) => {
+          if (cur !== "redirect") {
+            acc[cur] = query[cur];
+          }
+          return acc;
+        }, {});
+        router.push({ path: redirect.value || "/", query: otherQueryParams });
+      })
+      .catch(() => {
+        loading.value = false;
+        loginForm.captchaCode = "";
+        loginForm.captchaId = "";
+        getCaptchaCode();
+      });
   });
 };
 const getCaptchaCode = () => {
@@ -215,5 +210,4 @@ onMounted(() => {
     height: 100%;
   }
 }
-
 </style>

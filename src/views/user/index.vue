@@ -2,12 +2,10 @@
   <div class="app-container">
     <el-form ref="formHeaderRef" :inline="true" :model="queryParams" class="demo-form-inline">
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="queryParams.username" @keydown.enter="getList" class="input rounded"
-                  placeholder="请输入用户名" clearable />
+        <el-input v-model="queryParams.username" @keydown.enter="getList" class="input rounded" placeholder="请输入用户名" clearable />
       </el-form-item>
       <el-form-item label="手机号" prop="phone">
-        <el-input v-model="queryParams.code" @keydown.enter="getList" class="input rounded"
-                  placeholder="请输入手机号" clearable />
+        <el-input v-model="queryParams.code" @keydown.enter="getList" class="input rounded" placeholder="请输入手机号" clearable />
       </el-form-item>
       <el-form-item label="创建时间" prop="datePickerValue">
         <el-date-picker
@@ -49,18 +47,8 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template #default="scope">
-          <el-button
-            type="primary"
-            link
-          >
-            提现
-          </el-button>
-          <el-button
-            type="primary"
-            link
-          >
-            充值
-          </el-button>
+          <el-button type="primary" link> 提现 </el-button>
+          <el-button type="primary" link> 充值 </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -68,12 +56,12 @@
       class="relative float-right"
       v-model:current-page="paginationParams.currentPage"
       v-model:page-size="paginationParams.pageSize"
-      :page-sizes="[10, 30,50, 100]"
+      :page-sizes="[10, 30, 50, 100]"
       background
       :total="5"
       layout="total, sizes, prev, pager, next, jumper"
-      @size-change="val => paginationParams.pageSize = val"
-      @current-change="val => paginationParams.currentPage = val"
+      @size-change="val => (paginationParams.pageSize = val)"
+      @current-change="val => (paginationParams.currentPage = val)"
       @change="getList"
     />
   </div>
@@ -116,7 +104,7 @@ const getList = () => {
     loading.value = false;
   });
 };
-const onHandleDatePicker = (date) => {
+const onHandleDatePicker = date => {
   if (date) {
     queryParams.createdAtGte = dayjs(date[0]).valueOf() as undefined;
     queryParams.createdAtLte = dayjs(date[1]).valueOf() as undefined;

@@ -1,6 +1,6 @@
 import axios from "axios";
+import router from "@/router";
 import { ElLoading, ElMessage } from "element-plus";
-import type { AxiosInstance, IAxiosConfig, IAxiosInterceptors, ILoadingInstance, TStatusMap, IRequest } from "./types";
 import {
   DEFAULT_SHOW_LOADING,
   DEFAULT_REDUCE_DATA_FORMAT,
@@ -9,9 +9,10 @@ import {
   DEFAULT_SHOW_CODE_MESSAGE,
   DEFAULT_HEADER_AUTHORIZATION
 } from "./constant";
-import { getStorage, hasStorage, removeStorage, setStorage } from "@/utils";
 import { refreshTokenFn } from "@/utils/refreshTokenFn";
-import router from "@/router"
+import { getStorage, hasStorage, isType, removeStorage, setStorage } from "@/utils";
+import type { AxiosInstance, IAxiosConfig, IAxiosInterceptors, ILoadingInstance, TStatusMap, IRequest } from "./types";
+
 const statusMap: TStatusMap = new Map();
 const LoadingInstance: ILoadingInstance = {
   _target: null,
@@ -46,55 +47,56 @@ export default class MyRequest implements IRequest {
             LoadingInstance._target = ElLoading.service({});
           }
         }
-        if(config!.url && config.url.indexOf("/refresh") >= 0){
+        if (config!.url && config.url.indexOf("/refresh") >= 0) {
           // token 过期
           config.headers![DEFAULT_HEADER_AUTHORIZATION] = getStorage("refreshToken");
-        }else if (hasStorage("accessToken") && typeof window !== "undefined") {
+        } else if (hasStorage("accessToken") && typeof window !== "undefined") {
           // 自动携带token
           config.headers![DEFAULT_HEADER_AUTHORIZATION] = getStorage("accessToken");
         }
         return config;
       },
       error => {
-        console.log(error,'error');
+        console.log(error, "error");
         return Promise.reject(error);
       }
     );
 
     this.instance.interceptors.response.use(
       response => {
-        console.log(response,'interceptors response');
+        console.log(response, "interceptors response");
         delStatus(response.config);
         this.showLoading && closeLoading(this.showLoading);
-
+        if (isType(response.data) === "[object Blob]") {
+          return response;
+        }
         if (this.showCodeMessage && response.data && response.data.code !== 0) {
           ElMessage({ type: "error", message: response.data.msg });
           return Promise.reject(response.data);
         }
-
         return this.reduceDataFormat ? response.data : response;
       },
-      async (error) => {
-        console.log(error,'error');
+      async error => {
+        console.log(error, "error");
         this.showLoading && closeLoading(this.showLoading); // 关闭loading
-        if(error.response.status === 401){
+        if (error.response.status === 401) {
           try {
             const result = await refreshTokenFn();
-            console.log(result,'refreshTokenFn');
-            if(result?.data?.data?.accessToken){
-              const accessToken = result.data.data.accessToken
-              setStorage("accessToken", accessToken)
-              error.config.headers![DEFAULT_HEADER_AUTHORIZATION] = accessToken
+            console.log(result, "refreshTokenFn");
+            if (result?.data?.data?.accessToken) {
+              const accessToken = result.data.data.accessToken;
+              setStorage("accessToken", accessToken);
+              error.config.headers![DEFAULT_HEADER_AUTHORIZATION] = accessToken;
               return await this.instance.request(error.config);
-            }else{
-              removeStorage("accessToken")
-              removeStorage("refreshToken")
-              return await router.push("/login?redirect="+ encodeURIComponent(router.currentRoute.value.fullPath))
+            } else {
+              removeStorage("accessToken");
+              removeStorage("refreshToken");
+              return await router.push("/login?redirect=" + encodeURIComponent(router.currentRoute.value.fullPath));
             }
-          }catch (e) {
-            removeStorage("accessToken")
-            removeStorage("refreshToken")
-            return await router.push("/login?redirect="+ encodeURIComponent(router.currentRoute.value.fullPath))
+          } catch (e) {
+            removeStorage("accessToken");
+            removeStorage("refreshToken");
+            return await router.push("/login?redirect=" + encodeURIComponent(router.currentRoute.value.fullPath));
           }
         }
         error.config && delStatus(error.config);

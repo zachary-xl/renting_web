@@ -8,10 +8,12 @@ export const getAssets = (folder: string, name: string) => {
   return new URL(`../assets/${folder}/${name}`, import.meta.url).href;
 };
 // 排除出对象中假的值
-export function excludingFakeObject(obj:any){
+export function excludingFakeObject(obj: any) {
   return Object.fromEntries(
-    Object.entries(obj).filter(
-      ([, value]) => value !== undefined && value !== null && value !== '' && value !== 0
-    )
+    Object.entries(obj).filter(([, value]) => value !== undefined && value !== null && value !== "" && value !== 0)
   );
+}
+
+export function isType(value): string {
+  return Object.prototype.toString.call(value);
 }

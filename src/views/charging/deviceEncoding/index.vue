@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form ref="formHeaderRef" :inline="true" :model="queryParams">
-      <el-form-item label="设备编码" property="imei">
-        <el-input v-model="queryParams.imei" class="input rounded" placeholder="请输入设备编码" clearable />
+      <el-form-item label="设备编码" property="deviceCode">
+        <el-input v-model="queryParams.deviceCode" class="input rounded" placeholder="请输入设备编码" clearable />
       </el-form-item>
       <el-form-item label="型号" property="categoryName">
         <el-input v-model="queryParams.categoryName" class="input rounded" placeholder="请输入型号" clearable />
@@ -41,13 +41,16 @@
       </el-form-item>
     </el-form>
     <div class="line"></div>
-    <div class="flex items-center my-2">
+    <div class="my-2 flex items-center">
       <el-button color="#1F63FF" :icon="Plus" @click="onHandleAdd">新建</el-button>
-      <el-button color="#F7F8FA">批量导入</el-button>
+      <el-upload ref="uploadRef" @change="onUpload" :limit="1" :show-file-list="false" :auto-upload="false" class="flex items-center mx-2">
+        <el-button color="#F7F8FA">批量导入</el-button>
+      </el-upload>
+      <el-button link type="primary" @click="onDownLoadTemplate">导入模板下载</el-button>
     </div>
     <el-table :data="tableData" v-loading="loading" class="w-full" header-cell-class-name="table-header">
       <el-table-column type="index" label="序号" align="center" width="60" />
-      <el-table-column label="设备编码" align="center" prop="imei" />
+      <el-table-column label="设备编码" align="center" prop="deviceCode" />
       <el-table-column label="型号" align="center" prop="categoryName">
         <template #default="{ row }">
           <span>{{ (row as TList).categoryName || "-" }}</span>
@@ -69,14 +72,8 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
-        <template #default="{row}">
-          <el-button
-            type="primary"
-            link
-            @click="onHandleChargeStationUnbind(row!.id)"
-          >
-            解绑
-          </el-button>
+        <template #default="{ row }">
+          <el-button type="primary" link @click="onHandleChargeStationUnbind(row!.id)"> 解绑 </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -84,41 +81,44 @@
       class="relative float-right"
       v-model:current-page="paginationParams.currentPage"
       v-model:page-size="paginationParams.pageSize"
-      :page-sizes="[10, 30,50, 100]"
+      :page-sizes="[10, 30, 50, 100]"
       background
       :total="5"
       layout="total, sizes, prev, pager, next, jumper"
-      @size-change="val => paginationParams.pageSize = val"
-      @current-change="val => paginationParams.currentPage = val"
+      @size-change="val => (paginationParams.pageSize = val)"
+      @current-change="val => (paginationParams.currentPage = val)"
       @change="getList"
     />
-    <FormComp v-if="visible" v-model.visible="visible" :title="title"/>
+    <FormComp v-if="visible" v-model.visible="visible" @update:visible="bool=> visible = bool" :title="title" @confirm="getList" />
   </div>
 </template>
 <script setup lang="ts">
 import dayjs from "dayjs";
-import { ElMessage, type FormInstance } from "element-plus";
+import { ElMessage, type FormInstance, type UploadInstance } from "element-plus";
 import { Search, RefreshLeft, Plus } from "@element-plus/icons-vue";
 import { dateTimeFormat, excludingFakeObject } from "@/utils";
 import {
   getChargeStationListAPI,
-  postChargeStationOperateUnbindAPI
+  postChargeStationOperateUnbindAPI,
+  postChargeStationTemplateDownloadAPI,
+  postChargeStationXLSXImportAPI
 } from "@/service/charging";
 import FormComp from "@/views/charging/deviceEncoding/components/FormComp.vue";
-import type { TList, TListParams } from "@/views/charging/deviceEncoding/types";
+import { TList, TListParams, upload } from "@/views/charging/deviceEncoding/types";
 
 const formHeaderRef = ref<FormInstance>();
+const uploadRef = ref<UploadInstance>();
 const total = ref(0);
 const loading = ref(true);
-const title = ref("")
-const visible = ref(false)
+const title = ref("");
+const visible = ref(false);
 const datePickerValue = ref([]);
 const paginationParams = reactive({
   currentPage: 1,
   pageSize: 10
 });
 const queryParams = reactive<Partial<TListParams>>({
-  imei: "",
+  deviceCode: "",
   categoryName: "",
   brandId: "",
   nickame: "",
@@ -126,7 +126,25 @@ const queryParams = reactive<Partial<TListParams>>({
   bindAtLte: undefined
 });
 const tableData = ref<TList[]>([]);
-const onHandleChargeStationUnbind = (id) => {
+const onUpload:upload = (_, uploadFile)=>{
+  console.log(uploadFile[0].raw);
+  if(Array.isArray(uploadFile) && uploadFile.length > 0){
+    const file = uploadFile[0]
+    const formData = new FormData();
+    formData.append("limit_type", file.name.split(".")[1]);
+    formData.append("file", file.raw);
+    postChargeStationXLSXImportAPI(formData).then(()=>{
+      ElMessage({
+        message: "导入成功",
+        type: "success",
+        plain: true
+      });
+      getList()
+    })
+  }
+}
+// 解绑设备
+const onHandleChargeStationUnbind = id => {
   postChargeStationOperateUnbindAPI(id).then(() => {
     ElMessage({
       message: "解绑成功",
@@ -156,7 +174,7 @@ const onHandleAdd = () => {
   title.value = "新建";
   visible.value = true;
 };
-const onHandleDatePicker = (date) => {
+const onHandleDatePicker = date => {
   if (date) {
     queryParams.bindAtGte = dayjs(date[0]).valueOf() as undefined;
     queryParams.bindAtLte = dayjs(date[1]).valueOf() as undefined;
@@ -164,6 +182,29 @@ const onHandleDatePicker = (date) => {
     queryParams.bindAtGte = undefined;
     queryParams.bindAtLte = undefined;
   }
+};
+const onDownLoadTemplate = () => {
+  postChargeStationTemplateDownloadAPI().then(response => {
+    const contentDisposition = response.headers["content-disposition"];
+    const filenameMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/);
+    let fileName;
+    if (filenameMatch) {
+      if (filenameMatch[1]) {
+        fileName = decodeURIComponent(filenameMatch[1]);
+      } else {
+        fileName = filenameMatch[2];
+      }
+    }
+    const blob = new Blob([response.data], { type: response.data.type });
+    const fileUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = decodeURIComponent(fileName);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(fileUrl);
+  });
 };
 getList();
 </script>
