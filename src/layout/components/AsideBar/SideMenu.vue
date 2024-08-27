@@ -3,10 +3,10 @@
     :collapse="!isExpand"
     :default-active="tagsViewStore[GET_CURRENT_TAG]"
     :collapse-transition="false"
-    active-text-color="#409eff"
-    background-color="#304156"
+    active-text-color="#106bfe"
+    background-color="#fff"
     class="menu-container"
-    text-color="#bfcbd9"
+    text-color="#000"
     mode="vertical"
     unique-opened
     router
@@ -46,10 +46,6 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-:root {
-  --bg: #fff;
-}
-
 .menu-container {
   border: none;
 }

@@ -84,8 +84,8 @@ watch(
 );
 
 const loginForm = reactive<TLoginForm>({
-  username: "admin",
-  password: "@admin123",
+  username: "",
+  password: "",
   captchaCode: "",
   captchaId: ""
 });

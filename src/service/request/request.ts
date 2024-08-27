@@ -57,14 +57,12 @@ export default class MyRequest implements IRequest {
         return config;
       },
       error => {
-        console.log(error, "error");
         return Promise.reject(error);
       }
     );
 
     this.instance.interceptors.response.use(
       response => {
-        console.log(response, "interceptors response");
         delStatus(response.config);
         this.showLoading && closeLoading(this.showLoading);
         if (isType(response.data) === "[object Blob]") {
@@ -77,12 +75,10 @@ export default class MyRequest implements IRequest {
         return this.reduceDataFormat ? response.data : response;
       },
       async error => {
-        console.log(error, "error");
         this.showLoading && closeLoading(this.showLoading); // 关闭loading
         if (error.response.status === 401) {
           try {
             const result = await refreshTokenFn();
-            console.log(result, "refreshTokenFn");
             if (result?.data?.data?.accessToken) {
               const accessToken = result.data.data.accessToken;
               setStorage("accessToken", accessToken);

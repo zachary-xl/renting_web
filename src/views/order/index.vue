@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
-    <el-form ref="formHeaderRef" :inline="true" :model="queryParams" class="demo-form-inline">
-      <el-form-item label="订单号" property="code">
+    <el-form ref="formHeaderRef" :inline="true" :model="queryParams">
+      <el-form-item label="订单号" prop="code">
         <el-input v-model="queryParams.code" @keydown.enter="getList" class="input rounded" placeholder="请输入订单号" clearable />
       </el-form-item>
-      <el-form-item label="充电桩编码" property="chargeStationDeviceCode">
+      <el-form-item label="充电桩编码" prop="chargeStationDeviceCode">
         <el-input
           v-model="queryParams.chargeStationDeviceCode"
           @keydown.enter="getList"
@@ -13,7 +13,7 @@
           clearable
         />
       </el-form-item>
-      <el-form-item label="充电时间" property="datePickerValue">
+      <el-form-item label="充电时间" prop="datePickerValue">
         <el-date-picker
           class="date"
           v-model="datePickerValue"
@@ -69,7 +69,7 @@
       v-model:page-size="paginationParams.pageSize"
       :page-sizes="[10, 30, 50, 100]"
       background
-      :total="5"
+      :total="total"
       layout="total, sizes, prev, pager, next, jumper"
       @size-change="val => (paginationParams.pageSize = val)"
       @current-change="val => (paginationParams.currentPage = val)"
@@ -181,17 +181,18 @@ const paginationParams = reactive({
 const queryParams = reactive<Partial<TOrderManageListParams>>({
   code: "",
   chargeStationDeviceCode: "",
-  startAt: undefined,
-  endAt: undefined
+  startAtGte: undefined,
+  startAtLte: undefined
 });
 const tableData = ref<TOrderList[]>([]);
 const formData = ref<TOrderList>();
 const resetHeaderForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   datePickerValue.value = [];
-  queryParams.startAt = undefined;
-  queryParams.endAt = undefined;
+  queryParams.startAtGte = undefined;
+  queryParams.startAtLte = undefined;
   formEl.resetFields();
+  getList();
 };
 const recordListFormatter = row => {
   if (!row.recordList) return "-";
@@ -218,11 +219,11 @@ const onHandleCloseDialog = () => {
 };
 const onHandleDatePicker = date => {
   if (date) {
-    queryParams.startAt = dayjs(date[0]).valueOf();
-    queryParams.endAt = dayjs(date[1]).valueOf();
+    queryParams.startAtGte = dayjs(date[0]).valueOf();
+    queryParams.startAtLte = dayjs(date[1]).valueOf();
   } else {
-    queryParams.startAt = undefined;
-    queryParams.endAt = undefined;
+    queryParams.startAtGte = undefined;
+    queryParams.startAtLte = undefined;
   }
 };
 getList();
@@ -243,7 +244,9 @@ getList();
     font-size: 12px;
   }
 }
-
+:deep(.el-form-item__label){
+  font-weight: 600;
+}
 :deep(.el-date-editor) {
   background-color: rgba(247, 248, 250, 1);
   color: rgba(136, 136, 136, 1);

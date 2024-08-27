@@ -49,7 +49,7 @@ const style = computed(() => {
       font-weight: 600;
       font-size: 14px;
       display: inline-block;
-      color: #fff;
+      color: #000;
       vertical-align: middle;
       font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
     }

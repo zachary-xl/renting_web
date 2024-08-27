@@ -2,7 +2,8 @@
   <SideLink v-if="link" :to="link">
     <el-menu-item>
       <el-icon>
-        <SvgIcon :icon-class="icon" />
+<!--        <SvgIcon :icon-class="icon" />-->
+        <component :is="icon"></component>
       </el-icon>
       <template #title>
         <span class="menu-title">
@@ -14,7 +15,8 @@
   <el-sub-menu v-else-if="item.children && item.children.length > 0" ref="subMenu" :index="path">
     <template #title>
       <el-icon>
-        <SvgIcon :icon-class="icon" />
+<!--        <SvgIcon :icon-class="icon" />-->
+        <component :is="icon"></component>
       </el-icon>
       <span class="menu-title">{{ title }}</span>
     </template>
@@ -22,7 +24,8 @@
   </el-sub-menu>
   <el-menu-item v-else :index="path">
     <el-icon>
-      <SvgIcon :icon-class="icon" />
+<!--      <SvgIcon :icon-class="icon" />-->
+      <component :is="icon"></component>
     </el-icon>
     <template #title>
       <span class="menu-title">{{ title }}</span>

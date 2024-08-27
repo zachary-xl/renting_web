@@ -7,7 +7,7 @@ import { useSettingStoreToRefs } from "@/hooks";
 export function useDynamicTitle() {
   const { dynamicTitle, title } = useSettingStoreToRefs();
   if (dynamicTitle.value) {
-    document.title = title.value + " - " + configSource.projectName;
+    document.title = configSource.projectName + "-" + title.value;
   } else {
     document.title = configSource.projectName;
   }

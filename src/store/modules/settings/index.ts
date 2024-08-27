@@ -15,7 +15,7 @@ import { useDynamicTitle } from "@/utils/dynamicTitle";
 export default defineStore("settings", {
   state: (): IState => ({
     title: "",
-    dynamicTitle: "",
+    dynamicTitle: true,
 
     isExpand: true, // 是否展开
     isFullScreen: false, // 是否全屏
@@ -53,7 +53,7 @@ export default defineStore("settings", {
       this.isThemed = theme === "light" ? "dark" : "light";
       initTheme(this.isThemed);
     },
-    setTitle(title) {
+    setTitle(title:string) {
       this.title = title;
       useDynamicTitle();
     }

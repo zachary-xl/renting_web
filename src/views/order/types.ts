@@ -12,8 +12,8 @@ export type TOrderManageListParams = {
   chargeStationId?: string;
   chargeStationDeviceCode?: string;
   chargeStationName?: string;
-  startAt?: number;
-  endAt?: number;
+  startAtGte?: number;
+  startAtLte?: number;
 };
 
 export type TOrderListResponse = {

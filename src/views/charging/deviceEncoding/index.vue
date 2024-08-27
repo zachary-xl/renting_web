@@ -1,19 +1,19 @@
 <template>
   <div class="app-container">
     <el-form ref="formHeaderRef" :inline="true" :model="queryParams">
-      <el-form-item label="设备编码" property="deviceCode">
+      <el-form-item label="设备编码" prop="deviceCode">
         <el-input v-model="queryParams.deviceCode" class="input rounded" placeholder="请输入设备编码" clearable />
       </el-form-item>
-      <el-form-item label="型号" property="categoryName">
+      <el-form-item label="型号" prop="categoryName">
         <el-input v-model="queryParams.categoryName" class="input rounded" placeholder="请输入型号" clearable />
       </el-form-item>
-      <el-form-item label="品牌" property="brandName">
+      <el-form-item label="品牌" prop="brandName">
         <el-input v-model="queryParams.brandName" class="input rounded" placeholder="请输入品牌" clearable />
       </el-form-item>
-      <el-form-item label="绑定用户" property="nickame">
+      <el-form-item label="绑定用户" prop="nickame">
         <el-input v-model="queryParams.nickame" class="input rounded" placeholder="请输入绑定用户" clearable />
       </el-form-item>
-      <el-form-item label="绑定时间" property="datePickerValue">
+      <el-form-item label="绑定时间" prop="datePickerValue">
         <el-date-picker
           class="date"
           v-model="datePickerValue"
@@ -73,7 +73,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template #default="{ row }">
-          <el-button type="primary" link @click="onHandleChargeStationUnbind(row!.id)"> 解绑 </el-button>
+          <el-button type="primary" link @click="onHandleChargeStationUnbind(row)"> 解绑 </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -83,18 +83,20 @@
       v-model:page-size="paginationParams.pageSize"
       :page-sizes="[10, 30, 50, 100]"
       background
-      :total="5"
+      :total="total"
       layout="total, sizes, prev, pager, next, jumper"
       @size-change="val => (paginationParams.pageSize = val)"
       @current-change="val => (paginationParams.currentPage = val)"
       @change="getList"
     />
-    <FormComp v-if="visible" v-model.visible="visible" @update:visible="bool => (visible = bool)" :title="title" @confirm="getList" />
+    <FormComp v-if="visible" v-model.visible="visible"
+              @update:visible="bool => (visible = bool)"
+              :title="title" @confirm="onHandleConfirm" />
   </div>
 </template>
 <script setup lang="ts">
 import dayjs from "dayjs";
-import { ElMessage, type FormInstance, type UploadInstance } from "element-plus";
+import { ElMessage, ElMessageBox, type FormInstance, type UploadInstance } from "element-plus";
 import { Search, RefreshLeft, Plus } from "@element-plus/icons-vue";
 import { dateTimeFormat, excludingFakeObject } from "@/utils";
 import {
@@ -142,16 +144,34 @@ const onUpload = (_, uploadFile) => {
     });
   }
 };
+const onHandleConfirm = ()=>{
+  visible.value = false;
+  getList()
+}
 // 解绑设备
-const onHandleChargeStationUnbind = id => {
-  postChargeStationOperateUnbindAPI(id).then(() => {
-    ElMessage({
-      message: "解绑成功",
-      type: "success",
-      plain: true
-    });
-    getList();
-  });
+const onHandleChargeStationUnbind = (row) => {
+  ElMessageBox.confirm(
+    `<div>确认解绑
+          <span style="color: #106bfe;margin: 0 2px;">${row.deviceCode}</span>
+          设备? 当前绑定用户为<span style="color: #106bfe;margin: 0 2px;">${row.nickname}</span>
+    </div>`,
+    '解绑设备',
+    {
+      dangerouslyUseHTMLString: true,
+    }
+  )
+    .then(() => {
+      postChargeStationOperateUnbindAPI(row.id).then(() => {
+        ElMessage({
+          message: "解绑成功",
+          type: "success",
+          plain: true
+        });
+        getList();
+      });
+    }).catch(()=>{
+
+  })
 };
 const resetHeaderForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -159,6 +179,7 @@ const resetHeaderForm = (formEl: FormInstance | undefined) => {
   queryParams.bindAtGte = undefined;
   queryParams.bindAtLte = undefined;
   formEl.resetFields();
+  getList();
 };
 const getList = () => {
   loading.value = true;
@@ -233,7 +254,9 @@ getList();
   height: 30px;
   box-shadow: none;
 }
-
+:deep(.el-form-item__label){
+  font-weight: 600;
+}
 :deep(.table-header) {
   .cell {
     font-weight: bolder !important;

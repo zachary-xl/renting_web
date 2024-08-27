@@ -31,3 +31,7 @@ export type TUserList = {
   balance: number;
   createdAt: number;
 };
+export type TPayPayload = {
+  id: string
+  cost: number
+}

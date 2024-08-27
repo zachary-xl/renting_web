@@ -1,5 +1,5 @@
 import request from "@/service";
-import type { TPagination, TUserListParams, TUserListResponse } from "@/views/user/types";
+import { TPagination, TPayPayload, TUserListParams, TUserListResponse } from "@/views/user/types";
 // 用户列表
 export const getUserListAPI = (params: TPagination & Partial<TUserListParams>) => {
   return request.get<TUserListResponse>({
@@ -9,17 +9,17 @@ export const getUserListAPI = (params: TPagination & Partial<TUserListParams>) =
 };
 
 // 充值
-export const postPayRecordRechargeAPI = (params: TUserListParams) => {
-  return request.get<TUserListResponse>({
+export const postPayRecordRechargeAPI = (data: TPayPayload) => {
+  return request.post<TUserListResponse>({
     url: "/pay_record/recharge",
-    params
+    data
   });
 };
 
 // 提现
-export const postPayRecordWithdrawalAPI = (params: TUserListParams) => {
-  return request.get<TUserListResponse>({
+export const postPayRecordWithdrawalAPI = (data: TPayPayload) => {
+  return request.post<TUserListResponse>({
     url: "/pay_record/withdrawal",
-    params
+    data
   });
 };

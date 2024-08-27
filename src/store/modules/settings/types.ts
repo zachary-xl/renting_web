@@ -5,7 +5,7 @@ export interface IState {
   isThemed: TTheme;
 
   title: string;
-  dynamicTitle: string;
+  dynamicTitle: boolean;
 }
 
 export type TTheme = "light" | "dark";

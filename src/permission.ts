@@ -14,7 +14,6 @@ router.beforeEach(async (to, _, next) => {
     const { settingStore } = useSettingStoreToRefs();
     const { authStore } = useAuthStoreToRefs();
     to.meta.title && settingStore.setTitle(to.meta.title || "");
-    NProgress.done();
     if (to.path === "/login") {
       clearStorage();
       return next({
@@ -30,7 +29,6 @@ router.beforeEach(async (to, _, next) => {
       return next();
     }
   } else {
-    NProgress.done();
     if (whiteList.indexOf(to.path) !== -1) {
       return next();
     } else {
@@ -66,12 +64,11 @@ router.beforeEach(async (to, _, next) => {
   //     }
   //   }
   // }
-  return next();
 });
 
 router.afterEach(to => {
   NProgress.done();
-  // TODO
+  const { settingStore } = useSettingStoreToRefs();
   const title = to.meta?.title;
-  if (title) document.title = title as string;
+  if (title) settingStore.setTitle(title)
 });

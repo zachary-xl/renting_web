@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 import { postLoginAPI, getUserGetInfoAPI, getMenusAPI } from "@/service";
 import { addRoutesWithMenu, clearStorage, formatTree, loadLocalRoutes, mapPathToMenu } from "@/utils";
 import { MENUS_ACTION, USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
-
+import {User, Tickets, Files, Postcard} from "@element-plus/icons-vue"
 export default defineStore("auth", {
   state: (): IState => ({
     roles: [],
@@ -110,7 +110,7 @@ export default defineStore("auth", {
             {
               id: 1,
               title: "用户管理",
-              icon: "login",
+              icon: User,
               name: "User",
               path: "/user",
               pid: 0
@@ -118,7 +118,7 @@ export default defineStore("auth", {
             {
               id: 2,
               title: "订单管理",
-              icon: "jeep-car",
+              icon: Tickets,
               name: "Order",
               path: "/order",
               pid: 0
@@ -126,7 +126,7 @@ export default defineStore("auth", {
             {
               id: 3,
               title: "充电桩管理",
-              icon: "logo",
+              icon: Files,
               name: "Charging",
               path: "/charging",
               redirect: "/charging/deviceEncoding",
@@ -135,7 +135,7 @@ export default defineStore("auth", {
             {
               id: 4,
               title: "设备编码管理",
-              icon: "logo",
+              icon: Postcard,
               name: "DeviceEncoding",
               path: "/charging/deviceEncoding",
               pid: 3
