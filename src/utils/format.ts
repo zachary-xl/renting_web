@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 
-export function dateTimeFormat(date: Date | number, format = "YYYY-MM-DD HH:mm:ss") {
+export function dateTimeFormat(date: Date | number | undefined, format = "YYYY-MM-DD HH:mm:ss") {
   if (!date) return "";
   return dayjs(date).format(format);
 }
@@ -10,7 +10,7 @@ export function defaultFormatter(row: any, column: any) {
   return value ? value : "-";
 }
 
-export function dateTimeDifference(startTime: Date | number, endTime: Date | number) {
+export function dateTimeDifference(startTime: Date | number | undefined, endTime: Date | number | undefined) {
   if (!startTime || !endTime) return "";
   const diff = dayjs(endTime).valueOf() - dayjs(startTime).valueOf();
   const timeDuration = dayjs.duration(diff);

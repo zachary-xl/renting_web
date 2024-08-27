@@ -12,3 +12,10 @@ export type TLoginResponse = {
     expire: number;
   };
 };
+
+export type TCaptchaResponse = {
+  data: {
+    captchaBs64: string;
+    captchaId: string;
+  };
+};

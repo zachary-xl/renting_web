@@ -106,8 +106,8 @@ const getList = () => {
 };
 const onHandleDatePicker = date => {
   if (date) {
-    queryParams.createdAtGte = dayjs(date[0]).valueOf() as undefined;
-    queryParams.createdAtLte = dayjs(date[1]).valueOf() as undefined;
+    queryParams.createdAtGte = dayjs(date[0]).valueOf();
+    queryParams.createdAtLte = dayjs(date[1]).valueOf();
   } else {
     queryParams.createdAtGte = undefined;
     queryParams.createdAtLte = undefined;

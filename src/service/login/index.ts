@@ -1,5 +1,6 @@
 import request from "@/service";
 import type { TLoginForm, TLoginResponse } from "@/views/login/types";
+import { TCaptchaResponse } from "@/views/login/types";
 
 export const postLoginAPI = (data: TLoginForm) => {
   return request.post<TLoginResponse>({
@@ -9,7 +10,7 @@ export const postLoginAPI = (data: TLoginForm) => {
 };
 
 export const postCaptchaAPI = () => {
-  return request.post({
+  return request.post<TCaptchaResponse>({
     url: "/auth/image/captcha"
   });
 };

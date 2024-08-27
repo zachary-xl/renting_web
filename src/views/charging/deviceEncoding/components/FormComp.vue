@@ -53,20 +53,21 @@
 <script setup lang="ts">
 import { getChargeStationBrandListAPI, getChargeStationCategoryListAPI, postChargeStationCreateAPI } from "@/service/charging";
 import { excludingFakeObject } from "@/utils";
-import { ElMessage } from "element-plus";
+import { ElMessage, type FormInstance } from "element-plus";
+import type { TBrandList, TCategoryList, TFormData } from "@/views/charging/deviceEncoding/types";
 
-const formInstance = ref(null);
-const formData = reactive({
-  name: "",
+const formInstance = ref<FormInstance>();
+const formData = reactive<TFormData>({
+  // name: "",
   brandId: "",
   categoryId: "",
-  deviceCode: "",
-  avatarIds: "",
-  isShare: "",
-  isParkCharge: "",
-  address: "",
-  latitude: 0,
-  longitude: 0
+  deviceCode: ""
+  // avatarIds: "",
+  // isShare: "",
+  // isParkCharge: "",
+  // address: "",
+  // latitude: 0,
+  // longitude: 0
 });
 const rules = {
   brandId: [{ required: true, message: "品牌名不能为空", trigger: "blur" }],
@@ -82,13 +83,12 @@ const props = defineProps({
     required: true
   }
 });
-const brandOptions = ref([]);
-const categoryOptions = ref([]);
+const brandOptions = ref<TBrandList[]>([]);
+const categoryOptions = ref<TCategoryList[]>([]);
 
 const isVisible = ref(props.visible);
 const submitForm = () => {
   formInstance.value?.validate(isValid => {
-    console.log(formData);
     if (isValid) {
       postChargeStationCreateAPI(excludingFakeObject(formData))
         .then(() => {

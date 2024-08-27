@@ -1,5 +1,5 @@
 export type TPagination = {
-  noPage: string;
+  noPage?: string;
   currentPage: number;
   pageSize: number;
 };
@@ -45,5 +45,6 @@ export type TRecordList = {
   chargeDegree: string;
   endAt: number;
   startAt: number;
+  startHour: number;
   id: string;
 };

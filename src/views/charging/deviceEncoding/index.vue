@@ -26,7 +26,7 @@
         />
       </el-form-item>
       <el-form-item>
-        <el-button text bg class="h-[30px]" @click="resetHeaderForm">
+        <el-button text bg class="h-[30px]" @click="resetHeaderForm(formHeaderRef)">
           <el-icon class="mr-2">
             <RefreshLeft />
           </el-icon>
@@ -43,7 +43,7 @@
     <div class="line"></div>
     <div class="my-2 flex items-center">
       <el-button color="#1F63FF" :icon="Plus" @click="onHandleAdd">新建</el-button>
-      <el-upload ref="uploadRef" @change="onUpload" :limit="1" :show-file-list="false" :auto-upload="false" class="flex items-center mx-2">
+      <el-upload ref="uploadRef" @change="onUpload" :limit="1" :show-file-list="false" :auto-upload="false" class="mx-2 flex items-center">
         <el-button color="#F7F8FA">批量导入</el-button>
       </el-upload>
       <el-button link type="primary" @click="onDownLoadTemplate">导入模板下载</el-button>
@@ -89,7 +89,7 @@
       @current-change="val => (paginationParams.currentPage = val)"
       @change="getList"
     />
-    <FormComp v-if="visible" v-model.visible="visible" @update:visible="bool=> visible = bool" :title="title" @confirm="getList" />
+    <FormComp v-if="visible" v-model.visible="visible" @update:visible="bool => (visible = bool)" :title="title" @confirm="getList" />
   </div>
 </template>
 <script setup lang="ts">
@@ -104,7 +104,7 @@ import {
   postChargeStationXLSXImportAPI
 } from "@/service/charging";
 import FormComp from "@/views/charging/deviceEncoding/components/FormComp.vue";
-import { TList, TListParams, upload } from "@/views/charging/deviceEncoding/types";
+import type { TList, TListParams } from "@/views/charging/deviceEncoding/types";
 
 const formHeaderRef = ref<FormInstance>();
 const uploadRef = ref<UploadInstance>();
@@ -126,23 +126,22 @@ const queryParams = reactive<Partial<TListParams>>({
   bindAtLte: undefined
 });
 const tableData = ref<TList[]>([]);
-const onUpload:upload = (_, uploadFile)=>{
-  console.log(uploadFile[0].raw);
-  if(Array.isArray(uploadFile) && uploadFile.length > 0){
-    const file = uploadFile[0]
+const onUpload = (_, uploadFile) => {
+  if (Array.isArray(uploadFile) && uploadFile.length > 0) {
+    const file = uploadFile[0];
     const formData = new FormData();
     formData.append("limit_type", file.name.split(".")[1]);
     formData.append("file", file.raw);
-    postChargeStationXLSXImportAPI(formData).then(()=>{
+    postChargeStationXLSXImportAPI(formData).then(() => {
       ElMessage({
         message: "导入成功",
         type: "success",
         plain: true
       });
-      getList()
-    })
+      getList();
+    });
   }
-}
+};
 // 解绑设备
 const onHandleChargeStationUnbind = id => {
   postChargeStationOperateUnbindAPI(id).then(() => {
@@ -176,15 +175,15 @@ const onHandleAdd = () => {
 };
 const onHandleDatePicker = date => {
   if (date) {
-    queryParams.bindAtGte = dayjs(date[0]).valueOf() as undefined;
-    queryParams.bindAtLte = dayjs(date[1]).valueOf() as undefined;
+    queryParams.bindAtGte = dayjs(date[0]).valueOf();
+    queryParams.bindAtLte = dayjs(date[1]).valueOf();
   } else {
     queryParams.bindAtGte = undefined;
     queryParams.bindAtLte = undefined;
   }
 };
 const onDownLoadTemplate = () => {
-  postChargeStationTemplateDownloadAPI().then(response => {
+  postChargeStationTemplateDownloadAPI().then((response: any) => {
     const contentDisposition = response.headers["content-disposition"];
     const filenameMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/);
     let fileName;

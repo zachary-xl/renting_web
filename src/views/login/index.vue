@@ -73,12 +73,12 @@ const { userStore } = useUserStoreToRefs();
 const formInstance = ref<FormInstance>();
 const captchaUrl = ref("");
 const loading = ref(false);
-const redirect = ref(undefined);
+const redirect = ref("");
 
 watch(
   route,
   newRoute => {
-    redirect.value = newRoute.query && newRoute.query.redirect;
+    redirect.value = (newRoute.query && (newRoute.query.redirect as string)) || "";
   },
   { immediate: true }
 );

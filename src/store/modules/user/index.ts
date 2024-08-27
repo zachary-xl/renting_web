@@ -31,7 +31,7 @@ const useUserStore = defineStore("user", {
     logoutAction() {
       return new Promise((resolve, reject) => {
         clearStorage();
-        resolve();
+        resolve(true);
       });
     }
   }

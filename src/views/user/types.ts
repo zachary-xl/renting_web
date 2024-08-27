@@ -1,5 +1,5 @@
 export type TPagination = {
-  noPage: string;
+  noPage?: string;
   currentPage: number;
   pageSize: number;
 };

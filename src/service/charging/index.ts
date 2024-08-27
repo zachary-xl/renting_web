@@ -1,5 +1,12 @@
 import request from "@/service";
-import type { TFormData, TListParams, TListResponse, TPagination } from "@/views/charging/deviceEncoding/types";
+import {
+  TBrandResponse,
+  TCategoryResponse,
+  TFormData,
+  TListParams,
+  TListResponse,
+  TPagination
+} from "@/views/charging/deviceEncoding/types";
 // 充电桩列表
 export const getChargeStationListAPI = (params: TPagination & Partial<TListParams>) => {
   return request.get<TListResponse>({
@@ -21,7 +28,7 @@ export const postChargeStationCreateAPI = (data: TFormData) => {
   });
 };
 // 充电桩xlsx导入
-export const postChargeStationXLSXImportAPI = (data:FormData) => {
+export const postChargeStationXLSXImportAPI = (data: FormData) => {
   return request.post({
     url: "/charge_station/xlsx/import",
     data
@@ -36,14 +43,14 @@ export const postChargeStationTemplateDownloadAPI = () => {
 };
 // 型号列表
 export const getChargeStationCategoryListAPI = data => {
-  return request.get({
+  return request.get<TCategoryResponse>({
     url: "/charge_station/category/list",
     data
   });
 };
 // 品牌列表
 export const getChargeStationBrandListAPI = data => {
-  return request.get({
+  return request.get<TBrandResponse>({
     url: "/charge_station/brand/list",
     data
   });
