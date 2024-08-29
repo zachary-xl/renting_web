@@ -5,14 +5,14 @@ import { GET_TAGS_LIST, GET_CURRENT_TAG, ADD_VISITED_VIEW_ACTION, SET_CURRENT_TA
 export default defineStore("tagsView", {
   state: (): IState => ({
     tagsList: [
-      {
-        path: "/main",
-        name: "Main",
-        meta: {
-          title: "首页",
-          isClose: true
-        }
-      }
+      // {
+      //   path: "/main",
+      //   name: "Main",
+      //   meta: {
+      //     title: "首页",
+      //     isClose: true
+      //   }
+      // }
     ],
     currentTag: "/main"
   }),
