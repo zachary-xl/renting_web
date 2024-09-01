@@ -6,7 +6,7 @@
     <el-header class="flex w-full items-center justify-between bg-white" style="box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08); height: 50px">
       <div class="cursor-pointer">
         <el-icon size="20" @click="settingStore[TOGGlE_EXPAND_ACTION]">
-          <component :is="isExpand ? Expand : Fold" />
+          <component :is="isExpand ? Fold : Expand" />
         </el-icon>
       </div>
       <div class="flex items-center">

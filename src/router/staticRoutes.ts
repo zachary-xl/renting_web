@@ -50,6 +50,24 @@ export default [
               title: "设备编码管理",
               icon: "shouye"
             }
+          },
+          {
+            name: "BrandManage",
+            path: "brandManage",
+            component: () => import("@/views/charging/brandManage/index.vue"),
+            meta: {
+              title: "品牌管理",
+              icon: "shouye"
+            }
+          },
+          {
+            name: "CategoryManage",
+            path: "categoryManage",
+            component: () => import("@/views/charging/categoryManage/index.vue"),
+            meta: {
+              title: "型号管理",
+              icon: "shouye"
+            }
           }
         ],
         meta: {

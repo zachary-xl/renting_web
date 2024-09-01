@@ -139,6 +139,22 @@ export default defineStore("auth", {
               name: "DeviceEncoding",
               path: "/charging/deviceEncoding",
               pid: 3
+            },
+            {
+              id: 5,
+              title: "品牌管理",
+              icon: Postcard,
+              name: "BrandManage",
+              path: "/charging/brandManage",
+              pid: 3
+            },
+            {
+              id: 6,
+              title: "型号管理",
+              icon: Postcard,
+              name: "CategoryManage",
+              path: "/charging/categoryManage",
+              pid: 3
             }
           ];
           let localRoutes = loadLocalRoutes();

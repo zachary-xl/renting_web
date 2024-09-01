@@ -34,7 +34,6 @@
 </template>
 
 <script lang="ts" name="SubMenu" setup>
-import type { RouteRecordRaw } from "vue-router";
 import { computed } from "vue";
 import SideLink from "./SideLink.vue";
 

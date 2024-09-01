@@ -2,16 +2,16 @@
   <div class="app-container">
     <el-form ref="formHeaderRef" :inline="true" :model="queryParams">
       <el-form-item label="设备编码" prop="deviceCode">
-        <el-input v-model="queryParams.deviceCode" class="input rounded" placeholder="请输入设备编码" clearable />
+        <el-input v-model="queryParams.deviceCode" @keydown.enter="getList" class="input rounded" placeholder="请输入设备编码" clearable />
       </el-form-item>
       <el-form-item label="型号" prop="categoryName">
-        <el-input v-model="queryParams.categoryName" class="input rounded" placeholder="请输入型号" clearable />
+        <el-input v-model="queryParams.categoryName" @keydown.enter="getList" class="input rounded" placeholder="请输入型号" clearable />
       </el-form-item>
       <el-form-item label="品牌" prop="brandName">
-        <el-input v-model="queryParams.brandName" class="input rounded" placeholder="请输入品牌" clearable />
+        <el-input v-model="queryParams.brandName" @keydown.enter="getList" class="input rounded" placeholder="请输入品牌" clearable />
       </el-form-item>
-      <el-form-item label="绑定用户" prop="nickame">
-        <el-input v-model="queryParams.nickame" class="input rounded" placeholder="请输入绑定用户" clearable />
+      <el-form-item label="绑定用户" prop="nickname">
+        <el-input v-model="queryParams.nickname" @keydown.enter="getList" class="input rounded" placeholder="请输入绑定用户" clearable />
       </el-form-item>
       <el-form-item label="绑定时间" prop="datePickerValue">
         <el-date-picker
@@ -51,21 +51,23 @@
     <el-table :data="tableData" v-loading="loading" class="w-full" header-cell-class-name="table-header">
       <el-table-column type="index" label="序号" align="center" width="60" />
       <el-table-column label="设备编码" align="center" prop="deviceCode" />
-      <el-table-column label="型号" align="center" prop="categoryName">
-        <template #default="{ row }">
-          <span>{{ (row as TList).categoryName || "-" }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="品牌" align="center" prop="brandName">
         <template #default="{ row }">
           <span>{{ (row as TList).brandName || "-" }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="型号" align="center" prop="categoryName">
+        <template #default="{ row }">
+          <span>{{ (row as TList).categoryName || "-" }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="wxId" align="center" prop="wxId" />
       <el-table-column label="绑定用户" align="center" prop="nickname">
         <template #default="{ row }">
           <span>{{ (row as TList).nickname || "-" }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="手机号" align="center" prop="phone" />
       <el-table-column label="绑定时间" align="center" prop="createdAt">
         <template #default="{ row }">
           <span>{{ dateTimeFormat((row as TList).createdAt) }}</span>
@@ -123,7 +125,7 @@ const queryParams = reactive<Partial<TListParams>>({
   deviceCode: "",
   categoryName: "",
   brandId: "",
-  nickame: "",
+  nickname: "",
   bindAtGte: undefined,
   bindAtLte: undefined
 });
@@ -198,6 +200,7 @@ const onHandleDatePicker = date => {
   if (date) {
     queryParams.bindAtGte = dayjs(date[0]).valueOf();
     queryParams.bindAtLte = dayjs(date[1]).valueOf();
+    getList();
   } else {
     queryParams.bindAtGte = undefined;
     queryParams.bindAtLte = undefined;
