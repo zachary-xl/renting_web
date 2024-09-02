@@ -133,6 +133,14 @@ export default class MyRequest implements IRequest {
   post<T>(config: IAxiosConfig<T>): Promise<T> {
     return this.request({ ...config, method: "POST" });
   }
+
+  put<T>(config: IAxiosConfig<T>): Promise<T> {
+    return this.request({ ...config, method: "PUT" });
+  }
+
+  delete<T>(config: IAxiosConfig<T>): Promise<T> {
+    return this.request({ ...config, method: "DELETE" });
+  }
 }
 
 /**

@@ -4,7 +4,7 @@ import type { BuildOptions } from "vite";
 export default function createViteBuild(): BuildOptions {
   return {
     // target: "es2015",
-    outDir: "./build", // 设置打包文件夹名称
+    outDir: "./dist", // 设置打包文件夹名称
     cssCodeSplit: true, // css 拆分
     assetsInlineLimit: 5000, // 小于该值 图片打包成 Base64
     chunkSizeWarningLimit: 2000, // 规定触发警告的 chunk 大小，消除打包大小超过500kb警告

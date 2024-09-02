@@ -42,16 +42,16 @@ export const postChargeStationTemplateDownloadAPI = () => {
   });
 };
 // 型号列表
-export const getChargeStationCategoryListAPI = data => {
+export const getChargeStationCategoryListAPI = params => {
   return request.get<TCategoryResponse>({
     url: "/charge_station/category/list",
-    data
+    params
   });
 };
 // 品牌列表
-export const getChargeStationBrandListAPI = data => {
+export const getChargeStationBrandListAPI = (params: { noPage: string }) => {
   return request.get<TBrandResponse>({
     url: "/charge_station/brand/list",
-    data
+    params
   });
 };

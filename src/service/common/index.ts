@@ -1,8 +1,16 @@
 import request from "@/service";
-import type { IApiResponseBase, IOneWord } from "./types";
 
-export function getOneWord() {
-  return request.get<IApiResponseBase<IOneWord>>({
-    url: "https://api.xygeng.cn/one"
+// 上传文件
+export function postFileUploadAPI(data: FormData) {
+  return request.post({
+    url: "/file/upload",
+    data
   });
 }
+// 下载文件
+export function getFileDownloadAPI(id) {
+  return request.get({
+    url: "/file/download/" + id,
+  });
+}
+

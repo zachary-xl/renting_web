@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form ref="formHeaderRef" :inline="true" :model="queryParams">
-      <el-form-item label="用户名" prop="username">
-        <el-input v-model="queryParams.username" @keydown.enter="getList" class="input rounded"
+      <el-form-item label="用户名" prop="nickname">
+        <el-input v-model="queryParams.nickname" @keydown.enter="getList" class="input rounded"
                   placeholder="请输入用户名" clearable />
       </el-form-item>
       <el-form-item label="手机号" prop="phone">
@@ -38,7 +38,7 @@
     <div class="line"></div>
     <el-table :data="tableData" v-loading="loading" class="w-full" header-cell-class-name="table-header">
       <el-table-column type="index" label="序号" align="center" width="60" />
-      <el-table-column label="用户名" align="center" prop="username" />
+      <el-table-column label="用户名" align="center" prop="nickname" />
       <el-table-column label="微信id" align="center" prop="wxId" />
       <el-table-column label="手机号" align="center" prop="phone" />
       <el-table-column label="余额" align="center" prop="balance" />
@@ -85,7 +85,7 @@ const paginationParams = reactive({
   pageSize: 10
 });
 const queryParams = reactive<Partial<TUserListParams>>({
-  username: "",
+  nickname: "",
   phone: "",
   createdAtGte: undefined,
   createdAtLte: undefined
@@ -98,7 +98,7 @@ const onHandlePayouts = (id: string, balance: number) => {
     inputPattern: /^[1-9]\d*$/,
     inputErrorMessage: "请输入金额",
     beforeClose: (action, instance, done) => {
-      const value = instance.inputValue
+      const value = Number(instance.inputValue)
       if (action === 'confirm') {
         if(value > balance){
           ElMessage({
