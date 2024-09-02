@@ -41,7 +41,11 @@
       <el-table-column label="用户名" align="center" prop="nickname" />
       <el-table-column label="微信id" align="center" prop="wxId" />
       <el-table-column label="手机号" align="center" prop="phone" />
-      <el-table-column label="余额" align="center" prop="balance" />
+      <el-table-column label="余额" align="center" prop="balanceYuan">
+        <template #default="{ row }">
+          <span>{{ (row as TUserList).balanceYuan }}元</span>
+        </template>
+      </el-table-column>
       <el-table-column label="充电桩数量" align="center" prop="chargeStationNum" />
       <el-table-column label="注册时间" align="center" prop="createdAt">
         <template #default="{ row }">

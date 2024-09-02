@@ -42,7 +42,12 @@
       <el-table-column label="品牌名称" align="center" prop="brandName" />
       <el-table-column label="型号名称" align="center" prop="name" />
       <el-table-column label="型号接口信息" align="center" prop="categoryUrlId" />
-      <el-table-column label="图片" align="center" prop="avatarId" />
+      <el-table-column label="图片" align="center" prop="avatarId">
+        <template #default="{ row }">
+<!--          <el-image :src="(row as TList).avatarId" fit="cover" />-->
+          <img :src="(row as TList).avatarId" alt="">
+        </template>
+      </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createdAt">
         <template #default="{ row }">
           <span>{{ dateTimeFormat((row as TList).createdAt) }}</span>
@@ -83,6 +88,7 @@ import {
 } from "@/service/charging/categoryManage";
 import FormComp from "@/views/charging/categoryManage/components/FormComp.vue";
 import type { TListParams, TList, TBrandList, TFormData } from "@/views/charging/categoryManage/types";
+import { getFileDownloadAPI } from "@/service";
 
 const formHeaderRef = ref<FormInstance>();
 const total = ref(0);
@@ -105,14 +111,21 @@ const resetHeaderForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
   getList();
 };
-const getList = () => {
+const getList = async () => {
   loading.value = true;
-  getChargeStationCategoryListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then(res => {
-    const data = res.data;
-    tableData.value = data.list;
-    total.value = data.total;
-    loading.value = false;
-  });
+  const res = await getChargeStationCategoryListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) })
+  const data = res.data;
+  for (let item of data.list) {
+    const response = await getFileDownloadAPI(item.avatarId);
+    const base64String = btoa(
+      new Uint8Array(response.data)
+        .reduce((data, byte) => data + String.fromCharCode(byte), '')
+    );
+    item.avatarId = `data:image/jpeg;base64,${base64String}`;
+  }
+  tableData.value = data.list;
+  total.value = data.total;
+  loading.value = false;
 };
 const onHandleConfirm = () => {
   visible.value = false;
@@ -165,12 +178,18 @@ getChargeStationBrandList();
   font-size: 12px;
 }
 
-:deep(.el-select) {
-  width: 100px !important;
-}
-
 :deep(.el-input) {
   .el-input__wrapper {
+    box-shadow: none;
+    background-color: rgba(247, 248, 250, 1);
+    color: rgba(136, 136, 136, 1);
+    font-size: 12px;
+  }
+}
+
+:deep(.el-select) {
+  width: 220px !important;
+  .el-select__wrapper {
     box-shadow: none;
     background-color: rgba(247, 248, 250, 1);
     color: rgba(136, 136, 136, 1);

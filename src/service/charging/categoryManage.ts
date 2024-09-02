@@ -1,6 +1,11 @@
 import request from "@/service";
-import {  TFormData } from "@/views/charging/brandManage/types";
-import { TBrandListResponse, TListParams, TListResponse, TPagination } from "@/views/charging/categoryManage/types";
+import type {
+  TBrandListResponse,
+  TCategoryUrlResponse, TFormData,
+  TListParams,
+  TListResponse,
+  TPagination
+} from "@/views/charging/categoryManage/types";
 // 型号列表
 export const getChargeStationBrandListAPI = () => {
   return request.get<TBrandListResponse>({
@@ -10,6 +15,16 @@ export const getChargeStationBrandListAPI = () => {
     }
   });
 };
+// 型号接口信息列表
+export const getChargeStationCategoryUrlListAPI = () => {
+  return request.get<TCategoryUrlResponse>({
+    url: "/charge_station/category_url/list",
+    params: {
+      noPage: "true"
+    }
+  });
+};
+
 // 型号列表
 export const getChargeStationCategoryListAPI = (params: TPagination & Partial<TListParams>) => {
   return request.get<TListResponse>({
@@ -37,4 +52,5 @@ export const postChargeStationCategoryUpdateAPI = (id: string, data: TFormData) 
     data
   });
 };
+
 

@@ -29,6 +29,7 @@ export type TUserList = {
   chargeDegree: string;
   chargeStationNum: number;
   balance: number;
+  balanceYuan: string;
   createdAt: number;
 };
 export type TPayPayload = {

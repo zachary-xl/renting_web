@@ -65,7 +65,8 @@ export default class MyRequest implements IRequest {
       response => {
         delStatus(response.config);
         this.showLoading && closeLoading(this.showLoading);
-        if (isType(response.data) === "[object Blob]") {
+        console.log(isType(response.data));
+        if (isType(response.data) === "[object Blob]" || isType(response.data) === "[object ArrayBuffer]") {
           return response;
         }
         if (this.showCodeMessage && response.data && response.data.code !== 0) {

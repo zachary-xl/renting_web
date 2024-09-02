@@ -34,9 +34,21 @@ export type TBrandList = {
   value: string;
   label: string;
 };
+export type TCategoryUrlResponse = {
+  data: {
+    list: TCategoryUrlList[];
+  };
+};
+export type TCategoryUrlList = {
+  id: string;
+  name: string;
+  value: string;
+  label: string;
+};
 export type TFormData = {
   avatarId: string;
   brandId: string;
+  categoryUrlId: string;
   name: string;
   id?: string;
 };

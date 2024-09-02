@@ -50,7 +50,7 @@
           <span>{{ (row as TOrderList).chargeDegree || 0 }}度</span>
         </template>
       </el-table-column>
-      <el-table-column label="充电金额" align="center" prop="recordList" :formatter="recordListFormatter" />
+      <el-table-column label="充电金额" align="center" prop="chargeCostYuanStr" :formatter="recordListFormatter" />
       <el-table-column label="充电桩编码" align="center" prop="chargeStationDeviceCode" />
       <el-table-column label="充电开始时间" align="center" prop="startAt">
         <template #default="{ row }">

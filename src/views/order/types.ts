@@ -36,6 +36,7 @@ export type TOrderList = {
   startAt: number;
   endAt: number;
   chargeCost: number;
+  chargeCostYuanStr: string;
   chargeStationName: string;
   chargeStationaddress: string;
 };

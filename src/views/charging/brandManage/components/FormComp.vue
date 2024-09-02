@@ -40,7 +40,7 @@ const submitForm = ()=>{
       try {
         if(props.title === "新增"){
           await postChargeStationBrandCreateAPI(formData)
-        }else if(props.title === "编辑" && props.initFormData.id){
+        }else if(props.title === "编辑" && props?.initFormData?.id){
           await putChargeStationBrandUpdateAPI(props.initFormData.id, formData)
         }
         ElMessage({
