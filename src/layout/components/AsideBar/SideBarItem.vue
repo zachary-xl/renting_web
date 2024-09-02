@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" name="SubMenu" setup>
-import { computed } from "vue";
+import { shallowRef } from "vue";
 import SideLink from "./SideLink.vue";
 
 interface ISubMenuProps {
@@ -42,10 +42,10 @@ interface ISubMenuProps {
 }
 
 const props = defineProps<ISubMenuProps>();
-const title = computed<string>(() => props.item.title ?? "");
-const icon = computed<string>(() => props.item.icon ?? "");
-const link = computed<string>(() => props.item.link ?? "");
-const path = computed<string>(() => props.item.path ?? "");
+const icon = shallowRef(props.item.icon ?? "");
+const title = shallowRef(props.item.title ?? "");
+const link = shallowRef(props.item.link ?? "");
+const path = shallowRef(props.item.path ?? "");
 </script>
 
 <style scoped>

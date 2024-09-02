@@ -29,10 +29,11 @@
         <el-upload
           :show-file-list="false"
           drag
-          :auto-upload="false"
           list-type="picture-card"
-          :on-change="onChangeUpload"
-          :before-upload="onBeforeUpload"
+          :http-request="onCustomUpload"
+          :on-success="onHandleSuccess"
+          :on-remove="onHandleRemove"
+          class="w-full h-full"
         >
           <img v-if="formData.avatarId" :src="imageUrl" class="avatar" alt=""/>
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
@@ -53,6 +54,7 @@ import {
   postChargeStationCategoryUpdateAPI
 } from "@/service/charging/categoryManage";
 import { Plus } from "@element-plus/icons-vue";
+import { postFileUploadAPI } from "@/service";
 import { TBrandList, TFormCompProps, TFormData } from "@/views/charging/categoryManage/types";
 
 const emits = defineEmits(['update:visible', "confirm"])
@@ -96,8 +98,42 @@ const submitForm = ()=>{
     }
   })
 }
-const onChangeUpload = (uploadFile, uploadFiles)=>{
-  console.log(uploadFile, uploadFiles);
+const onCustomUpload = async ({ file }) => {
+  const isImage = file.type.startsWith('image/');
+  const fileType = file.type.match(/\/(.*)/)[1];
+  if (!isImage) {
+    ElMessage.error('上传的文件必须是图片')
+    return false;
+  }
+  console.log(file);
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('limit_type', fileType);
+  const res = await postFileUploadAPI(formData)
+  console.log(res);
+  // 模拟上传请求
+  return "123123123"
+  // try {
+  //   const response = await fetch('https://jsonplaceholder.typicode.com/posts/', {
+  //     method: 'POST',
+  //     body: formData,
+  //   });
+  //   const result = await response.json();
+  //   return result;
+  // } catch (error) {
+  //   ElMessage.error('上传失败');
+  //   throw error;
+  // }
+}
+const onHandleSuccess =  (response, file) => {
+  console.log(response, file);
+  formData.value.imageUrl = response.url || '上传后的图片路径';
+  fileList.value.push({ ...file, url: file.url });
+}
+const onHandleRemove =  (file, fileList) => {
+  console.log(file, fileList);
+  // 移除图片时更新表单数据
+  formData.value.imageUrl = '';
 }
 const onBeforeUpload = (file)=>{
   const isImage = file.type.startsWith('image/');
@@ -108,6 +144,7 @@ const onBeforeUpload = (file)=>{
   const formData = new FormData();
   formData.append('file', file);
   formData.append('limit_type', "img");
+  console.log(file);
 }
 const getChargeStationBrandList = () => {
   getChargeStationBrandListAPI().then((res) => {
@@ -123,5 +160,25 @@ onMounted(()=>{
 </script>
 
 <style scoped lang="scss">
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+:deep(.el-upload-dragger) {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
 
+.el-icon.avatar-uploader-icon {
+  width: 100%;
+  height: 100%;
+}
 </style>
