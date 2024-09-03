@@ -4,7 +4,7 @@ import { defineStore } from "pinia";
 import { postLoginAPI, getUserGetInfoAPI, getMenusAPI } from "@/service";
 import { addRoutesWithMenu, clearStorage, formatTree, loadLocalRoutes, mapPathToMenu } from "@/utils";
 import { MENUS_ACTION, USER_INFO_ACTION, LOGIN_ACTION, LOGOUT_ACTION } from "@/model";
-import {User, Tickets, Files, Postcard} from "@element-plus/icons-vue"
+import { User, Tickets, Files, Postcard } from "@element-plus/icons-vue";
 export default defineStore("auth", {
   state: (): IState => ({
     roles: [],
@@ -24,14 +24,14 @@ export default defineStore("auth", {
       formData.append("password", password);
       return new Promise((resolve, reject) => {
         postLoginAPI(formData)
-          .then(res => {
+          .then((res) => {
             resolve(res);
           })
           .catch(reject);
       });
     },
     [LOGOUT_ACTION]() {
-      return new Promise(async resolve => {
+      return new Promise(async (resolve) => {
         clearStorage();
         await localforage.clear();
         resolve(true);
@@ -142,18 +142,18 @@ export default defineStore("auth", {
             },
             {
               id: 5,
-              title: "品牌管理",
-              icon: Postcard,
-              name: "BrandManage",
-              path: "/charging/brandManage",
-              pid: 3
-            },
-            {
-              id: 6,
               title: "型号管理",
               icon: Postcard,
               name: "CategoryManage",
               path: "/charging/categoryManage",
+              pid: 3
+            },
+            {
+              id: 6,
+              title: "品牌管理",
+              icon: Postcard,
+              name: "BrandManage",
+              path: "/charging/brandManage",
               pid: 3
             }
           ];

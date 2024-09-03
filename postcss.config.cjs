@@ -12,7 +12,7 @@ module.exports = {
     {
       postcssPlugin: "internal:charset-removal",
       AtRule: {
-        charset: atRule => {
+        charset: (atRule) => {
           if (atRule.name === "charset") {
             atRule.remove();
           }

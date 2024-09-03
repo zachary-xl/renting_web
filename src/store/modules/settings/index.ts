@@ -53,7 +53,7 @@ export default defineStore("settings", {
       this.isThemed = theme === "light" ? "dark" : "light";
       initTheme(this.isThemed);
     },
-    setTitle(title:string) {
+    setTitle(title: string) {
       this.title = title;
       useDynamicTitle();
     }

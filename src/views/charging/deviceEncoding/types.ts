@@ -69,4 +69,3 @@ export type TBrandList = {
   name: string;
   id: string;
 };
-

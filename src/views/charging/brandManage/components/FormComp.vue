@@ -23,45 +23,45 @@
 import { ElMessage, FormInstance } from "element-plus";
 import { TFormCompProps, TFormData } from "@/views/charging/brandManage/types";
 import { postChargeStationBrandCreateAPI, putChargeStationBrandUpdateAPI } from "@/service/charging/brandManage";
-const emits = defineEmits(['update:visible', "confirm"])
+const emits = defineEmits(["update:visible", "confirm"]);
 
 const props = defineProps<TFormCompProps>();
 const isVisible = ref(props.visible);
 const formInstance = ref<FormInstance>();
 const formData = reactive<TFormData>({
-  name: "",
+  name: ""
 });
 const rules = {
-  name: [{ required: true, message: "品牌名称不能为空", trigger: "blur" }],
+  name: [{ required: true, message: "品牌名称不能为空", trigger: "blur" }]
 };
-const submitForm = ()=>{
+const submitForm = () => {
   formInstance.value?.validate(async (isValid) => {
     if (isValid) {
       try {
-        if(props.title === "新增"){
-          await postChargeStationBrandCreateAPI(formData)
-        }else if(props.title === "编辑" && props?.initFormData?.id){
-          await putChargeStationBrandUpdateAPI(props.initFormData.id, formData)
+        if (props.title === "新增") {
+          await postChargeStationBrandCreateAPI(formData);
+        } else if (props.title === "编辑" && props?.initFormData?.id) {
+          await putChargeStationBrandUpdateAPI(props.initFormData.id, formData);
         }
         ElMessage({
           message: props.title + "成功",
           type: "success",
-          plain: true,
+          plain: true
         });
         emits("confirm");
-      }catch (e) {
+      } catch (e) {
         ElMessage({
           message: props.title + "失败",
           type: "error",
-          plain: true,
+          plain: true
         });
       }
     }
-  })
-}
-onMounted(()=>{
-  if(props.initFormData){
+  });
+};
+onMounted(() => {
+  if (props.initFormData) {
     Object.assign(formData, props.initFormData);
   }
-})
+});
 </script>

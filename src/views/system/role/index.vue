@@ -58,16 +58,16 @@ const tableData: any[] = [
   }
 ];
 const visible = ref(false);
-const submitForm = form => {
+const submitForm = (form) => {
   console.log(form);
 };
-const handelDelete = form => {
+const handelDelete = (form) => {
   console.log(form);
 };
-const handleEdit = form => {
+const handleEdit = (form) => {
   console.log(form);
 };
-const pagination = e => {
+const pagination = (e) => {
   console.log(e);
 };
 const page = ref(1);

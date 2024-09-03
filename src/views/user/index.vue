@@ -2,12 +2,10 @@
   <div class="app-container">
     <el-form ref="formHeaderRef" :inline="true" :model="queryParams">
       <el-form-item label="用户名" prop="nickname">
-        <el-input v-model="queryParams.nickname" @keydown.enter="getList" class="input rounded"
-                  placeholder="请输入用户名" clearable />
+        <el-input v-model="queryParams.nickname" @keydown.enter="getList" class="input rounded" placeholder="请输入用户名" clearable />
       </el-form-item>
       <el-form-item label="手机号" prop="phone">
-        <el-input v-model="queryParams.phone" @keydown.enter="getList" class="input rounded" placeholder="请输入手机号"
-                  clearable />
+        <el-input v-model="queryParams.phone" @keydown.enter="getList" class="input rounded" placeholder="请输入手机号" clearable />
       </el-form-item>
       <el-form-item label="创建时间" prop="datePickerValue">
         <el-date-picker
@@ -67,8 +65,8 @@
       background
       :total="total"
       layout="total, sizes, prev, pager, next, jumper"
-      @size-change="val => (paginationParams.pageSize = val)"
-      @current-change="val => (paginationParams.currentPage = val)"
+      @size-change="(val) => (paginationParams.pageSize = val)"
+      @current-change="(val) => (paginationParams.currentPage = val)"
       @change="getList"
     />
   </div>
@@ -102,33 +100,35 @@ const onHandlePayouts = (id: string, balance: number) => {
     inputPattern: /^[1-9]\d*$/,
     inputErrorMessage: "请输入金额",
     beforeClose: (action, instance, done) => {
-      const value = Number(instance.inputValue)
-      if (action === 'confirm') {
-        if(value > balance){
+      const value = Number(instance.inputValue);
+      if (action === "confirm") {
+        if (value > balance) {
           ElMessage({
             type: "error",
             message: "提现金额不能大于余额"
           });
-          return
+          return;
         }
-        postPayRecordWithdrawalAPI({ id, cost: Number(value) }).then(() => {
-          ElMessage({
-            type: "success",
-            message: `提现${value}元成功`
+        postPayRecordWithdrawalAPI({ id, cost: Number(value) })
+          .then(() => {
+            ElMessage({
+              type: "success",
+              message: `提现${value}元成功`
+            });
+            getList();
+            done();
+          })
+          .catch(() => {
+            ElMessage({
+              type: "error",
+              message: "提现失败"
+            });
           });
-          getList();
-          done();
-        }).catch(() => {
-          ElMessage({
-            type: "error",
-            message: "提现失败"
-          });
-        });
-      } else if (action === 'cancel') {
+      } else if (action === "cancel") {
         done();
       }
-    },
-  })
+    }
+  });
 };
 const onHandleRecharge = (id: string) => {
   ElMessageBox.prompt("请输入充值金额(整数)", "充值", {
@@ -137,26 +137,28 @@ const onHandleRecharge = (id: string) => {
     inputPattern: /^[1-9]\d*$/,
     inputErrorMessage: "请输入金额",
     beforeClose: (action, instance, done) => {
-      const value = instance.inputValue
-      if (action === 'confirm') {
-        postPayRecordRechargeAPI({ id, cost: Number(value) }).then(() => {
-          ElMessage({
-            type: "success",
-            message: `充值${value}元成功`
+      const value = instance.inputValue;
+      if (action === "confirm") {
+        postPayRecordRechargeAPI({ id, cost: Number(value) })
+          .then(() => {
+            ElMessage({
+              type: "success",
+              message: `充值${value}元成功`
+            });
+            getList();
+            done();
+          })
+          .catch(() => {
+            ElMessage({
+              type: "error",
+              message: "充值失败"
+            });
           });
-          getList();
-          done();
-        }).catch(() => {
-          ElMessage({
-            type: "error",
-            message: "充值失败"
-          });
-        });
-      } else if (action === 'cancel') {
+      } else if (action === "cancel") {
         done();
       }
-    },
-  })
+    }
+  });
 };
 const resetHeaderForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -168,14 +170,14 @@ const resetHeaderForm = (formEl: FormInstance | undefined) => {
 };
 const getList = () => {
   loading.value = true;
-  getUserListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then(res => {
+  getUserListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then((res) => {
     const data = res.data;
     tableData.value = data.list;
     total.value = data.total;
     loading.value = false;
   });
 };
-const onHandleDatePicker = date => {
+const onHandleDatePicker = (date) => {
   if (date) {
     queryParams.createdAtGte = dayjs(date[0]).valueOf();
     queryParams.createdAtLte = dayjs(date[1]).valueOf();
@@ -211,7 +213,6 @@ getList();
   width: 220px;
   height: 30px;
   box-shadow: none;
-
 }
 
 :deep(.el-form-item__label) {

@@ -66,9 +66,9 @@ router.beforeEach(async (to, _, next) => {
   // }
 });
 
-router.afterEach(to => {
+router.afterEach((to) => {
   NProgress.done();
   const { settingStore } = useSettingStoreToRefs();
   const title = to.meta?.title;
-  if (title) settingStore.setTitle(title)
+  if (title) settingStore.setTitle(title);
 });

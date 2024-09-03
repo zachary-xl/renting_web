@@ -17,7 +17,7 @@ export default function createVitePlugins(viteEnv: Record<string, string>, isBui
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: tag => tag.includes("xl-")
+          isCustomElement: (tag) => tag.includes("xl-")
         }
       }
     }), // vue vite 对 vue 支持

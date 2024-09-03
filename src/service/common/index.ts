@@ -9,10 +9,9 @@ export function postFileUploadAPI(data: FormData) {
   });
 }
 // 下载文件
-export function getFileDownloadAPI(id:string) {
-  return request.get<{data: ArrayBuffer}>({
+export function getFileDownloadAPI(id: string) {
+  return request.get<{ data: ArrayBuffer }>({
     url: "/file/download/" + id,
-    responseType: 'arraybuffer'
+    responseType: "arraybuffer"
   });
 }
-

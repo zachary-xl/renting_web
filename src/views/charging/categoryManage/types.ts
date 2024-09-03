@@ -15,11 +15,15 @@ export type TListResponse = {
     total: number;
   };
 };
+export type TDetailResponse = {
+  data: TList;
+};
 export type TList = {
   id: string;
   brandName: number;
   name: string;
   avatarId: string;
+  image: string;
   categoryUrlId: string;
   createdAt: number;
 };
@@ -53,7 +57,8 @@ export type TFormData = {
   id?: string;
 };
 export type TFormCompProps = {
-  visible:boolean;
+  visible: boolean;
   title: string;
-  initFormData?:TFormData
-}
+  // initFormData?: TFormData;
+  id?: string;
+};

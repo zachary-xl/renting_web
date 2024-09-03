@@ -71,8 +71,8 @@
       background
       :total="total"
       layout="total, sizes, prev, pager, next, jumper"
-      @size-change="val => (paginationParams.pageSize = val)"
-      @current-change="val => (paginationParams.currentPage = val)"
+      @size-change="(val) => (paginationParams.pageSize = val)"
+      @current-change="(val) => (paginationParams.currentPage = val)"
       @change="getList"
     />
     <el-dialog title="订单详情" v-model="isShowDialog" width="450px" append-to-body>
@@ -194,13 +194,13 @@ const resetHeaderForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
   getList();
 };
-const recordListFormatter = row => {
+const recordListFormatter = (row) => {
   if (!row.recordList) return "-";
   return row.recordList.reduce((sum, record) => sum + record.chargeCost, 0);
 };
 const getList = () => {
   loading.value = true;
-  postOrderManageListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then(res => {
+  postOrderManageListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then((res) => {
     const data = res.data;
     tableData.value = data.list;
     total.value = data.total;
@@ -208,7 +208,7 @@ const getList = () => {
   });
 };
 const onHandleDetail = (id: string) => {
-  postOrderManageDetailAPI(id).then(res => {
+  postOrderManageDetailAPI(id).then((res) => {
     formData.value = res.data;
     isShowDialog.value = true;
   });
@@ -217,7 +217,7 @@ const onHandleCloseDialog = () => {
   isShowDialog.value = false;
   formData.value = undefined;
 };
-const onHandleDatePicker = date => {
+const onHandleDatePicker = (date) => {
   if (date) {
     queryParams.startAtGte = dayjs(date[0]).valueOf();
     queryParams.startAtLte = dayjs(date[1]).valueOf();
@@ -244,7 +244,7 @@ getList();
     font-size: 12px;
   }
 }
-:deep(.el-form-item__label){
+:deep(.el-form-item__label) {
   font-weight: 600;
 }
 :deep(.el-date-editor) {

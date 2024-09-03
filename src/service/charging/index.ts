@@ -42,7 +42,7 @@ export const postChargeStationTemplateDownloadAPI = () => {
   });
 };
 // 型号列表
-export const getChargeStationCategoryListAPI = params => {
+export const getChargeStationCategoryListAPI = (params) => {
   return request.get<TCategoryResponse>({
     url: "/charge_station/category/list",
     params

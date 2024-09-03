@@ -13,7 +13,7 @@
       <!--        <el-input v-model="formData.name" placeholder="请输入充电桩名称" />-->
       <!--      </el-form-item>-->
       <el-form-item label="品牌名" prop="brandId">
-        <el-select v-model="formData.brandId" @change="val => getChargeStationCategoryList(val)" placeholder="请输入品牌名">
+        <el-select v-model="formData.brandId" @change="(val) => getChargeStationCategoryList(val)" placeholder="请输入品牌名">
           <el-option :label="brand.name" :value="brand.id" v-for="brand of brandOptions" :key="brand.id" />
         </el-select>
       </el-form-item>
@@ -88,7 +88,7 @@ const categoryOptions = ref<TCategoryList[]>([]);
 
 const isVisible = ref(props.visible);
 const submitForm = () => {
-  formInstance.value?.validate(isValid => {
+  formInstance.value?.validate((isValid) => {
     if (isValid) {
       postChargeStationCreateAPI(excludingFakeObject(formData))
         .then(() => {
@@ -111,13 +111,13 @@ const submitForm = () => {
 };
 // 品牌
 const getChargeStationBrandList = () => {
-  getChargeStationBrandListAPI({ noPage: "true" }).then(res => {
+  getChargeStationBrandListAPI({ noPage: "true" }).then((res) => {
     brandOptions.value = res.data.list;
   });
 };
 // 型号
-const getChargeStationCategoryList = brandId => {
-  getChargeStationCategoryListAPI({ noPage: "true", brandId }).then(res => {
+const getChargeStationCategoryList = (brandId) => {
+  getChargeStationCategoryListAPI({ noPage: "true", brandId }).then((res) => {
     categoryOptions.value = res.data.list;
   });
 };

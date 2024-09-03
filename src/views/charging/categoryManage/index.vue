@@ -2,17 +2,8 @@
   <div class="app-container">
     <el-form ref="formHeaderRef" :inline="true" :model="queryParams">
       <el-form-item label="品牌名" prop="brandId">
-        <el-select
-          v-model="queryParams.brandId"
-          placeholder="请选择品牌名"
-          @change="getList"
-        >
-          <el-option
-            v-for="item in brandOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="queryParams.brandId" placeholder="请选择品牌名" @change="getList">
+          <el-option v-for="item in brandOptions" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="型号名" prop="name">
@@ -44,8 +35,7 @@
       <el-table-column label="型号接口信息" align="center" prop="categoryUrlId" />
       <el-table-column label="图片" align="center" prop="avatarId">
         <template #default="{ row }">
-<!--          <el-image :src="(row as TList).avatarId" fit="cover" />-->
-          <img :src="(row as TList).avatarId" alt="">
+          <el-image :src="(row as TList).image" fit="cover" class="w-[60px]" />
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createdAt">
@@ -68,14 +58,18 @@
       background
       :total="total"
       layout="total, sizes, prev, pager, next, jumper"
-      @size-change="val => (paginationParams.pageSize = val)"
-      @current-change="val => (paginationParams.currentPage = val)"
+      @size-change="(val) => (paginationParams.pageSize = val)"
+      @current-change="(val) => (paginationParams.currentPage = val)"
       @change="getList"
     />
-    <FormComp :title="title" v-if="visible"
-              :initFormData="initFormData"
-              @confirm="onHandleConfirm"
-              @update:visible="bool => (visible = bool)" :visible="visible" />
+    <FormComp
+      :title="title"
+      v-if="visible"
+      :id="id"
+      @confirm="onHandleConfirm"
+      @update:visible="(bool) => (visible = bool)"
+      :visible="visible"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -83,7 +77,8 @@ import { Search, RefreshLeft, Plus } from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox, type FormInstance } from "element-plus";
 import { dateTimeFormat, excludingFakeObject } from "@/utils";
 import {
-  deleteChargeStationCategoryDeleteAPI, getChargeStationBrandListAPI,
+  deleteChargeStationCategoryDeleteAPI,
+  getChargeStationBrandListAPI,
   getChargeStationCategoryListAPI
 } from "@/service/charging/categoryManage";
 import FormComp from "@/views/charging/categoryManage/components/FormComp.vue";
@@ -103,7 +98,7 @@ const queryParams = reactive<Partial<TListParams>>({
   name: "",
   brandId: ""
 });
-const initFormData = ref<TFormData>();
+const id = ref<string>();
 const brandOptions = ref<TBrandList[]>([]);
 const tableData = ref<TList[]>([]);
 const resetHeaderForm = (formEl: FormInstance | undefined) => {
@@ -113,15 +108,12 @@ const resetHeaderForm = (formEl: FormInstance | undefined) => {
 };
 const getList = async () => {
   loading.value = true;
-  const res = await getChargeStationCategoryListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) })
+  const res = await getChargeStationCategoryListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) });
   const data = res.data;
   for (let item of data.list) {
     const response = await getFileDownloadAPI(item.avatarId);
-    const base64String = btoa(
-      new Uint8Array(response.data)
-        .reduce((data, byte) => data + String.fromCharCode(byte), '')
-    );
-    item.avatarId = `data:image/jpeg;base64,${base64String}`;
+    const base64String = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ""));
+    item.image = `data:image/jpeg;base64,${base64String}`;
   }
   tableData.value = data.list;
   total.value = data.total;
@@ -135,12 +127,13 @@ const onHandleConfirm = () => {
 const onHandleCreate = () => {
   title.value = "新增";
   visible.value = true;
+  id.value = undefined;
 };
 // 修改
 const onHandleUpdate = (row) => {
   title.value = "编辑";
   visible.value = true;
-  initFormData.value = row;
+  id.value = row.id;
 };
 // 删除
 const onHandleDelete = (row) => {
@@ -152,21 +145,20 @@ const onHandleDelete = (row) => {
     {
       dangerouslyUseHTMLString: true
     }
-  )
-    .then(() => {
-      deleteChargeStationCategoryDeleteAPI(row.id).then(() => {
-        ElMessage({
-          message: "删除成功",
-          type: "success",
-          plain: true
-        });
-        getList();
+  ).then(() => {
+    deleteChargeStationCategoryDeleteAPI(row.id).then(() => {
+      ElMessage({
+        message: "删除成功",
+        type: "success",
+        plain: true
       });
+      getList();
     });
+  });
 };
 const getChargeStationBrandList = () => {
   getChargeStationBrandListAPI().then((res) => {
-    brandOptions.value = res.data.list.map(i => ({ ...i, label: i.name, value: i.id }));
+    brandOptions.value = res.data.list.map((i) => ({ ...i, label: i.name, value: i.id }));
   });
 };
 getList();

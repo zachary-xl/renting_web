@@ -27,8 +27,7 @@ export type TFormData = {
   id?: string;
 };
 export type TFormCompProps = {
-  visible:boolean;
+  visible: boolean;
   title: string;
-  initFormData?:TFormData
-}
-
+  initFormData?: TFormData;
+};

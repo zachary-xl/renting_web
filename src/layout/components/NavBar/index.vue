@@ -68,7 +68,7 @@ const logout = () => {
     .catch(() => {});
 };
 
-const onHandleCommand = command => {
+const onHandleCommand = (command) => {
   switch (command) {
     case "logout":
       logout();

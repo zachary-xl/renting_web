@@ -22,7 +22,7 @@ export const tableConfig: ITable.IColumn[] = [
     render(props) {
       const { roleVOList } = props.row;
       return [
-        roleVOList.map(item => {
+        roleVOList.map((item) => {
           return (
             <ElTag type="success" class="mx-1">
               {item}

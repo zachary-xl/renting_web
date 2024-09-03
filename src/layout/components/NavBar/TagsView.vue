@@ -22,7 +22,7 @@ const { tagsViewStore } = useTagsViewStoreToRefs();
 
 const unwatch = watch(
   () => route,
-  newVal => {
+  (newVal) => {
     tagsViewStore[ADD_VISITED_VIEW_ACTION](newVal);
     tagsViewStore[SET_CURRENT_TAG_ACTION](newVal);
   },
@@ -32,7 +32,7 @@ const unwatch = watch(
     immediate: true
   }
 );
-const closeSelectedTag = tag => {
+const closeSelectedTag = (tag) => {
   let lastTag = tagsViewStore[DEL_VISITED_VIEW_ACTION](tag);
   lastTag && router.push(lastTag.path);
 };

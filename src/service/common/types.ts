@@ -5,9 +5,9 @@ export interface IApiResponseBase<T> {
 }
 export type TUploadResponse = {
   data: {
-    id: string
+    id: string;
   };
-}
+};
 export interface IOneWord {
   content: string;
   created_at: string;

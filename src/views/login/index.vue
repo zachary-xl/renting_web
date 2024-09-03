@@ -77,7 +77,7 @@ const redirect = ref("");
 
 watch(
   route,
-  newRoute => {
+  (newRoute) => {
     redirect.value = (newRoute.query && (newRoute.query.redirect as string)) || "";
   },
   { immediate: true }
@@ -95,7 +95,7 @@ const loginRules = {
   captchaCode: [{ required: true, trigger: "change", message: "请输入验证码" }]
 };
 const handleLogin = () => {
-  formInstance.value?.validate(isValid => {
+  formInstance.value?.validate((isValid) => {
     if (!isValid) return;
     loading.value = true;
     userStore

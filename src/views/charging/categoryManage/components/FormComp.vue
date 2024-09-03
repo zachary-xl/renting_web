@@ -11,34 +11,9 @@
     <el-form ref="formInstance" :model="formData" :rules="rules" label-width="120px">
       <el-row>
         <el-col :span="24">
-          <el-form-item label="型号接口信息" prop="categoryUrlId">
-            <el-select
-              v-model="formData.categoryUrlId"
-              placeholder="请选择型号接口信息"
-            >
-              <el-option
-                v-for="item in categoryUrlOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="24">
           <el-form-item label="品牌名" prop="brandId">
-            <el-select
-              v-model="formData.brandId"
-              placeholder="请选择品牌名"
-            >
-              <el-option
-                v-for="item in brandOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
+            <el-select v-model="formData.brandId" placeholder="请选择品牌名">
+              <el-option v-for="item in brandOptions" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -52,6 +27,15 @@
       </el-row>
       <el-row>
         <el-col :span="24">
+          <el-form-item label="型号接口信息" prop="categoryUrlId">
+            <el-select v-model="formData.categoryUrlId" placeholder="请选择型号接口信息">
+              <el-option v-for="item in categoryUrlOptions" :key="item.value" :label="item.label" :value="item.value" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
           <el-form-item label="图片" prop="avatarId">
             <el-upload
               :show-file-list="false"
@@ -60,10 +44,9 @@
               :http-request="onCustomUpload"
               :on-success="onHandleSuccess"
               :on-remove="onHandleRemove"
-              class="w-full h-full"
-              :file-list="fileList"
+              class="h-full w-full"
             >
-              <img v-if="formData.avatarId" :src="imageUrl" class="avatar" alt="" />
+              <el-image v-if="formData.avatarId" :src="imageUrl" fit="contain" class="h-full w-full" />
               <el-icon v-else class="avatar-uploader-icon">
                 <Plus />
               </el-icon>
@@ -79,15 +62,16 @@
   </el-dialog>
 </template>
 <script setup lang="ts">
-import { ElMessage, type FormInstance, UploadRequestOptions } from "element-plus";
+import { ElMessage, type FormInstance, type UploadRequestOptions } from "element-plus";
+import { Plus } from "@element-plus/icons-vue";
 import {
-  getChargeStationBrandListAPI, getChargeStationCategoryUrlListAPI,
+  getChargeStationBrandListAPI, getChargeStationCategoryDetailAPI,
+  getChargeStationCategoryUrlListAPI,
   postChargeStationCategoryCreateAPI,
   postChargeStationCategoryUpdateAPI
 } from "@/service/charging/categoryManage";
-import { Plus } from "@element-plus/icons-vue";
 import { getFileDownloadAPI, postFileUploadAPI } from "@/service";
-import { TBrandList, TFormCompProps, TFormData } from "@/views/charging/categoryManage/types";
+import type { TBrandList, TFormCompProps, TFormData, TList } from "@/views/charging/categoryManage/types";
 
 const emits = defineEmits(["update:visible", "confirm"]);
 const props = defineProps<TFormCompProps>();
@@ -100,7 +84,6 @@ const formData = reactive<TFormData>({
   avatarId: ""
 });
 const imageUrl = ref("");
-const fileList = ref([]);
 const brandOptions = ref<TBrandList[]>([]);
 const categoryUrlOptions = ref<TBrandList[]>([]);
 const rules = {
@@ -115,8 +98,8 @@ const submitForm = () => {
       try {
         if (props.title === "新增") {
           await postChargeStationCategoryCreateAPI(formData);
-        } else if (props.title === "编辑" && props?.initFormData?.id) {
-          await postChargeStationCategoryUpdateAPI(props.initFormData.id, formData);
+        } else if (props.title === "编辑" && props?.id) {
+          await postChargeStationCategoryUpdateAPI(props.id, formData);
         }
         ElMessage({
           message: props.title + "成功",
@@ -134,9 +117,9 @@ const submitForm = () => {
     }
   });
 };
-const onCustomUpload = async (options: UploadRequestOptions): Promise<any>=> {
-  const {file} = options;
-  if(file){
+const onCustomUpload = async (options: UploadRequestOptions): Promise<any> => {
+  const { file } = options;
+  if (file) {
     const isImage = file.type.startsWith("image/");
     const fileType = file.name?.match(/\.(.*)/)?.[1] || "";
     if (!isImage) {
@@ -165,25 +148,23 @@ const onHandleRemove = () => {
 };
 const getChargeStationBrandList = () => {
   getChargeStationBrandListAPI().then((res) => {
-    brandOptions.value = res.data.list.map(i => ({ ...i, label: i.name, value: i.id }));
+    brandOptions.value = res.data.list.map((i) => ({ ...i, label: i.name, value: i.id }));
   });
 };
 const getChargeStationCategoryUrlList = () => {
   getChargeStationCategoryUrlListAPI().then((res) => {
-    categoryUrlOptions.value = res.data.list.map(i => ({ ...i, label: i.name, value: i.id }));
+    categoryUrlOptions.value = res.data.list.map((i) => ({ ...i, label: i.name, value: i.id }));
   });
 };
 onMounted(async () => {
-  if (props.initFormData) {
-    if(props.initFormData.avatarId){
-      const response = await getFileDownloadAPI(props.initFormData.avatarId);
-      const base64String = btoa(
-        new Uint8Array(response.data)
-          .reduce((data, byte) => data + String.fromCharCode(byte), '')
-      );
-      imageUrl.value = `data:image/jpeg;base64,${base64String}`
+  if (props.id) {
+    const response = await getChargeStationCategoryDetailAPI(props.id);
+    if (response?.data?.avatarId) {
+      const imgResponse = await getFileDownloadAPI(response.data.avatarId);
+      const base64String = btoa(new Uint8Array(imgResponse.data).reduce((data, byte) => data + String.fromCharCode(byte), ""));
+      imageUrl.value = `data:image/jpeg;base64,${base64String}`;
     }
-    Object.assign(formData, props.initFormData);
+    Object.assign(formData, response.data);
   }
   getChargeStationBrandList();
   getChargeStationCategoryUrlList();
@@ -215,7 +196,7 @@ onMounted(async () => {
   height: 100%;
 }
 
-:deep(.el-form-item__label){
+:deep(.el-form-item__label) {
   font-weight: 700;
 }
 </style>

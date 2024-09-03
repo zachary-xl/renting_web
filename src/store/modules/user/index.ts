@@ -23,7 +23,7 @@ const useUserStore = defineStore("user", {
             this.expire = data.expire;
             resolve(true);
           })
-          .catch(error => {
+          .catch((error) => {
             reject(error);
           });
       });

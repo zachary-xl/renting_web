@@ -1,7 +1,8 @@
 import request from "@/service";
-import type {
+import {
   TBrandListResponse,
-  TCategoryUrlResponse, TFormData,
+  TCategoryUrlResponse, TDetailResponse,
+  TFormData,
   TListParams,
   TListResponse,
   TPagination
@@ -32,6 +33,12 @@ export const getChargeStationCategoryListAPI = (params: TPagination & Partial<TL
     params
   });
 };
+// 型号详情
+export const getChargeStationCategoryDetailAPI = (id: string) => {
+  return request.get<TDetailResponse>({
+    url: "/charge_station/category/detail/" + id
+  });
+};
 // 型号删除
 export const deleteChargeStationCategoryDeleteAPI = (id: string) => {
   return request.delete<TListResponse>({
@@ -52,5 +59,3 @@ export const postChargeStationCategoryUpdateAPI = (id: string, data: TFormData) 
     data
   });
 };
-
-

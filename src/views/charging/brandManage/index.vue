@@ -46,24 +46,25 @@
       background
       :total="total"
       layout="total, sizes, prev, pager, next, jumper"
-      @size-change="val => (paginationParams.pageSize = val)"
-      @current-change="val => (paginationParams.currentPage = val)"
+      @size-change="(val) => (paginationParams.pageSize = val)"
+      @current-change="(val) => (paginationParams.currentPage = val)"
       @change="getList"
     />
-    <FormComp :title="title" v-if="visible"
-              :initFormData="initFormData"
-              @confirm="onHandleConfirm"
-              @update:visible="bool => (visible = bool)" :visible="visible"/>
+    <FormComp
+      :title="title"
+      v-if="visible"
+      :initFormData="initFormData"
+      @confirm="onHandleConfirm"
+      @update:visible="(bool) => (visible = bool)"
+      :visible="visible"
+    />
   </div>
 </template>
 <script setup lang="ts">
 import { Search, RefreshLeft, Plus } from "@element-plus/icons-vue";
 import { ElMessage, ElMessageBox, type FormInstance } from "element-plus";
 import { dateTimeFormat, excludingFakeObject } from "@/utils";
-import {
-  deleteChargeStationBrandDeleteAPI,
-  getChargeStationBrandListAPI
-} from "@/service/charging/brandManage";
+import { deleteChargeStationBrandDeleteAPI, getChargeStationBrandListAPI } from "@/service/charging/brandManage";
 import FormComp from "@/views/charging/brandManage/components/FormComp.vue";
 import type { TFormData, TList, TListParams } from "@/views/charging/brandManage/types";
 
@@ -79,7 +80,7 @@ const paginationParams = reactive({
 const queryParams = reactive<Partial<TListParams>>({
   name: ""
 });
-const initFormData = ref<TFormData>()
+const initFormData = ref<TFormData>();
 
 const tableData = ref<TList[]>([]);
 const resetHeaderForm = (formEl: FormInstance | undefined) => {
@@ -89,49 +90,49 @@ const resetHeaderForm = (formEl: FormInstance | undefined) => {
 };
 const getList = () => {
   loading.value = true;
-  getChargeStationBrandListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then(res => {
+  getChargeStationBrandListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then((res) => {
     const data = res.data;
     tableData.value = data.list;
     total.value = data.total;
     loading.value = false;
   });
 };
-const onHandleConfirm = ()=>{
+const onHandleConfirm = () => {
   visible.value = false;
-  getList()
-}
+  getList();
+};
 // 新增
-const onHandleCreate = ()=>{
+const onHandleCreate = () => {
   title.value = "新增";
-  visible.value = true
-}
+  visible.value = true;
+  initFormData.value = undefined;
+};
 // 修改
-const onHandleUpdate = (row)=>{
+const onHandleUpdate = (row) => {
   title.value = "编辑";
   visible.value = true;
-  initFormData.value = row
-}
+  initFormData.value = row;
+};
 // 删除
 const onHandleDelete = (row) => {
   ElMessageBox.confirm(
     `<div>
       确认删除 ${row.name} 品牌吗？
     </div>`,
-    '删除品牌',
+    "删除品牌",
     {
-      dangerouslyUseHTMLString: true,
+      dangerouslyUseHTMLString: true
     }
-  )
-    .then(() => {
-      deleteChargeStationBrandDeleteAPI(row.id).then(() => {
-        ElMessage({
-          message: "删除成功",
-          type: "success",
-          plain: true
-        });
-        getList();
+  ).then(() => {
+    deleteChargeStationBrandDeleteAPI(row.id).then(() => {
+      ElMessage({
+        message: "删除成功",
+        type: "success",
+        plain: true
       });
-    })
+      getList();
+    });
+  });
 };
 getList();
 </script>
@@ -161,7 +162,7 @@ getList();
   height: 30px;
   box-shadow: none;
 }
-:deep(.el-form-item__label){
+:deep(.el-form-item__label) {
   font-weight: 600;
 }
 :deep(.table-header) {

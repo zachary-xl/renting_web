@@ -87,13 +87,17 @@
       background
       :total="total"
       layout="total, sizes, prev, pager, next, jumper"
-      @size-change="val => (paginationParams.pageSize = val)"
-      @current-change="val => (paginationParams.currentPage = val)"
+      @size-change="(val) => (paginationParams.pageSize = val)"
+      @current-change="(val) => (paginationParams.currentPage = val)"
       @change="getList"
     />
-    <FormComp v-if="visible" v-model.visible="visible"
-              @update:visible="bool => (visible = bool)"
-              :title="title" @confirm="onHandleConfirm" />
+    <FormComp
+      v-if="visible"
+      v-model.visible="visible"
+      @update:visible="(bool) => (visible = bool)"
+      :title="title"
+      @confirm="onHandleConfirm"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -146,10 +150,10 @@ const onUpload = (_, uploadFile) => {
     });
   }
 };
-const onHandleConfirm = ()=>{
+const onHandleConfirm = () => {
   visible.value = false;
-  getList()
-}
+  getList();
+};
 // 解绑设备
 const onHandleChargeStationUnbind = (row) => {
   ElMessageBox.confirm(
@@ -157,9 +161,9 @@ const onHandleChargeStationUnbind = (row) => {
           <span style="color: #106bfe;margin: 0 2px;">${row.deviceCode}</span>
           设备? 当前绑定用户为<span style="color: #106bfe;margin: 0 2px;">${row.nickname}</span>
     </div>`,
-    '解绑设备',
+    "解绑设备",
     {
-      dangerouslyUseHTMLString: true,
+      dangerouslyUseHTMLString: true
     }
   )
     .then(() => {
@@ -171,9 +175,8 @@ const onHandleChargeStationUnbind = (row) => {
         });
         getList();
       });
-    }).catch(()=>{
-
-  })
+    })
+    .catch(() => {});
 };
 const resetHeaderForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -185,7 +188,7 @@ const resetHeaderForm = (formEl: FormInstance | undefined) => {
 };
 const getList = () => {
   loading.value = true;
-  getChargeStationListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then(res => {
+  getChargeStationListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) }).then((res) => {
     const data = res.data;
     tableData.value = data.list;
     total.value = data.total;
@@ -196,7 +199,7 @@ const onHandleAdd = () => {
   title.value = "新建";
   visible.value = true;
 };
-const onHandleDatePicker = date => {
+const onHandleDatePicker = (date) => {
   if (date) {
     queryParams.bindAtGte = dayjs(date[0]).valueOf();
     queryParams.bindAtLte = dayjs(date[1]).valueOf();
@@ -257,7 +260,7 @@ getList();
   height: 30px;
   box-shadow: none;
 }
-:deep(.el-form-item__label){
+:deep(.el-form-item__label) {
   font-weight: 600;
 }
 :deep(.table-header) {

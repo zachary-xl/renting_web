@@ -52,7 +52,7 @@
                     </template>
                   </el-input>
                 </template>
-                <SelectIcon ref="iconSelectRef" @selected="icon => (formData[item.prop] = icon)" />
+                <SelectIcon ref="iconSelectRef" @selected="(icon) => (formData[item.prop] = icon)" />
               </el-popover>
             </template>
             <template v-if="item.type === 'textarea'">
@@ -101,7 +101,7 @@ const formData = reactive({});
 const formRules = reactive<FormRules>({});
 
 const submitForm = () => {
-  formRef.value?.validate(isValid => {
+  formRef.value?.validate((isValid) => {
     if (isValid) {
       emits("submitForm", formData);
     }
@@ -118,7 +118,7 @@ const showSelectIcon = () => {
 // TODO: 初始化 form, rule
 const unwatchConfig = watch(
   () => props.config,
-  config => {
+  (config) => {
     for (const item of config) {
       if (item.rule) {
         formRules[item.prop] = item.rule;
@@ -134,7 +134,7 @@ const unwatchConfig = watch(
 
 const unwatchVisible = watch(
   () => props.visible,
-  val => {
+  (val) => {
     console.log(val);
   }
 );

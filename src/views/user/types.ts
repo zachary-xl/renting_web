@@ -33,6 +33,6 @@ export type TUserList = {
   createdAt: number;
 };
 export type TPayPayload = {
-  id: string
-  cost: number
-}
+  id: string;
+  cost: number;
+};

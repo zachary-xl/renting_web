@@ -27,4 +27,3 @@ export const putChargeStationBrandUpdateAPI = (id: string, data: TFormData) => {
     data
   });
 };
-
