@@ -75,7 +75,7 @@
       @current-change="(val) => (paginationParams.currentPage = val)"
       @change="getList"
     />
-    <el-dialog title="订单详情" v-model="isShowDialog" width="450px" append-to-body>
+    <el-dialog title="订单详情" v-model="isShowDialog" width="550px" append-to-body>
       <div class="mb-2 rounded bg-[#f7f7f7] px-2 pb-1 pt-2">
         <div class="flex items-center pl-2 text-base font-bold before:mr-2 before:h-[20px] before:w-[4px] before:bg-[#00BCBC]">
           充电桩信息

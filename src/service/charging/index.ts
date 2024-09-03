@@ -55,3 +55,9 @@ export const getChargeStationBrandListAPI = (params: { noPage: string }) => {
     params
   });
 };
+// 充电桩删除
+export const deleteChargeStationDeleteAPI = (id: string) => {
+  return request.delete<TBrandResponse>({
+    url: "/charge_station/delete/" + id
+  });
+};

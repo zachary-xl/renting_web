@@ -76,6 +76,7 @@
       <el-table-column label="操作" align="center" width="200">
         <template #default="{ row }">
           <el-button type="primary" link @click="onHandleChargeStationUnbind(row)"> 解绑 </el-button>
+          <el-button type="danger" link @click="onHandleDelete(row)"> 删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -106,6 +107,7 @@ import { ElMessage, ElMessageBox, type FormInstance, type UploadInstance } from 
 import { Search, RefreshLeft, Plus } from "@element-plus/icons-vue";
 import { dateTimeFormat, excludingFakeObject } from "@/utils";
 import {
+  deleteChargeStationDeleteAPI,
   getChargeStationListAPI,
   postChargeStationOperateUnbindAPI,
   postChargeStationTemplateDownloadAPI,
@@ -153,6 +155,27 @@ const onUpload = (_, uploadFile) => {
 const onHandleConfirm = () => {
   visible.value = false;
   getList();
+};
+// 删除
+const onHandleDelete = (row) => {
+  ElMessageBox.confirm(
+    `<div>
+      确认删除删除 ${row.name} 充电桩吗？
+    </div>`,
+    "删除充电桩",
+    {
+      dangerouslyUseHTMLString: true
+    }
+  ).then(() => {
+    deleteChargeStationDeleteAPI(row.id).then(() => {
+      ElMessage({
+        message: "删除成功",
+        type: "success",
+        plain: true
+      });
+      getList();
+    });
+  });
 };
 // 解绑设备
 const onHandleChargeStationUnbind = (row) => {
