@@ -32,7 +32,7 @@
       <el-table-column type="index" label="序号" align="center" width="60" />
       <el-table-column label="品牌名称" align="center" prop="brandName" />
       <el-table-column label="型号名称" align="center" prop="name" />
-      <el-table-column label="型号接口信息" align="center" prop="categoryUrlId" />
+      <el-table-column label="型号接口信息" align="center" prop="categoryUrlName" />
       <el-table-column label="图片" align="center" prop="avatarId">
         <template #default="{ row }">
           <el-image :src="(row as TList).image" fit="cover" class="w-[60px]" />
