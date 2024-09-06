@@ -75,22 +75,22 @@
       @current-change="(val) => (paginationParams.currentPage = val)"
       @change="getList"
     />
-    <el-dialog title="订单详情" v-model="isShowDialog" width="550px" append-to-body>
+    <el-dialog title="订单详情" v-model="isShowDialog" width="650px" append-to-body>
       <div class="mb-2 rounded bg-[#f7f7f7] px-2 pb-1 pt-2">
         <div class="flex items-center pl-2 text-base font-bold before:mr-2 before:h-[20px] before:w-[4px] before:bg-[#00BCBC]">
           充电桩信息
         </div>
         <div class="px-4">
-          <div class="flex items-center">
-            <span class="text-[#7D7D7D]">充电桩名：</span>
+          <div class="flex">
+            <span class="text-[#7D7D7D] whitespace-nowrap">充电桩名：</span>
             <span class="font-medium text-black">{{ formData?.chargeStationName }}</span>
           </div>
-          <div class="my-1 flex items-center">
-            <span class="text-[#7D7D7D]">充电桩编码：</span>
+          <div class="my-1 flex">
+            <span class="text-[#7D7D7D] whitespace-nowrap">充电桩编码：</span>
             <span class="font-medium text-black">{{ formData?.chargeStationDeviceCode }}</span>
           </div>
-          <div class="my-1 flex items-center">
-            <span class="text-[#7D7D7D]">所属位置：</span>
+          <div class="my-1 flex">
+            <span class="text-[#7D7D7D] whitespace-nowrap">所属位置：</span>
             <span class="font-medium text-black">{{ formData?.chargeStationaddress }}</span>
           </div>
         </div>
@@ -100,12 +100,12 @@
           订单信息
         </div>
         <div class="px-4 py-1">
-          <div class="my-1 flex items-center">
-            <span class="text-[#7D7D7D]">订单号：</span>
+          <div class="my-1 flex">
+            <span class="text-[#7D7D7D] whitespace-nowrap">订单号：</span>
             <span class="font-medium text-black">{{ formData?.code }}</span>
           </div>
-          <div class="my-1 flex items-center">
-            <span class="text-[#7D7D7D]">充电用户：</span>
+          <div class="my-1 flex">
+            <span class="text-[#7D7D7D] whitespace-nowrap">充电用户：</span>
             <span class="font-medium text-black">{{ formData?.userName }}</span>
           </div>
         </div>
