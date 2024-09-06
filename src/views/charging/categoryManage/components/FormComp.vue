@@ -71,7 +71,7 @@ import {
   postChargeStationCategoryUpdateAPI
 } from "@/service/charging/categoryManage";
 import { getFileDownloadAPI, postFileUploadAPI } from "@/service";
-import type { TBrandList, TFormCompProps, TFormData, TList } from "@/views/charging/categoryManage/types";
+import type { TBrandList, TFormCompProps, TFormData } from "@/views/charging/categoryManage/types";
 
 const emits = defineEmits(["update:visible", "confirm"]);
 const props = defineProps<TFormCompProps>();
@@ -139,7 +139,7 @@ const onCustomUpload = async (options: UploadRequestOptions): Promise<any> => {
   }
   return false;
 };
-const onHandleSuccess = (id, file) => {
+const onHandleSuccess = (id: string, file) => {
   formData.avatarId = id;
   imageUrl.value = file.url;
 };
@@ -164,6 +164,7 @@ onMounted(async () => {
       const base64String = btoa(new Uint8Array(imgResponse.data).reduce((data, byte) => data + String.fromCharCode(byte), ""));
       imageUrl.value = `data:image/jpeg;base64,${base64String}`;
     }
+	console.log(response.data);
     Object.assign(formData, response.data);
   }
   getChargeStationBrandList();
