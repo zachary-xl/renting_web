@@ -77,7 +77,7 @@ export default class MyRequest implements IRequest {
       },
       async (error) => {
         this.showLoading && closeLoading(this.showLoading); // 关闭loading
-        if (error.response.status === 401) {
+        if (error.response?.status === 401) {
           try {
             const result = await refreshTokenFn();
             if (result?.data?.data?.accessToken) {

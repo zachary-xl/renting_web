@@ -110,14 +110,17 @@ const getList = async () => {
   loading.value = true;
   const res = await getChargeStationCategoryListAPI({ ...paginationParams, ...excludingFakeObject(queryParams) });
   const data = res.data;
-  for (let item of data.list) {
-    const response = await getFileDownloadAPI(item.avatarId);
-    const base64String = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ""));
-    item.image = `data:image/jpeg;base64,${base64String}`;
-  }
   tableData.value = data.list;
   total.value = data.total;
   loading.value = false;
+  for (let index in data.list) {
+     ;(function (item, index) {
+       getFileDownloadAPI(item!.avatarId).then(response=>{
+         const base64String = btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ""));
+         tableData.value[index].image = `data:image/jpeg;base64,${base64String}`;
+       })
+    })(data.list[index], index)
+  }
 };
 const onHandleConfirm = () => {
   visible.value = false;
