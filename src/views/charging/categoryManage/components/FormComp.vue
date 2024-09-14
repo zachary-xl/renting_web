@@ -164,7 +164,6 @@ onMounted(async () => {
       const base64String = btoa(new Uint8Array(imgResponse.data).reduce((data, byte) => data + String.fromCharCode(byte), ""));
       imageUrl.value = `data:image/jpeg;base64,${base64String}`;
     }
-	console.log(response.data);
     Object.assign(formData, response.data);
   }
   getChargeStationBrandList();
