@@ -23,7 +23,9 @@ export type TList = {
   brandName: number;
   name: string;
   avatarId: string;
-  image: string;
+  chargeAvatarId: string;
+  avatarImage: string;
+  chargeAvatarImage: string;
   categoryUrlId: string;
   createdAt: number;
 };
@@ -51,6 +53,7 @@ export type TCategoryUrlList = {
 };
 export type TFormData = {
   avatarId: string;
+  chargeAvatarId: string;
   brandId: string;
   categoryUrlId: string;
   name: string;

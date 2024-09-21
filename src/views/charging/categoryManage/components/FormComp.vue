@@ -1,13 +1,6 @@
 <template>
-  <el-dialog
-    :title="title"
-    @close="emits('update:visible', false)"
-    v-model="isVisible"
-    width="600px"
-    append-to-body
-    destroy-on-close
-    center
-  >
+  <el-dialog :title="title" @close="emits('update:visible', false)" v-model="isVisible" width="600px" append-to-body
+    destroy-on-close center>
     <el-form ref="formInstance" :model="formData" :rules="rules" label-width="120px">
       <el-row>
         <el-col :span="24">
@@ -36,17 +29,23 @@
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="图片" prop="avatarId">
-            <el-upload
-              :show-file-list="false"
-              drag
-              list-type="picture-card"
-              :http-request="onCustomUpload"
-              :on-success="onHandleSuccess"
-              :on-remove="onHandleRemove"
-              class="h-full w-full"
-            >
-              <el-image v-if="formData.avatarId" :src="imageUrl" fit="contain" class="h-full w-full" />
+          <el-form-item label="默认图片" prop="avatarId">
+            <el-upload :show-file-list="false" drag list-type="picture-card" :http-request="onCustomUpload"
+              :on-success="onHandleSuccessAvatar" :on-remove="() => formData.avatarId = ''" class="h-full w-full">
+              <el-image v-if="formData.avatarId" :src="avatarImageUrl" fit="contain" class="h-full w-full" />
+              <el-icon v-else class="avatar-uploader-icon">
+                <Plus />
+              </el-icon>
+            </el-upload>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="充电图片" prop="chargeAvatarId">
+            <el-upload :show-file-list="false" drag list-type="picture-card" :http-request="onCustomUpload"
+              :on-success="onHandleSuccessChargeAvatar" :on-remove="() => formData.chargeAvatarId = ''" class="h-full w-full">
+              <el-image v-if="formData.chargeAvatarId" :src="chargeAvatarImageUrl" fit="contain" class="h-full w-full" />
               <el-icon v-else class="avatar-uploader-icon">
                 <Plus />
               </el-icon>
@@ -81,16 +80,19 @@ const formData = reactive<TFormData>({
   name: "",
   brandId: "",
   categoryUrlId: "",
-  avatarId: ""
+  avatarId: "",
+  chargeAvatarId: ""
 });
-const imageUrl = ref("");
+const avatarImageUrl = ref("");
+const chargeAvatarImageUrl = ref("");
 const brandOptions = ref<TBrandList[]>([]);
 const categoryUrlOptions = ref<TBrandList[]>([]);
 const rules = {
   name: [{ required: true, message: "型号名称不能为空", trigger: "blur" }],
   brandId: [{ required: true, message: "品牌名不能为空", trigger: "blur" }],
   categoryUrlId: [{ required: true, message: "型号接口信息不能为空", trigger: "blur" }],
-  avatarId: [{ required: true, message: "图片不能为空", trigger: "blur" }]
+  avatarId: [{ required: true, message: "默认图片不能为空", trigger: "blur" }],
+  chargeAvatarId: [{ required: true, message: "充电中图片不能为空", trigger: "blur" }]
 };
 const submitForm = () => {
   formInstance.value?.validate(async (isValid) => {
@@ -139,12 +141,13 @@ const onCustomUpload = async (options: UploadRequestOptions): Promise<any> => {
   }
   return false;
 };
-const onHandleSuccess = (id: string, file) => {
+const onHandleSuccessAvatar = (id: string, file) => {
   formData.avatarId = id;
-  imageUrl.value = file.url;
+  avatarImageUrl.value = file.url;
 };
-const onHandleRemove = () => {
-  formData.avatarId = "";
+const onHandleSuccessChargeAvatar = (id: string, file) => {
+  formData.chargeAvatarId = id;
+  chargeAvatarImageUrl.value = file.url;
 };
 const getChargeStationBrandList = () => {
   getChargeStationBrandListAPI().then((res) => {
@@ -162,7 +165,12 @@ onMounted(async () => {
     if (response?.data?.avatarId) {
       const imgResponse = await getFileDownloadAPI(response.data.avatarId);
       const base64String = btoa(new Uint8Array(imgResponse.data).reduce((data, byte) => data + String.fromCharCode(byte), ""));
-      imageUrl.value = `data:image/jpeg;base64,${base64String}`;
+      avatarImageUrl.value = `data:image/jpeg;base64,${base64String}`;
+    }
+    if (response?.data?.chargeAvatarId) {
+      const imgResponse = await getFileDownloadAPI(response.data.chargeAvatarId);
+      const base64String = btoa(new Uint8Array(imgResponse.data).reduce((data, byte) => data + String.fromCharCode(byte), ""));
+      chargeAvatarImageUrl.value = `data:image/jpeg;base64,${base64String}`;
     }
     Object.assign(formData, response.data);
   }
