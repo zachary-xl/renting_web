@@ -138,7 +138,7 @@ const getList = async () => {
         // }
        }
        if (item!.chargeAvatarId){
-         getFileDownloadAPI(item!.avatarId).then(chargeAvatarResponse => {
+         getFileDownloadAPI(item!.chargeAvatarId).then(chargeAvatarResponse => {
            const chargeAvatarBase64String = btoa(new Uint8Array(chargeAvatarResponse.data).reduce((data, byte) => data + String.fromCharCode(byte), ""));
            tableData.value[index].chargeAvatarImage = `data:image/jpeg;base64,${chargeAvatarBase64String}`;
          })
