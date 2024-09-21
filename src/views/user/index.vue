@@ -102,14 +102,14 @@ const onHandlePayouts = (id: string, balance: number) => {
     beforeClose: (action, instance, done) => {
       const value = Number(instance.inputValue);
       if (action === "confirm") {
-        if (value > balance) {
+        if (value * 100 > balance) {
           ElMessage({
             type: "error",
             message: "提现金额不能大于余额"
           });
           return;
         }
-        postPayRecordWithdrawalAPI({ id, cost: Number(value) })
+        postPayRecordWithdrawalAPI({ id, cost: Number(value) * 100 })
           .then(() => {
             ElMessage({
               type: "success",
@@ -139,7 +139,7 @@ const onHandleRecharge = (id: string) => {
     beforeClose: (action, instance, done) => {
       const value = instance.inputValue;
       if (action === "confirm") {
-        postPayRecordRechargeAPI({ id, cost: Number(value) })
+        postPayRecordRechargeAPI({ id, cost: Number(value) * 100 })
           .then(() => {
             ElMessage({
               type: "success",
