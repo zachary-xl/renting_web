@@ -75,6 +75,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template #default="{ row }">
+          <el-button type="info" link @click="onHandleReset(row.id)"> 重置 </el-button>
           <el-button type="primary" link @click="onHandleChargeStationUnbind(row)"> 解绑 </el-button>
           <el-button type="danger" link @click="onHandleDelete(row)"> 删除</el-button>
         </template>
@@ -157,7 +158,7 @@ const onHandleConfirm = () => {
   getList();
 };
 // 删除
-const onHandleDelete = (row) => {
+const onHandleDelete = (row: TList) => {
   ElMessageBox.confirm(
     `<div>
       确认删除删除 ${row.name} 充电桩吗？
@@ -177,8 +178,28 @@ const onHandleDelete = (row) => {
     });
   });
 };
+// 重置
+const onHandleReset = (id:string)=>{
+  ElMessageBox.confirm(
+    `确定要将冲电桩状态变更为闲置吗？`,
+    "重置设备",
+    {
+      dangerouslyUseHTMLString: true
+    }
+  ).then(() => {
+    // postChargeStationOperateUnbindAPI(id).then(() => {
+    //   ElMessage({
+    //     message: "解绑成功",
+    //     type: "success",
+    //     plain: true
+    //   });
+    //   getList();
+    // });
+  })
+    .catch(() => {});
+}
 // 解绑设备
-const onHandleChargeStationUnbind = (row) => {
+const onHandleChargeStationUnbind = (row:TList) => {
   ElMessageBox.confirm(
     `<div>确认解绑
           <span style="color: #106bfe;margin: 0 2px;">${row.deviceCode}</span>
@@ -222,7 +243,7 @@ const onHandleAdd = () => {
   title.value = "新建";
   visible.value = true;
 };
-const onHandleDatePicker = (date) => {
+const onHandleDatePicker = (date: Date[]) => {
   if (date) {
     queryParams.bindAtGte = dayjs(date[0]).valueOf();
     queryParams.bindAtLte = dayjs(date[1]).valueOf();
@@ -236,7 +257,7 @@ const onDownLoadTemplate = () => {
   postChargeStationTemplateDownloadAPI().then((response: any) => {
     const contentDisposition = response.headers["content-disposition"];
     const filenameMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/);
-    let fileName;
+    let fileName:string;
     if (filenameMatch) {
       if (filenameMatch[1]) {
         fileName = decodeURIComponent(filenameMatch[1]);

@@ -29,6 +29,7 @@ export type TListResponse = {
 };
 
 export type TList = {
+  id: string;
   deviceCode: string;
   categoryName: string;
   brandName: string;

@@ -29,6 +29,16 @@
       </el-row>
       <el-row>
         <el-col :span="24">
+          <el-form-item label="预约充电" prop="reservation">
+            <el-select value="0" placeholder="请选择预约充电状态">
+              <el-option label="开" value="1" />
+              <el-option label="关" value="0" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
           <el-form-item label="默认图片" prop="avatarId">
             <el-upload :show-file-list="false" drag list-type="picture-card" :http-request="onCustomUpload"
               :on-success="onHandleSuccessAvatar" :on-remove="() => formData.avatarId = ''" class="h-full w-full">
