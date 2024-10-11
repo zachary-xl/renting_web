@@ -34,6 +34,11 @@
       <el-table-column label="品牌名称" align="center" prop="brandName" />
       <el-table-column label="型号名称" align="center" prop="name" />
       <el-table-column label="型号接口信息" align="center" prop="categoryUrlName" />
+      <el-table-column label="预约充电" align="center" prop="isAllowSubscribe">
+        <template #default="{ row }">
+          <span>{{(row as TList).isAllowSubscribe ? "开" : "关"}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="默认图片" align="center" prop="avatarId">
         <template #default="{ row }">
           <el-image :src="(row as TList).avatarImage" fit="cover" class="w-[60px]">

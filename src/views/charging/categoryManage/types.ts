@@ -24,6 +24,7 @@ export type TList = {
   name: string;
   avatarId: string;
   chargeAvatarId: string;
+  isAllowSubscribe: boolean;
   avatarImage: string;
   chargeAvatarImage: string;
   categoryUrlId: string;
@@ -56,6 +57,7 @@ export type TFormData = {
   chargeAvatarId: string;
   brandId: string;
   categoryUrlId: string;
+  isAllowSubscribe: boolean;
   name: string;
   id?: string;
 };

@@ -29,10 +29,10 @@
       </el-row>
       <el-row>
         <el-col :span="24">
-          <el-form-item label="预约充电" prop="reservation">
-            <el-select value="0" placeholder="请选择预约充电状态">
-              <el-option label="开" value="1" />
-              <el-option label="关" value="0" />
+          <el-form-item label="预约充电" prop="isAllowSubscribe">
+            <el-select v-model="formData.isAllowSubscribe" placeholder="请选择预约充电状态">
+              <el-option label="开" :value="true" />
+              <el-option label="关" :value="false" />
             </el-select>
           </el-form-item>
         </el-col>
@@ -91,6 +91,7 @@ const formData = reactive<TFormData>({
   brandId: "",
   categoryUrlId: "",
   avatarId: "",
+  isAllowSubscribe: true,
   chargeAvatarId: ""
 });
 const avatarImageUrl = ref("");
@@ -101,6 +102,7 @@ const rules = {
   name: [{ required: true, message: "型号名称不能为空", trigger: "blur" }],
   brandId: [{ required: true, message: "品牌名不能为空", trigger: "blur" }],
   categoryUrlId: [{ required: true, message: "型号接口信息不能为空", trigger: "blur" }],
+  isAllowSubscribe: [{ required: true, message: "预约充电不能为空", trigger: "blur" }],
   avatarId: [{ required: true, message: "默认图片不能为空", trigger: "blur" }],
   chargeAvatarId: [{ required: true, message: "充电中图片不能为空", trigger: "blur" }]
 };

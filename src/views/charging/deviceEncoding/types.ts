@@ -13,6 +13,7 @@ export type TListParams = {
   categoryName: string;
   userId: string;
   nickname: string;
+  statusName: string;
   isParkCharge: string;
   status: number;
   bindAtGte: number;
@@ -34,6 +35,7 @@ export type TList = {
   categoryName: string;
   brandName: string;
   nickname: number;
+  name: string;
   createdAt: number;
 };
 

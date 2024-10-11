@@ -68,6 +68,7 @@
         </template>
       </el-table-column>
       <el-table-column label="手机号" align="center" prop="phone" />
+      <el-table-column label="充电桩状态" align="center" prop="statusName" />
       <el-table-column label="绑定时间" align="center" prop="createdAt">
         <template #default="{ row }">
           <span>{{ dateTimeFormat((row as TList).createdAt) }}</span>
@@ -109,7 +110,7 @@ import { Search, RefreshLeft, Plus } from "@element-plus/icons-vue";
 import { dateTimeFormat, excludingFakeObject } from "@/utils";
 import {
   deleteChargeStationDeleteAPI,
-  getChargeStationListAPI,
+  getChargeStationListAPI, postChargeStationOperateResetStatusAPI,
   postChargeStationOperateUnbindAPI,
   postChargeStationTemplateDownloadAPI,
   postChargeStationXLSXImportAPI
@@ -187,14 +188,14 @@ const onHandleReset = (id:string)=>{
       dangerouslyUseHTMLString: true
     }
   ).then(() => {
-    // postChargeStationOperateUnbindAPI(id).then(() => {
-    //   ElMessage({
-    //     message: "解绑成功",
-    //     type: "success",
-    //     plain: true
-    //   });
-    //   getList();
-    // });
+    postChargeStationOperateResetStatusAPI(id).then(() => {
+      ElMessage({
+        message: "重置成功",
+        type: "success",
+        plain: true
+      });
+      getList();
+    });
   })
     .catch(() => {});
 }
@@ -257,7 +258,7 @@ const onDownLoadTemplate = () => {
   postChargeStationTemplateDownloadAPI().then((response: any) => {
     const contentDisposition = response.headers["content-disposition"];
     const filenameMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/);
-    let fileName:string;
+    let fileName:string = "";
     if (filenameMatch) {
       if (filenameMatch[1]) {
         fileName = decodeURIComponent(filenameMatch[1]);

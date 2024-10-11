@@ -61,3 +61,9 @@ export const deleteChargeStationDeleteAPI = (id: string) => {
     url: "/charge_station/delete/" + id
   });
 };
+// 重置状态
+export const postChargeStationOperateResetStatusAPI = (id: string) => {
+  return request.post<TBrandResponse>({
+    url: "/charge_station/operate/reset_status/" + id
+  });
+};
