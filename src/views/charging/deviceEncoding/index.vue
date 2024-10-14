@@ -2,28 +2,24 @@
   <div class="app-container">
     <el-form ref="formHeaderRef" :inline="true" :model="queryParams">
       <el-form-item label="设备编码" prop="deviceCode">
-        <el-input v-model="queryParams.deviceCode" @keydown.enter="getList" class="input rounded" placeholder="请输入设备编码" clearable />
+        <el-input v-model="queryParams.deviceCode" @keydown.enter="getList" class="input rounded" placeholder="请输入设备编码"
+          clearable />
       </el-form-item>
       <el-form-item label="型号" prop="categoryName">
-        <el-input v-model="queryParams.categoryName" @keydown.enter="getList" class="input rounded" placeholder="请输入型号" clearable />
+        <el-input v-model="queryParams.categoryName" @keydown.enter="getList" class="input rounded" placeholder="请输入型号"
+          clearable />
       </el-form-item>
       <el-form-item label="品牌" prop="brandName">
-        <el-input v-model="queryParams.brandName" @keydown.enter="getList" class="input rounded" placeholder="请输入品牌" clearable />
+        <el-input v-model="queryParams.brandName" @keydown.enter="getList" class="input rounded" placeholder="请输入品牌"
+          clearable />
       </el-form-item>
       <el-form-item label="绑定用户" prop="nickname">
-        <el-input v-model="queryParams.nickname" @keydown.enter="getList" class="input rounded" placeholder="请输入绑定用户" clearable />
+        <el-input v-model="queryParams.nickname" @keydown.enter="getList" class="input rounded" placeholder="请输入绑定用户"
+          clearable />
       </el-form-item>
       <el-form-item label="绑定时间" prop="datePickerValue">
-        <el-date-picker
-          class="date"
-          v-model="datePickerValue"
-          type="daterange"
-          range-separator="至"
-          start-placeholder="开始时间"
-          end-placeholder="结束时间"
-          size="small"
-          @change="onHandleDatePicker"
-        />
+        <el-date-picker class="date" v-model="datePickerValue" type="daterange" range-separator="至"
+          start-placeholder="开始时间" end-placeholder="结束时间" size="small" @change="onHandleDatePicker" />
       </el-form-item>
       <el-form-item>
         <el-button text bg class="h-[30px]" @click="resetHeaderForm(formHeaderRef)">
@@ -43,7 +39,8 @@
     <div class="line"></div>
     <div class="my-2 flex items-center">
       <el-button color="#1F63FF" :icon="Plus" @click="onHandleAdd">新建</el-button>
-      <el-upload ref="uploadRef" @change="onUpload" :limit="1" :show-file-list="false" :auto-upload="false" class="mx-2 flex items-center">
+      <el-upload ref="uploadRef" @change="onUpload" :limit="1" :show-file-list="false" :auto-upload="false"
+        class="mx-2 flex items-center">
         <el-button color="#F7F8FA">批量导入</el-button>
       </el-upload>
       <el-button link type="primary" @click="onDownLoadTemplate">导入模板下载</el-button>
@@ -76,31 +73,19 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
         <template #default="{ row }">
-          <el-button type="info" link @click="onHandleReset(row.id)"> 重置 </el-button>
+          <el-button v-if="![0, 1].includes(row.status)" type="info" link @click="onHandleReset(row.id)"> 重置
+          </el-button>
           <el-button type="primary" link @click="onHandleChargeStationUnbind(row)"> 解绑 </el-button>
           <el-button type="danger" link @click="onHandleDelete(row)"> 删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      class="relative float-right"
-      v-model:current-page="paginationParams.currentPage"
-      v-model:page-size="paginationParams.pageSize"
-      :page-sizes="[10, 30, 50, 100]"
-      background
-      :total="total"
-      layout="total, sizes, prev, pager, next, jumper"
-      @size-change="(val) => (paginationParams.pageSize = val)"
-      @current-change="(val) => (paginationParams.currentPage = val)"
-      @change="getList"
-    />
-    <FormComp
-      v-if="visible"
-      v-model.visible="visible"
-      @update:visible="(bool) => (visible = bool)"
-      :title="title"
-      @confirm="onHandleConfirm"
-    />
+    <el-pagination class="relative float-right" v-model:current-page="paginationParams.currentPage"
+      v-model:page-size="paginationParams.pageSize" :page-sizes="[10, 30, 50, 100]" background :total="total"
+      layout="total, sizes, prev, pager, next, jumper" @size-change="(val) => (paginationParams.pageSize = val)"
+      @current-change="(val) => (paginationParams.currentPage = val)" @change="getList" />
+    <FormComp v-if="visible" v-model.visible="visible" @update:visible="(bool) => (visible = bool)" :title="title"
+      @confirm="onHandleConfirm" />
   </div>
 </template>
 <script setup lang="ts">
@@ -180,9 +165,9 @@ const onHandleDelete = (row: TList) => {
   });
 };
 // 重置
-const onHandleReset = (id:string)=>{
+const onHandleReset = (id: string) => {
   ElMessageBox.confirm(
-    `确定要将冲电桩状态变更为闲置吗？`,
+    `确定要将充电桩状态变更为闲置吗？`,
     "重置设备",
     {
       dangerouslyUseHTMLString: true
@@ -197,10 +182,10 @@ const onHandleReset = (id:string)=>{
       getList();
     });
   })
-    .catch(() => {});
+    .catch(() => { });
 }
 // 解绑设备
-const onHandleChargeStationUnbind = (row:TList) => {
+const onHandleChargeStationUnbind = (row: TList) => {
   ElMessageBox.confirm(
     `<div>确认解绑
           <span style="color: #106bfe;margin: 0 2px;">${row.deviceCode}</span>
@@ -221,7 +206,7 @@ const onHandleChargeStationUnbind = (row:TList) => {
         getList();
       });
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 const resetHeaderForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -258,7 +243,7 @@ const onDownLoadTemplate = () => {
   postChargeStationTemplateDownloadAPI().then((response: any) => {
     const contentDisposition = response.headers["content-disposition"];
     const filenameMatch = contentDisposition.match(/filename\*=UTF-8''([^;]+)|filename="?([^";]+)"?/);
-    let fileName:string = "";
+    let fileName: string = "";
     if (filenameMatch) {
       if (filenameMatch[1]) {
         fileName = decodeURIComponent(filenameMatch[1]);
@@ -305,9 +290,11 @@ getList();
   height: 30px;
   box-shadow: none;
 }
+
 :deep(.el-form-item__label) {
   font-weight: 600;
 }
+
 :deep(.table-header) {
   .cell {
     font-weight: bolder !important;
