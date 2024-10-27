@@ -37,6 +37,8 @@ export type TList = {
   nickname: number;
   name: string;
   createdAt: number;
+  expireBindAt: number;
+  firstBindAt: number;
 };
 
 export type TFormData = {

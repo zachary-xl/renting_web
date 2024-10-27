@@ -46,7 +46,7 @@
       <el-button link type="primary" @click="onDownLoadTemplate">导入模板下载</el-button>
     </div>
     <el-table :data="tableData" v-loading="loading" class="w-full" header-cell-class-name="table-header">
-      <el-table-column type="index" label="序号" align="center" width="60" />
+<!--      <el-table-column type="index" label="序号" align="center" width="60" />-->
       <el-table-column label="设备编码" align="center" prop="deviceCode" />
       <el-table-column label="品牌" align="center" prop="brandName">
         <template #default="{ row }">
@@ -66,9 +66,19 @@
       </el-table-column>
       <el-table-column label="手机号" align="center" prop="phone" />
       <el-table-column label="充电桩状态" align="center" prop="statusName" />
-      <el-table-column label="绑定时间" align="center" prop="createdAt">
+      <el-table-column label="创建时间" align="center" prop="createdAt">
         <template #default="{ row }">
           <span>{{ dateTimeFormat((row as TList).createdAt) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="首绑时间" align="center" prop="firstBindAt">
+        <template #default="{ row }">
+          <span>{{ dateTimeFormat((row as TList).firstBindAt) }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="过期时间" align="center" prop="expireBindAt">
+        <template #default="{ row }">
+          <span>{{ dateTimeFormat((row as TList).expireBindAt) }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="200">
